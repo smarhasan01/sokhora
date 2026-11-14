@@ -198,11 +198,6 @@ export default function Footer() {
                   Terms & Conditions
                 </Link>
               </li>
-              <li>
-                <Link href="/admin" className="text-sage-400 hover:text-sage-300 font-semibold transition-colors">
-                  Admin Portal
-                </Link>
-              </li>
             </ul>
 
             <div className="pt-6">

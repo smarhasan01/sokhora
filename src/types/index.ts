@@ -199,12 +199,35 @@ export interface StoreSettings {
   vatPercentage: number;
 }
 
+export type UserRole = 'owner' | 'admin' | 'customer';
+
+export interface AdminPermissions {
+  canManageProducts: boolean;
+  canManageOrders: boolean;
+  canManageInventory: boolean;
+  canManageCoupons: boolean;
+  canManageSettings: boolean;
+  canManageTeam: boolean; // owner only
+}
+
+export interface AdminMember {
+  id: string;
+  email: string;
+  fullName: string;
+  role: 'owner' | 'admin';
+  status: 'active' | 'revoked';
+  permissions: AdminPermissions;
+  invitedBy?: string;
+  createdAt: string;
+  lastLoginAt?: string;
+}
+
 export interface UserProfile {
   uid: string;
   email: string;
   fullName: string;
   phone?: string;
   addresses?: DeliveryDetails[];
-  role: 'customer' | 'admin' | 'staff';
+  role: UserRole;
   createdAt: string;
 }

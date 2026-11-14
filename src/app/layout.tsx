@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 import { AuthProvider } from '@/lib/context/AuthContext';
 import { CartProvider } from '@/lib/context/CartContext';
+import { WishlistProvider } from '@/lib/context/WishlistContext';
 import CartDrawer from '@/components/cart/CartDrawer';
 
 export const metadata: Metadata = {
@@ -49,10 +50,12 @@ export default function RootLayout({
       </head>
       <body className="min-h-screen flex flex-col bg-ivory-100 text-charcoal-900 selection:bg-taupe-200 selection:text-charcoal-950">
         <AuthProvider>
-          <CartProvider>
-            {children}
-            <CartDrawer />
-          </CartProvider>
+          <WishlistProvider>
+            <CartProvider>
+              {children}
+              <CartDrawer />
+            </CartProvider>
+          </WishlistProvider>
         </AuthProvider>
       </body>
     </html>

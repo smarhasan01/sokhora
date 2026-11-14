@@ -23,7 +23,7 @@ export default function NewProductPage() {
   const [description, setDescription] = useState('');
   const [descriptionBn, setDescriptionBn] = useState('');
   const [images, setImages] = useState<string[]>([
-    'https://images.unsplash.com/photo-1582234372722-50d7ccc30ebd?auto=format&fit=crop&w=800&q=80',
+    '/images/products/prod-001.jpg',
   ]);
   const [newImageUrl, setNewImageUrl] = useState('');
   const [isFeatured, setIsFeatured] = useState(false);

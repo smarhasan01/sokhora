@@ -24,7 +24,7 @@ function ShopContent() {
 
   const [searchQuery, setSearchQuery] = useState(initialQuery);
   const [selectedCategory, setSelectedCategory] = useState(initialCategory);
-  const [sortBy, setSortBy] = useState<'newest' | 'price-asc' | 'price-desc' | 'rating'>('newest');
+  const [sortBy, setSortBy] = useState<'newest' | 'price-asc' | 'price-desc' | 'rating' | 'popularity'>('newest');
   const [maxPrice, setMaxPrice] = useState<number>(3000);
   const [inStockOnly, setInStockOnly] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
@@ -76,6 +76,8 @@ function ShopContent() {
             return priceA - priceB;
           case 'price-desc':
             return priceB - priceA;
+          case 'popularity':
+            return (b.isBestSeller ? 1 : 0) - (a.isBestSeller ? 1 : 0) || (b.rating || 0) - (a.rating || 0);
           case 'rating':
             return (b.rating || 0) - (a.rating || 0);
           case 'newest':
@@ -133,6 +135,7 @@ function ShopContent() {
               className="bg-white border border-taupe-300 text-charcoal-800 rounded-lg px-3 py-2 text-xs font-medium focus:outline-none focus:ring-1 focus:ring-charcoal-800"
             >
               <option value="newest">Newest Arrivals</option>
+              <option value="popularity">Popularity / Best Sellers</option>
               <option value="price-asc">Price: Low to High</option>
               <option value="price-desc">Price: High to Low</option>
               <option value="rating">Top Rated</option>

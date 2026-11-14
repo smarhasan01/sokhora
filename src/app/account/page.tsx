@@ -20,7 +20,6 @@ import {
   Clock,
   AlertTriangle,
   ChevronRight,
-  Shield,
 } from 'lucide-react';
 
 export default function AccountPage() {
@@ -70,30 +69,14 @@ export default function AccountPage() {
               {user.displayName ? user.displayName.charAt(0).toUpperCase() : 'C'}
             </div>
             <div>
-              <div className="flex items-center gap-2">
-                <h1 className="text-xl sm:text-2xl font-serif font-bold text-charcoal-950">
-                  {user.displayName || 'Valued Customer'}
-                </h1>
-                {isAdmin && (
-                  <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-sage-100 text-sage-800 border border-sage-300">
-                    Admin
-                  </span>
-                )}
-              </div>
+              <h1 className="text-xl sm:text-2xl font-serif font-bold text-charcoal-950">
+                {user.displayName || 'Valued Customer'}
+              </h1>
               <p className="text-xs text-charcoal-500 mt-0.5">{user.email || 'customer@shokhora.com'}</p>
             </div>
           </div>
 
           <div className="flex flex-wrap items-center gap-2.5">
-            {isAdmin && (
-              <Link
-                href="/admin"
-                className="inline-flex items-center gap-1.5 px-4 py-2 bg-sage-600 hover:bg-sage-700 text-white rounded-xl text-xs font-semibold transition-colors"
-              >
-                <Shield className="w-3.5 h-3.5" /> Open Admin Portal
-              </Link>
-            )}
-
             <button
               onClick={handleLogout}
               className="inline-flex items-center gap-1.5 px-4 py-2 bg-taupe-100 hover:bg-taupe-200 text-charcoal-800 rounded-xl text-xs font-semibold transition-colors"

@@ -9,144 +9,200 @@ import {
   onAuthStateChanged,
   User as FirebaseUser,
 } from 'firebase/auth';
+import { AdminMember, UserRole } from '@/types';
+import { isAuthorizedAdmin } from '@/lib/db/store';
 
-export interface AuthUser {
+export interface CustomerAuthUser {
   uid: string;
   email: string | null;
   displayName: string | null;
   phone?: string;
-  isAdmin: boolean;
+  role: 'customer';
 }
 
 interface AuthContextType {
-  user: AuthUser | null;
+  // Customer authentication (Storefront only)
+  user: CustomerAuthUser | null;
   loading: boolean;
   login: (email: string, pass: string) => Promise<{ success: boolean; error?: string }>;
   register: (email: string, pass: string, fullName: string, phone?: string) => Promise<{ success: boolean; error?: string }>;
-  loginAsAdmin: () => void;
   logout: () => Promise<void>;
+
+  // Dedicated Private Admin authentication (Separate session)
+  adminUser: AdminMember | null;
   isAdmin: boolean;
+  isOwner: boolean;
+  adminLogin: (email: string, pass: string) => Promise<{ success: boolean; error?: string; member?: AdminMember }>;
+  adminLogout: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-const LOCAL_AUTH_KEY = 'shokhora_auth_user_v1';
+const CUSTOMER_SESSION_KEY = 'shokhora_customer_session_v2';
+const ADMIN_SESSION_KEY = 'shokhora_admin_session_v2';
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [user, setUser] = useState<AuthUser | null>(null);
+  const [user, setUser] = useState<CustomerAuthUser | null>(null);
+  const [adminUser, setAdminUser] = useState<AdminMember | null>(null);
   const [loading, setLoading] = useState(true);
 
+  // Restore sessions on mount
   useEffect(() => {
-    // If Firebase Auth is ready and configured
+    // 1. Restore Customer session
+    if (typeof window !== 'undefined') {
+      try {
+        const savedCustomer = localStorage.getItem(CUSTOMER_SESSION_KEY);
+        if (savedCustomer) {
+          const parsed = JSON.parse(savedCustomer);
+          setUser({ ...parsed, role: 'customer' });
+        }
+
+        const savedAdmin = localStorage.getItem(ADMIN_SESSION_KEY);
+        if (savedAdmin) {
+          const parsedAdmin: AdminMember = JSON.parse(savedAdmin);
+          // Verify with store that this admin was not revoked
+          const check = isAuthorizedAdmin(parsedAdmin.email);
+          if (check.authorized && check.member) {
+            setAdminUser(check.member);
+          } else {
+            localStorage.removeItem(ADMIN_SESSION_KEY);
+            setAdminUser(null);
+          }
+        }
+      } catch (e) {
+        console.error('Failed restoring auth sessions:', e);
+      }
+    }
+
+    // 2. Firebase Auth state sync if configured
     if (isFirebaseConfigured && auth) {
       const unsubscribe = onAuthStateChanged(auth, async (fbUser: FirebaseUser | null) => {
         if (fbUser) {
-          // Check if admin email or custom claim
-          const adminEmails = ['admin@shokhora.com', 'owner@shokhora.com'];
-          const isAdminUser = Boolean(
-            fbUser.email && (adminEmails.includes(fbUser.email) || fbUser.email.endsWith('@shokhora.com'))
-          );
-
           setUser({
             uid: fbUser.uid,
             email: fbUser.email,
             displayName: fbUser.displayName || 'Customer',
-            isAdmin: isAdminUser,
+            role: 'customer',
           });
-        } else {
-          setUser(null);
         }
         setLoading(false);
       });
       return () => unsubscribe();
     } else {
-      // Offline / Local mock mode
-      try {
-        const saved = localStorage.getItem(LOCAL_AUTH_KEY);
-        if (saved) {
-          setUser(JSON.parse(saved));
-        }
-      } catch (e) {
-        console.error('Failed reading local auth:', e);
-      }
       setLoading(false);
     }
   }, []);
 
-  const saveLocalUser = (u: AuthUser | null) => {
-    setUser(u);
-    if (typeof window !== 'undefined') {
-      if (u) {
-        localStorage.setItem(LOCAL_AUTH_KEY, JSON.stringify(u));
-      } else {
-        localStorage.removeItem(LOCAL_AUTH_KEY);
-      }
-    }
-  };
-
+  // Customer Login (Storefront)
   const login = async (email: string, pass: string) => {
+    const cleanEmail = email.trim().toLowerCase();
+    if (!cleanEmail || !pass) {
+      return { success: false, error: 'Please enter both email and password.' };
+    }
+
     if (isFirebaseConfigured && auth) {
       try {
-        await signInWithEmailAndPassword(auth, email, pass);
+        await signInWithEmailAndPassword(auth, cleanEmail, pass);
         return { success: true };
       } catch (err: any) {
-        return { success: false, error: err.message || 'Login failed' };
+        return { success: false, error: err.message || 'Login failed.' };
       }
     } else {
-      // Local demo login
-      const isAdminUser = email.toLowerCase().includes('admin') || email.toLowerCase().endsWith('@shokhora.com');
-      const mockUser: AuthUser = {
-        uid: `usr-${Date.now()}`,
-        email,
-        displayName: isAdminUser ? 'SHOKHORA Admin' : email.split('@')[0],
-        isAdmin: isAdminUser,
+      // Local customer account
+      const customerUser: CustomerAuthUser = {
+        uid: `cust-${Date.now()}`,
+        email: cleanEmail,
+        displayName: cleanEmail.split('@')[0],
+        role: 'customer',
       };
-      saveLocalUser(mockUser);
+      setUser(customerUser);
+      if (typeof window !== 'undefined') {
+        localStorage.setItem(CUSTOMER_SESSION_KEY, JSON.stringify(customerUser));
+      }
       return { success: true };
     }
   };
 
+  // Customer Registration (Always role 'customer')
   const register = async (email: string, pass: string, fullName: string, phone?: string) => {
+    const cleanEmail = email.trim().toLowerCase();
+    if (!cleanEmail || !pass || !fullName) {
+      return { success: false, error: 'Please provide all required fields.' };
+    }
+
     if (isFirebaseConfigured && auth) {
       try {
-        await createUserWithEmailAndPassword(auth, email, pass);
+        await createUserWithEmailAndPassword(auth, cleanEmail, pass);
         return { success: true };
       } catch (err: any) {
-        return { success: false, error: err.message || 'Registration failed' };
+        return { success: false, error: err.message || 'Registration failed.' };
       }
     } else {
-      const mockUser: AuthUser = {
-        uid: `usr-${Date.now()}`,
-        email,
+      const newCustomer: CustomerAuthUser = {
+        uid: `cust-${Date.now()}`,
+        email: cleanEmail,
         displayName: fullName,
         phone,
-        isAdmin: false,
+        role: 'customer',
       };
-      saveLocalUser(mockUser);
+      setUser(newCustomer);
+      if (typeof window !== 'undefined') {
+        localStorage.setItem(CUSTOMER_SESSION_KEY, JSON.stringify(newCustomer));
+      }
       return { success: true };
     }
   };
 
-  const loginAsAdmin = () => {
-    const adminUser: AuthUser = {
-      uid: 'admin-master-001',
-      email: 'admin@shokhora.com',
-      displayName: 'System Administrator',
-      isAdmin: true,
-    };
-    saveLocalUser(adminUser);
-  };
-
+  // Customer Logout
   const logout = async () => {
     if (isFirebaseConfigured && auth) {
       try {
         await signOut(auth);
       } catch (e) {
-        console.error(e);
+        console.error('Firebase signout error:', e);
       }
     }
-    saveLocalUser(null);
+    setUser(null);
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem(CUSTOMER_SESSION_KEY);
+    }
   };
+
+  // Private Admin Login (Strictly verifies against authorized admin_team)
+  const adminLogin = async (email: string, pass: string) => {
+    const cleanEmail = email.trim().toLowerCase();
+    if (!cleanEmail || !pass) {
+      return { success: false, error: 'Please enter administrative email and password.' };
+    }
+
+    // Server/store check for authorized admin
+    const check = isAuthorizedAdmin(cleanEmail);
+    if (!check.authorized || !check.member) {
+      return {
+        success: false,
+        error: 'Access Denied: You do not have permission to access the SHOKHORA Admin Portal. Please contact the website owner.',
+      };
+    }
+
+    // Set authenticated admin session
+    setAdminUser(check.member);
+    if (typeof window !== 'undefined') {
+      localStorage.setItem(ADMIN_SESSION_KEY, JSON.stringify(check.member));
+    }
+
+    return { success: true, member: check.member };
+  };
+
+  // Private Admin Logout
+  const adminLogout = async () => {
+    setAdminUser(null);
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem(ADMIN_SESSION_KEY);
+    }
+  };
+
+  const isAdmin = Boolean(adminUser && adminUser.status === 'active');
+  const isOwner = Boolean(adminUser && adminUser.role === 'owner' && adminUser.status === 'active');
 
   return (
     <AuthContext.Provider
@@ -155,9 +211,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         loading,
         login,
         register,
-        loginAsAdmin,
         logout,
-        isAdmin: Boolean(user?.isAdmin),
+        adminUser,
+        isAdmin,
+        isOwner,
+        adminLogin,
+        adminLogout,
       }}
     >
       {children}

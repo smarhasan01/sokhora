@@ -40,7 +40,7 @@ export default function AdminCategoriesPage() {
     setNameBn('');
     setSlug('');
     setDescription('');
-    setImage('https://images.unsplash.com/photo-1582234372722-50d7ccc30ebd?auto=format&fit=crop&w=800&q=80');
+    setImage('/images/categories/fashion.jpg');
     setIsModalOpen(true);
   };
 
@@ -62,7 +62,7 @@ export default function AdminCategoriesPage() {
       nameBn: nameBn.trim(),
       slug: slug.trim(),
       description: description.trim(),
-      image: image.trim() || 'https://images.unsplash.com/photo-1582234372722-50d7ccc30ebd?auto=format&fit=crop&w=800&q=80',
+      image: image.trim() || '/images/categories/fashion.jpg',
     };
 
     saveCategory(toSave);

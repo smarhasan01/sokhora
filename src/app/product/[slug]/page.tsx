@@ -10,6 +10,7 @@ import ProductCard from '@/components/product/ProductCard';
 import { getProductBySlug, getProducts } from '@/lib/db/store';
 import { formatPrice } from '@/lib/utils/formatters';
 import { useCart } from '@/lib/context/CartContext';
+import { useWishlist } from '@/lib/context/WishlistContext';
 import {
   ShoppingBag,
   Zap,
@@ -22,6 +23,7 @@ import {
   Plus,
   Share2,
   Check,
+  Heart,
 } from 'lucide-react';
 
 export default function ProductDetailPage() {
@@ -29,12 +31,15 @@ export default function ProductDetailPage() {
   const slug = params.slug as string;
   const router = useRouter();
   const { addItem, setIsCartOpen } = useCart();
+  const { isInWishlist, toggleWishlist } = useWishlist();
 
   const product = getProductBySlug(slug);
 
   if (!product) {
     return notFound();
   }
+
+  const inWishlist = isInWishlist(product.id);
 
   const [selectedImage, setSelectedImage] = useState<string>(product.images[0] || '/images/Logo-01.png');
   const [selectedColor, setSelectedColor] = useState<string | undefined>(
@@ -146,13 +151,32 @@ export default function ProductDetailPage() {
                 </span>
               )}
 
-              <button
-                onClick={handleShare}
-                className="absolute top-4 right-4 p-2.5 rounded-full bg-white/90 backdrop-blur-sm text-charcoal-700 hover:bg-white hover:text-charcoal-900 shadow-sm transition-all"
-                title="Share product link"
-              >
-                {copiedLink ? <Check className="w-4 h-4 text-emerald-600" /> : <Share2 className="w-4 h-4" />}
-              </button>
+              <div className="absolute top-4 right-4 flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => toggleWishlist(product)}
+                  className={`p-2.5 rounded-full backdrop-blur-sm shadow-sm transition-all ${
+                    inWishlist
+                      ? 'bg-white text-terracotta-500 shadow-md scale-105'
+                      : 'bg-white/90 text-charcoal-700 hover:text-terracotta-500 hover:bg-white'
+                  }`}
+                  title={inWishlist ? 'Remove from wishlist' : 'Save to wishlist'}
+                >
+                  <Heart
+                    className={`w-4 h-4 transition-colors ${
+                      inWishlist ? 'fill-terracotta-500 stroke-terracotta-500' : 'stroke-current'
+                    }`}
+                  />
+                </button>
+
+                <button
+                  onClick={handleShare}
+                  className="p-2.5 rounded-full bg-white/90 backdrop-blur-sm text-charcoal-700 hover:bg-white hover:text-charcoal-900 shadow-sm transition-all"
+                  title="Share product link"
+                >
+                  {copiedLink ? <Check className="w-4 h-4 text-emerald-600" /> : <Share2 className="w-4 h-4" />}
+                </button>
+              </div>
             </div>
           </div>
 

@@ -9,6 +9,7 @@ import {
   InventoryMovement,
   OrderStatus,
   PaymentStatus,
+  AdminMember,
 } from '@/types';
 import {
   initialCategories,
@@ -16,16 +17,18 @@ import {
   initialCoupons,
   initialOrders,
   initialSettings,
+  initialAdminTeam,
 } from './mock-data';
 import { generateOrderId, generateInvoiceNumber } from '@/lib/utils/formatters';
 
 const STORAGE_KEYS = {
-  PRODUCTS: 'shokhora_products_v1',
-  CATEGORIES: 'shokhora_categories_v1',
-  ORDERS: 'shokhora_orders_v1',
-  COUPONS: 'shokhora_coupons_v1',
-  SETTINGS: 'shokhora_settings_v1',
-  INVENTORY: 'shokhora_inventory_v1',
+  PRODUCTS: 'shokhora_products_v2',
+  CATEGORIES: 'shokhora_categories_v2',
+  ORDERS: 'shokhora_orders_v2',
+  COUPONS: 'shokhora_coupons_v2',
+  SETTINGS: 'shokhora_settings_v2',
+  INVENTORY: 'shokhora_inventory_v2',
+  ADMIN_TEAM: 'shokhora_admin_team_v2',
 };
 
 // Helper for LocalStorage
@@ -453,3 +456,55 @@ export function getDashboardMetrics() {
     recentOrders: orders.slice(0, 6),
   };
 }
+
+// ---------------- ADMIN & ACCESS CONTROL ----------------
+
+export function getAdminTeam(): AdminMember[] {
+  return getFromStorage<AdminMember[]>(STORAGE_KEYS.ADMIN_TEAM, initialAdminTeam);
+}
+
+export function saveAdminMember(member: AdminMember): AdminMember {
+  const team = getAdminTeam();
+  const index = team.findIndex((m) => m.id === member.id || m.email.toLowerCase() === member.email.toLowerCase());
+
+  if (index >= 0) {
+    team[index] = { ...team[index], ...member };
+  } else {
+    team.push({
+      ...member,
+      id: member.id || `adm-${Date.now()}`,
+      createdAt: member.createdAt || new Date().toISOString(),
+    });
+  }
+
+  setToStorage(STORAGE_KEYS.ADMIN_TEAM, team);
+  return member;
+}
+
+export function revokeAdminMember(id: string): boolean {
+  const team = getAdminTeam();
+  const index = team.findIndex((m) => m.id === id);
+  if (index >= 0) {
+    if (team[index].role === 'owner') {
+      console.warn('Cannot revoke store owner');
+      return false;
+    }
+    team[index].status = 'revoked';
+    setToStorage(STORAGE_KEYS.ADMIN_TEAM, team);
+    return true;
+  }
+  return false;
+}
+
+export function isAuthorizedAdmin(email: string): { authorized: boolean; member?: AdminMember } {
+  if (!email) return { authorized: false };
+  const team = getAdminTeam();
+  const normalized = email.toLowerCase().trim();
+  const member = team.find((m) => m.email.toLowerCase() === normalized);
+
+  if (member && member.status === 'active') {
+    return { authorized: true, member };
+  }
+  return { authorized: false };
+}
+
