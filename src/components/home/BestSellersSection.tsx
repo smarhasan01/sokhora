@@ -4,15 +4,16 @@ import React from 'react';
 import Link from 'next/link';
 import { getProducts } from '@/lib/db/store';
 import ProductCard from '@/components/product/ProductCard';
+import { useLanguage } from '@/lib/context/LanguageContext';
 import { ArrowRight, Flame } from 'lucide-react';
 
 export default function BestSellersSection() {
+  const { isBn, t } = useLanguage();
   const allProducts = getProducts().filter((p) => p.isPublished);
   const bestSellers = allProducts
     .filter((p) => p.isBestSeller)
     .slice(0, 4);
 
-  // If fewer than 4 marked, take top rated
   const displayProducts =
     bestSellers.length >= 4
       ? bestSellers
@@ -25,13 +26,13 @@ export default function BestSellersSection() {
           <div>
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-50 border border-amber-200 text-amber-800 text-[11px] font-semibold uppercase tracking-wider mb-2">
               <Flame className="w-3.5 h-3.5 text-amber-600 fill-amber-500" />
-              <span>Customer Favorites</span>
+              <span>{isBn ? 'গ্রাহকদের পছন্দের শীর্ষে' : 'Customer Favorites'}</span>
             </div>
             <h2 className="text-2xl sm:text-3xl font-serif font-bold text-charcoal-950 tracking-tight">
-              Best Sellers
+              {t('bestSellersTitle')}
             </h2>
-            <p className="text-xs text-taupe-600 font-bengali mt-1">
-              আমাদের সবচেয়ে জনপ্রিয় ও প্রশংসিত কালেকশন
+            <p className="text-xs text-taupe-600 mt-1 max-w-xl">
+              {t('bestSellersSubtitle')}
             </p>
           </div>
 
@@ -39,7 +40,7 @@ export default function BestSellersSection() {
             href="/shop?sort=popularity"
             className="text-xs sm:text-sm font-semibold text-charcoal-900 hover:text-terracotta-600 flex items-center gap-1.5 group transition-colors"
           >
-            <span>View All Best Sellers</span>
+            <span>{t('viewAll')}</span>
             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
           </Link>
         </div>

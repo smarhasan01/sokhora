@@ -8,25 +8,27 @@ import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import { useCart } from '@/lib/context/CartContext';
 import { useAuth } from '@/lib/context/AuthContext';
+import { useLanguage } from '@/lib/context/LanguageContext';
 import { createOrder } from '@/lib/db/store';
-import { formatPrice, isValidBdPhone, BD_DISTRICTS } from '@/lib/utils/formatters';
+import { isValidBdPhone, BD_DISTRICTS } from '@/lib/utils/formatters';
 import { PaymentMethod, DeliveryDetails } from '@/types';
 import {
   ShieldCheck,
   Truck,
   CreditCard,
   Banknote,
-  QrCode,
   ArrowRight,
   ChevronRight,
   AlertCircle,
   Copy,
   Check,
+  Info,
 } from 'lucide-react';
 
 export default function CheckoutPage() {
   const router = useRouter();
   const { user } = useAuth();
+  const { isBn, t, formatPrice, formatNumber } = useLanguage();
   const {
     items,
     subtotal,
@@ -71,6 +73,8 @@ export default function CheckoutPage() {
     }
   };
 
+  const merchantNumber = '01568923850';
+
   const copyMerchantNumber = (num: string) => {
     if (typeof window !== 'undefined') {
       navigator.clipboard.writeText(num);
@@ -82,24 +86,24 @@ export default function CheckoutPage() {
   const validateForm = () => {
     const errs: Record<string, string> = {};
 
-    if (!fullName.trim()) errs.fullName = 'Please enter your full name';
+    if (!fullName.trim()) errs.fullName = isBn ? 'আপনার পূর্ণ নাম লিখুন' : 'Please enter your full name';
     if (!phone.trim()) {
-      errs.phone = 'Please enter your mobile phone number';
+      errs.phone = isBn ? 'আপনার মোবাইল নম্বর লিখুন' : 'Please enter your mobile phone number';
     } else if (!isValidBdPhone(phone)) {
-      errs.phone = 'Please enter a valid Bangladeshi number (e.g. 017XXXXXXXX)';
+      errs.phone = isBn ? 'সঠিক বাংলাদেশি নম্বর দিন (যেমন: 017XXXXXXXX)' : 'Please enter a valid Bangladeshi number (e.g. 017XXXXXXXX)';
     }
 
-    if (!district) errs.district = 'Please select your delivery district';
-    if (!area.trim()) errs.area = 'Please enter your Upazila or Area';
-    if (!address.trim()) errs.address = 'Please enter your detailed delivery address';
+    if (!district) errs.district = isBn ? 'জেলা নির্বাচন করুন' : 'Please select your delivery district';
+    if (!area.trim()) errs.area = isBn ? 'থানা বা এলাকা লিখুন' : 'Please enter your Upazila or Area';
+    if (!address.trim()) errs.address = isBn ? 'বিস্তারিত ডেলিভারি ঠিকানা লিখুন' : 'Please enter your detailed delivery address';
 
     // Payment validation
     if (paymentMethod === 'bKash') {
-      if (!bkashSender.trim()) errs.bkashSender = 'Please enter the bKash sender number';
-      if (!bkashTrxId.trim()) errs.bkashTrxId = 'Please enter your bKash Transaction ID';
+      if (!bkashSender.trim()) errs.bkashSender = isBn ? 'বিকাশ প্রেরক নম্বর লিখুন' : 'Please enter the bKash sender number';
+      if (!bkashTrxId.trim()) errs.bkashTrxId = isBn ? 'বিকাশ ট্রানজেকশন আইডি (TrxID) দিন' : 'Please enter your bKash Transaction ID';
     } else if (paymentMethod === 'Nagad') {
-      if (!nagadSender.trim()) errs.nagadSender = 'Please enter the Nagad sender number';
-      if (!nagadTrxId.trim()) errs.nagadTrxId = 'Please enter your Nagad Transaction ID';
+      if (!nagadSender.trim()) errs.nagadSender = isBn ? 'নগদ প্রেরক নম্বর লিখুন' : 'Please enter the Nagad sender number';
+      if (!nagadTrxId.trim()) errs.nagadTrxId = isBn ? 'নগদ ট্রানজেকশন আইডি (TrxID) দিন' : 'Please enter your Nagad Transaction ID';
     }
 
     setErrors(errs);
@@ -155,7 +159,7 @@ export default function CheckoutPage() {
         discount: couponDiscount,
         deliveryCharge,
         total,
-        paidAmount: 0, // initially 0 until admin verifies manual payment or online gateway completes
+        paidAmount: 0,
         couponCode: coupon?.code,
         paymentMethod,
         paymentStatus: 'Unpaid',
@@ -179,10 +183,10 @@ export default function CheckoutPage() {
       <div className="min-h-screen flex flex-col bg-ivory-100">
         <Header />
         <main className="flex-1 flex flex-col items-center justify-center p-8 text-center space-y-4">
-          <h2 className="text-xl font-bold text-charcoal-900">Your bag is empty</h2>
-          <p className="text-xs text-charcoal-500">Please add items to your shopping bag before checking out.</p>
+          <h2 className="text-xl font-bold text-charcoal-900">{t('cartEmptyTitle')}</h2>
+          <p className="text-xs text-charcoal-500">{t('cartEmptySubtitle')}</p>
           <Link href="/shop" className="px-6 py-2.5 bg-charcoal-950 text-white rounded-full text-xs font-semibold">
-            Return to Shop
+            {t('shopNow')}
           </Link>
         </main>
         <Footer />
@@ -197,15 +201,26 @@ export default function CheckoutPage() {
       <main className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
         {/* Breadcrumb */}
         <nav className="flex items-center gap-1.5 text-xs text-charcoal-500 mb-6">
-          <Link href="/" className="hover:text-charcoal-900">Home</Link>
+          <Link href="/" className="hover:text-charcoal-900">{t('navHome')}</Link>
           <ChevronRight className="w-3.5 h-3.5 text-taupe-400" />
-          <Link href="/cart" className="hover:text-charcoal-900">Shopping Bag</Link>
+          <Link href="/cart" className="hover:text-charcoal-900">{t('cartTitle')}</Link>
           <ChevronRight className="w-3.5 h-3.5 text-taupe-400" />
-          <span className="text-charcoal-900 font-medium">Checkout</span>
+          <span className="text-charcoal-900 font-medium">{t('checkoutTitle')}</span>
         </nav>
 
+        {/* Phase 1 Prototype Notice Banner */}
+        <div className="mb-6 p-4 rounded-2xl bg-amber-50 border border-amber-200 text-amber-900 flex items-start gap-3">
+          <Info className="w-5 h-5 text-amber-700 shrink-0 mt-0.5" />
+          <div className="text-xs leading-relaxed">
+            <p className="font-semibold">{isBn ? 'ফেজ ১ ফ্রন্টএন্ড প্রোটোটাইপ বিজ্ঞপ্তি' : 'Phase 1 Frontend Demonstration'}</p>
+            <p className="text-amber-800 mt-0.5">
+              {t('checkoutDisclaimer')}
+            </p>
+          </div>
+        </div>
+
         <h1 className="text-2xl sm:text-3xl font-serif font-bold text-charcoal-950 mb-8">
-          Checkout & Delivery
+          {t('checkoutTitle')}
         </h1>
 
         <form onSubmit={handlePlaceOrder} className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
@@ -216,11 +231,11 @@ export default function CheckoutPage() {
               <div className="flex items-center justify-between pb-3 border-b border-taupe-200">
                 <h2 className="text-base font-bold text-charcoal-950 flex items-center gap-2">
                   <span className="w-6 h-6 rounded-full bg-charcoal-900 text-white text-xs flex items-center justify-center font-mono">1</span>
-                  Delivery Information (ডেলিভারি ঠিকানা)
+                  {t('deliveryAddressTitle')}
                 </h2>
                 {!user && (
                   <span className="text-[11px] text-taupe-600 font-medium bg-taupe-100 px-2.5 py-1 rounded-full">
-                    Guest Checkout
+                    {isBn ? 'গেস্ট চেকআউট' : 'Guest Checkout'}
                   </span>
                 )}
               </div>
@@ -229,12 +244,12 @@ export default function CheckoutPage() {
                 {/* Full Name */}
                 <div className="sm:col-span-2">
                   <label className="block text-xs font-semibold text-charcoal-700 uppercase tracking-wider mb-1.5">
-                    Full Name (সম্পূর্ণ নাম) *
+                    {t('fullName')} *
                   </label>
                   <input
                     type="text"
                     required
-                    placeholder="e.g. Tahmidur Rahman"
+                    placeholder="e.g. Nusrat Anjum"
                     value={fullName}
                     onChange={(e) => setFullName(e.target.value)}
                     className={`w-full px-3.5 py-2.5 rounded-xl border text-xs focus:outline-none focus:ring-1 ${
@@ -247,12 +262,12 @@ export default function CheckoutPage() {
                 {/* Phone Number */}
                 <div>
                   <label className="block text-xs font-semibold text-charcoal-700 uppercase tracking-wider mb-1.5">
-                    Mobile Phone (মোবাইল নম্বর) *
+                    {t('phoneNumber')} *
                   </label>
                   <input
                     type="tel"
                     required
-                    placeholder="017XXXXXXXX"
+                    placeholder="01XXXXXXXXX"
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
                     className={`w-full px-3.5 py-2.5 rounded-xl border text-xs font-mono focus:outline-none focus:ring-1 ${
@@ -265,11 +280,11 @@ export default function CheckoutPage() {
                 {/* Email (Optional) */}
                 <div>
                   <label className="block text-xs font-semibold text-charcoal-700 uppercase tracking-wider mb-1.5">
-                    Email Address <span className="text-charcoal-400 font-normal lowercase">(optional)</span>
+                    {t('emailOptional')}
                   </label>
                   <input
                     type="email"
-                    placeholder="tahmid@example.com"
+                    placeholder="example@gmail.com"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     className="w-full px-3.5 py-2.5 rounded-xl border border-taupe-300 text-xs focus:outline-none focus:ring-1 focus:ring-charcoal-800"
@@ -279,7 +294,7 @@ export default function CheckoutPage() {
                 {/* District */}
                 <div>
                   <label className="block text-xs font-semibold text-charcoal-700 uppercase tracking-wider mb-1.5">
-                    District (জেলা) *
+                    {t('district')} *
                   </label>
                   <select
                     value={district}
@@ -288,7 +303,7 @@ export default function CheckoutPage() {
                   >
                     {BD_DISTRICTS.map((dist) => (
                       <option key={dist} value={dist}>
-                        {dist} {dist === 'Dhaka' ? '(Inside Dhaka - ৳70)' : '(Outside Dhaka - ৳130)'}
+                        {dist} {dist === 'Dhaka' ? `(${isBn ? 'ঢাকার ভেতরে - ৳৭০' : 'Inside Dhaka - ৳70'})` : `(${isBn ? 'ঢাকার বাইরে - ৳১৩০' : 'Outside Dhaka - ৳130'})`}
                       </option>
                     ))}
                   </select>
@@ -297,7 +312,7 @@ export default function CheckoutPage() {
                 {/* Area / Upazila */}
                 <div>
                   <label className="block text-xs font-semibold text-charcoal-700 uppercase tracking-wider mb-1.5">
-                    Thana / Upazila / Area (থানা / এলাকা) *
+                    {t('area')} *
                   </label>
                   <input
                     type="text"
@@ -315,12 +330,12 @@ export default function CheckoutPage() {
                 {/* Full Address */}
                 <div className="sm:col-span-2">
                   <label className="block text-xs font-semibold text-charcoal-700 uppercase tracking-wider mb-1.5">
-                    Full Delivery Address (রোড, বাড়ি, ফ্ল্যাট নম্বর) *
+                    {t('fullAddress')} *
                   </label>
                   <textarea
                     required
                     rows={2}
-                    placeholder="e.g. House 42, Road 9/A, Flat 3B, Dhanmondi"
+                    placeholder="e.g. House 42, Road 4/A, Flat 3B, Dhanmondi"
                     value={address}
                     onChange={(e) => setAddress(e.target.value)}
                     className={`w-full px-3.5 py-2.5 rounded-xl border text-xs focus:outline-none focus:ring-1 ${
@@ -333,7 +348,7 @@ export default function CheckoutPage() {
                 {/* Order Notes */}
                 <div className="sm:col-span-2">
                   <label className="block text-xs font-semibold text-charcoal-700 uppercase tracking-wider mb-1.5">
-                    Delivery Instructions / Notes <span className="text-charcoal-400 font-normal lowercase">(optional)</span>
+                    {t('deliveryNotes')}
                   </label>
                   <input
                     type="text"
@@ -351,11 +366,8 @@ export default function CheckoutPage() {
               <div className="pb-3 border-b border-taupe-200">
                 <h2 className="text-base font-bold text-charcoal-950 flex items-center gap-2">
                   <span className="w-6 h-6 rounded-full bg-charcoal-900 text-white text-xs flex items-center justify-center font-mono">2</span>
-                  Payment Method (পেমেন্ট পদ্ধতি)
+                  {t('paymentMethodTitle')}
                 </h2>
-                <p className="text-xs text-charcoal-500 mt-0.5">
-                  Choose how you would like to pay for your order
-                </p>
               </div>
 
               <div className="space-y-3">
@@ -378,11 +390,11 @@ export default function CheckoutPage() {
                     <div className="flex items-center gap-2">
                       <Banknote className="w-4 h-4 text-emerald-700" />
                       <span className="text-xs sm:text-sm font-semibold text-charcoal-900">
-                        Cash on Delivery (ক্যাশ অন ডেলিভারি)
+                        {t('paymentCod')}
                       </span>
                     </div>
                     <p className="text-xs text-charcoal-500 mt-1 leading-relaxed">
-                      Pay with cash when your parcel is delivered to your doorstep.
+                      {t('paymentCodDesc')}
                     </p>
                   </div>
                 </label>
@@ -405,14 +417,16 @@ export default function CheckoutPage() {
                   <div className="flex-1">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
-                        <span className="font-bold text-xs sm:text-sm text-pink-700">bKash Manual Payment</span>
+                        <span className="font-bold text-xs sm:text-sm text-pink-700">
+                          {t('paymentBkash')}
+                        </span>
                         <span className="text-[10px] bg-pink-100 text-pink-800 font-semibold px-2 py-0.5 rounded">
-                          Merchant / Send Money
+                          Send Money / Payment
                         </span>
                       </div>
                     </div>
                     <p className="text-xs text-charcoal-500 mt-1">
-                      Send payment to our verified bKash number and submit the transaction ID.
+                      {t('paymentBkashDesc')}
                     </p>
 
                     {/* bKash instructions & input fields */}
@@ -420,25 +434,25 @@ export default function CheckoutPage() {
                       <div className="mt-4 pt-4 border-t border-pink-200/80 space-y-3 bg-white p-4 rounded-xl border">
                         <div className="flex items-center justify-between text-xs bg-pink-50 p-2.5 rounded-lg border border-pink-200">
                           <div>
-                            <p className="text-[11px] text-pink-700 font-medium">bKash Merchant / Personal No:</p>
+                            <p className="text-[11px] text-pink-700 font-medium">bKash Account / Merchant No:</p>
                             <p className="font-mono font-bold text-charcoal-900 text-sm">
-                              {settings.bkashMerchantNumber}
+                              {merchantNumber}
                             </p>
                           </div>
                           <button
                             type="button"
-                            onClick={() => copyMerchantNumber(settings.bkashMerchantNumber)}
+                            onClick={() => copyMerchantNumber(merchantNumber)}
                             className="inline-flex items-center gap-1 px-2.5 py-1 rounded bg-white text-pink-700 font-semibold text-xs border border-pink-300 hover:bg-pink-100"
                           >
                             {copiedNumber ? <Check className="w-3 h-3 text-emerald-600" /> : <Copy className="w-3 h-3" />}
-                            {copiedNumber ? 'Copied' : 'Copy'}
+                            {copiedNumber ? (isBn ? 'কপি হয়েছে' : 'Copied') : (isBn ? 'কপি করুন' : 'Copy')}
                           </button>
                         </div>
 
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs pt-1">
                           <div>
                             <label className="block text-[11px] font-semibold text-charcoal-700 mb-1">
-                              Your bKash Sender Number *
+                              {isBn ? 'আপনার বিকাশ নম্বর *' : 'Your bKash Sender Number *'}
                             </label>
                             <input
                               type="tel"
@@ -452,7 +466,7 @@ export default function CheckoutPage() {
 
                           <div>
                             <label className="block text-[11px] font-semibold text-charcoal-700 mb-1">
-                              bKash Transaction ID (TrxID) *
+                              {isBn ? 'ট্রানজেকশন আইডি (TrxID) *' : 'bKash Transaction ID (TrxID) *'}
                             </label>
                             <input
                               type="text"
@@ -466,7 +480,9 @@ export default function CheckoutPage() {
                         </div>
 
                         <p className="text-[11px] text-charcoal-500 italic">
-                          * Your order will remain pending until our admin verifies the transaction ID.
+                          {isBn
+                            ? '*নোট: এটি একটি ম্যানুয়াল পেমেন্ট প্লেসহোল্ডার। ট্রানজেকশন আইডি অ্যাডমিন প্যানেল থেকে যাচাই না করা পর্যন্ত পেমেন্ট Unpaid থাকবে।'
+                            : '*Note: This is a manual payment placeholder. The order will remain Unpaid until verified by the admin.'}
                         </p>
                       </div>
                     )}
@@ -491,14 +507,16 @@ export default function CheckoutPage() {
                   <div className="flex-1">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
-                        <span className="font-bold text-xs sm:text-sm text-orange-700">Nagad Manual Payment</span>
+                        <span className="font-bold text-xs sm:text-sm text-orange-700">
+                          {t('paymentNagad')}
+                        </span>
                         <span className="text-[10px] bg-orange-100 text-orange-800 font-semibold px-2 py-0.5 rounded">
                           Send Money
                         </span>
                       </div>
                     </div>
                     <p className="text-xs text-charcoal-500 mt-1">
-                      Send payment to our Nagad account and submit the transaction ID.
+                      {t('paymentNagadDesc')}
                     </p>
 
                     {/* Nagad instructions & input fields */}
@@ -508,23 +526,23 @@ export default function CheckoutPage() {
                           <div>
                             <p className="text-[11px] text-orange-700 font-medium">Nagad Account No:</p>
                             <p className="font-mono font-bold text-charcoal-900 text-sm">
-                              {settings.nagadMerchantNumber}
+                              {merchantNumber}
                             </p>
                           </div>
                           <button
                             type="button"
-                            onClick={() => copyMerchantNumber(settings.nagadMerchantNumber)}
+                            onClick={() => copyMerchantNumber(merchantNumber)}
                             className="inline-flex items-center gap-1 px-2.5 py-1 rounded bg-white text-orange-700 font-semibold text-xs border border-orange-300 hover:bg-orange-100"
                           >
                             {copiedNumber ? <Check className="w-3 h-3 text-emerald-600" /> : <Copy className="w-3 h-3" />}
-                            {copiedNumber ? 'Copied' : 'Copy'}
+                            {copiedNumber ? (isBn ? 'কপি হয়েছে' : 'Copied') : (isBn ? 'কপি করুন' : 'Copy')}
                           </button>
                         </div>
 
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs pt-1">
                           <div>
                             <label className="block text-[11px] font-semibold text-charcoal-700 mb-1">
-                              Your Nagad Sender Number *
+                              {isBn ? 'আপনার নগদ নম্বর *' : 'Your Nagad Sender Number *'}
                             </label>
                             <input
                               type="tel"
@@ -538,7 +556,7 @@ export default function CheckoutPage() {
 
                           <div>
                             <label className="block text-[11px] font-semibold text-charcoal-700 mb-1">
-                              Nagad Transaction ID (TrxID) *
+                              {isBn ? 'ট্রানজেকশন আইডি (TrxID) *' : 'Nagad Transaction ID (TrxID) *'}
                             </label>
                             <input
                               type="text"
@@ -552,38 +570,12 @@ export default function CheckoutPage() {
                         </div>
 
                         <p className="text-[11px] text-charcoal-500 italic">
-                          * Order will be confirmed upon verification by our team.
+                          {isBn
+                            ? '*নোট: নগদ ট্রানজেকশন সম্পন্ন করার পর এডমিন ভেরিফাই করবে।'
+                            : '*Note: Order verification will occur once transaction is reviewed.'}
                         </p>
                       </div>
                     )}
-                  </div>
-                </label>
-
-                {/* Method 4: Online Gateway */}
-                <label
-                  className={`flex items-start gap-3 p-4 rounded-2xl border cursor-pointer transition-all ${
-                    paymentMethod === 'Online Gateway (SSLCOMMERZ)'
-                      ? 'border-blue-600 bg-blue-50/30 shadow-sm'
-                      : 'border-taupe-200 hover:bg-taupe-50/40'
-                  }`}
-                >
-                  <input
-                    type="radio"
-                    name="payment"
-                    checked={paymentMethod === 'Online Gateway (SSLCOMMERZ)'}
-                    onChange={() => setPaymentMethod('Online Gateway (SSLCOMMERZ)')}
-                    className="mt-1 text-blue-600 focus:ring-blue-500"
-                  />
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2">
-                      <CreditCard className="w-4 h-4 text-blue-600" />
-                      <span className="text-xs sm:text-sm font-semibold text-charcoal-900">
-                        Online Cards / Mobile Banking (SSLCOMMERZ)
-                      </span>
-                    </div>
-                    <p className="text-xs text-charcoal-500 mt-1">
-                      Pay securely with Visa, Mastercard, American Express, or internet banking.
-                    </p>
                   </div>
                 </label>
               </div>
@@ -593,81 +585,72 @@ export default function CheckoutPage() {
           {/* Right Column: Order Summary & Place Order Button */}
           <div className="lg:col-span-5 bg-white rounded-3xl p-6 sm:p-8 border border-taupe-200 shadow-sm space-y-6">
             <h2 className="text-base font-bold text-charcoal-950 pb-3 border-b border-taupe-200">
-              Order Summary ({items.length} {items.length === 1 ? 'item' : 'items'})
+              {t('orderSummary')} ({formatNumber(items.length)} {t('items')})
             </h2>
 
             {/* Items mini list */}
             <div className="max-h-60 overflow-y-auto divide-y divide-taupe-100 pr-1">
               {items.map((it) => (
                 <div key={it.id} className="py-3 flex items-center justify-between gap-3 text-xs">
-                  <div className="flex items-center gap-3">
-                    <div className="relative w-12 h-12 rounded-lg overflow-hidden bg-taupe-100 border border-taupe-200 flex-shrink-0">
-                      <Image src={it.image || '/images/Logo-01.png'} alt={it.name} fill className="object-cover" />
+                  <div className="flex items-center gap-2.5">
+                    <div className="relative w-12 h-12 rounded-lg overflow-hidden bg-taupe-100 border border-taupe-200 shrink-0">
+                      <Image src={it.image} alt={it.name} fill className="object-cover" />
                     </div>
                     <div>
-                      <p className="font-medium text-charcoal-900 line-clamp-1">{it.name}</p>
-                      <p className="text-[11px] text-charcoal-500 font-mono">
-                        {it.quantity} x {formatPrice(it.price)}
-                        {it.selectedColor ? ` • ${it.selectedColor}` : ''}
+                      <p className="font-semibold text-charcoal-900 line-clamp-1">{it.name}</p>
+                      <p className="text-[11px] text-charcoal-500">
+                        {formatPrice(it.price)} × {formatNumber(it.quantity)}
                       </p>
                     </div>
                   </div>
-                  <span className="font-mono font-semibold text-charcoal-900 whitespace-nowrap">
+                  <span className="font-mono font-bold text-charcoal-950 shrink-0">
                     {formatPrice(it.price * it.quantity)}
                   </span>
                 </div>
               ))}
             </div>
 
-            {/* Price Calculations */}
-            <div className="pt-4 border-t border-taupe-200 space-y-2 text-xs text-charcoal-600">
+            {/* Calculation */}
+            <div className="space-y-2 pt-4 border-t border-taupe-200 text-xs text-charcoal-600">
               <div className="flex justify-between">
-                <span>Subtotal</span>
+                <span>{t('subtotal')}</span>
                 <span className="font-mono font-medium text-charcoal-900">{formatPrice(subtotal)}</span>
               </div>
 
               {couponDiscount > 0 && (
                 <div className="flex justify-between text-emerald-700">
-                  <span>Coupon Discount ({coupon?.code})</span>
+                  <span>{isBn ? 'কুপন ডিসকাউন্ট' : 'Coupon Discount'} ({coupon?.code})</span>
                   <span className="font-mono font-medium">-{formatPrice(couponDiscount)}</span>
                 </div>
               )}
 
               <div className="flex justify-between">
-                <span>
-                  Delivery Charge ({district === 'Dhaka' ? 'Inside Dhaka' : 'Outside Dhaka'})
-                </span>
+                <span>{t('deliveryFee')} ({district === 'Dhaka' ? (isBn ? 'ঢাকা' : 'Dhaka') : (isBn ? 'ঢাকার বাইরে' : 'Outside')})</span>
                 <span className="font-mono font-medium text-charcoal-900">
-                  {deliveryCharge === 0 ? <span className="text-emerald-700 font-bold">FREE</span> : formatPrice(deliveryCharge)}
+                  {deliveryCharge === 0 ? <span className="text-emerald-700 font-bold">{isBn ? 'ফ্রি' : 'FREE'}</span> : formatPrice(deliveryCharge)}
                 </span>
               </div>
 
               <div className="flex justify-between text-base font-bold text-charcoal-950 pt-3 border-t border-taupe-200">
-                <span>Total Amount Due</span>
-                <span className="font-mono text-lg">{formatPrice(total)}</span>
+                <span>{t('estimatedTotal')}</span>
+                <span className="font-mono text-xl">{formatPrice(total)}</span>
               </div>
             </div>
 
-            {/* Place Order CTA */}
+            {/* Submit Button */}
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full flex items-center justify-center gap-2 py-4 px-6 rounded-2xl bg-charcoal-950 hover:bg-charcoal-900 text-white text-sm font-semibold transition-all shadow-md hover:shadow-lg disabled:opacity-50"
+              className="w-full flex items-center justify-center gap-2 py-4 px-6 rounded-2xl bg-charcoal-950 hover:bg-charcoal-900 text-white font-semibold text-sm transition-all shadow-md hover:shadow-lg disabled:opacity-50"
             >
-              {isSubmitting ? (
-                <span>Confirming Order...</span>
-              ) : (
-                <>
-                  Confirm Order ({formatPrice(total)}) <ArrowRight className="w-4 h-4" />
-                </>
-              )}
+              <span>{isSubmitting ? t('placingOrder') : t('placeOrder')}</span>
+              <ArrowRight className="w-4 h-4" />
             </button>
 
-            <div className="space-y-2 pt-2 text-[11px] text-charcoal-500 text-center">
-              <p className="flex items-center justify-center gap-1.5 text-sage-700 font-medium">
-                <ShieldCheck className="w-4 h-4" /> 100% Genuine Bangladeshi Brand Guarantee
-              </p>
-              <p>By placing this order, you agree to our Terms & Delivery policies.</p>
+            {/* Trust badge */}
+            <div className="pt-2 flex items-center justify-center gap-2 text-xs text-taupe-600 text-center">
+              <ShieldCheck className="w-4 h-4 text-sage-600" />
+              <span>{isBn ? 'নিরাপদ চেকআউট • কোনো ক্রেডিট কার্ড বাধ্যবাধকতা নেই' : '100% Verified Bangladesh Courier Dispatch'}</span>
             </div>
           </div>
         </form>

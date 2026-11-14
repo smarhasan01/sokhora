@@ -3,17 +3,18 @@
 import React, { useRef, useState } from 'react';
 import Image from 'next/image';
 import { Order, StoreSettings } from '@/types';
+import { initialSettings } from '@/lib/db/mock-data';
 import { formatPrice, formatDate } from '@/lib/utils/formatters';
 import { Printer, Download, ArrowLeft, CheckCircle, Clock, AlertTriangle } from 'lucide-react';
 
 interface InvoiceViewProps {
   order: Order;
-  settings: StoreSettings;
+  settings?: StoreSettings;
   onBack?: () => void;
   showActions?: boolean;
 }
 
-export default function InvoiceView({ order, settings, onBack, showActions = true }: InvoiceViewProps) {
+export default function InvoiceView({ order, settings = initialSettings, onBack, showActions = true }: InvoiceViewProps) {
   const [layoutMode, setLayoutMode] = useState<'a4' | 'slip'>('a4');
   const invoiceRef = useRef<HTMLDivElement>(null);
 

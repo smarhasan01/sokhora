@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import './globals.css';
+import { LanguageProvider } from '@/lib/context/LanguageContext';
 import { AuthProvider } from '@/lib/context/AuthContext';
 import { CartProvider } from '@/lib/context/CartContext';
 import { WishlistProvider } from '@/lib/context/WishlistContext';
@@ -49,14 +50,16 @@ export default function RootLayout({
         <link rel="icon" href="/images/Logo-01.png" type="image/png" />
       </head>
       <body className="min-h-screen flex flex-col bg-ivory-100 text-charcoal-900 selection:bg-taupe-200 selection:text-charcoal-950">
-        <AuthProvider>
-          <WishlistProvider>
-            <CartProvider>
-              {children}
-              <CartDrawer />
-            </CartProvider>
-          </WishlistProvider>
-        </AuthProvider>
+        <LanguageProvider>
+          <AuthProvider>
+            <WishlistProvider>
+              <CartProvider>
+                {children}
+                <CartDrawer />
+              </CartProvider>
+            </WishlistProvider>
+          </AuthProvider>
+        </LanguageProvider>
       </body>
     </html>
   );

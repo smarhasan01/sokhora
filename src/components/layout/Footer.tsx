@@ -1,11 +1,13 @@
+'use client';
+
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useLanguage } from '@/lib/context/LanguageContext';
 import {
   MapPin,
   Phone,
   Mail,
-  Instagram,
   Facebook,
   ShieldCheck,
   RefreshCcw,
@@ -14,6 +16,8 @@ import {
 } from 'lucide-react';
 
 export default function Footer() {
+  const { isBn, t } = useLanguage();
+
   return (
     <footer className="bg-charcoal-950 text-taupe-300 pt-16 pb-8 border-t border-charcoal-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -24,8 +28,12 @@ export default function Footer() {
               <Truck className="w-5 h-5" />
             </div>
             <div>
-              <p className="font-semibold text-white text-sm">64 Districts Delivery</p>
-              <p className="text-taupe-400">Fast nationwide courier service</p>
+              <p className="font-semibold text-white text-sm">
+                {isBn ? 'সারা বাংলাদেশে ডেলিভারি' : '64 Districts Delivery'}
+              </p>
+              <p className="text-taupe-400">
+                {isBn ? '৪৮-৭২ ঘণ্টার মধ্যে হোম ডেলিভারি' : 'Fast nationwide courier service'}
+              </p>
             </div>
           </div>
 
@@ -34,8 +42,12 @@ export default function Footer() {
               <ShieldCheck className="w-5 h-5" />
             </div>
             <div>
-              <p className="font-semibold text-white text-sm">100% Authentic</p>
-              <p className="text-taupe-400">Handcrafted & curated quality</p>
+              <p className="font-semibold text-white text-sm">
+                {isBn ? '১০০% খাঁটি পণ্য' : '100% Authentic Quality'}
+              </p>
+              <p className="text-taupe-400">
+                {isBn ? 'প্রাকৃতিক ও প্রিমিয়াম উপকরণ' : 'Handcrafted & curated quality'}
+              </p>
             </div>
           </div>
 
@@ -44,8 +56,12 @@ export default function Footer() {
               <RefreshCcw className="w-5 h-5" />
             </div>
             <div>
-              <p className="font-semibold text-white text-sm">Easy 7-Day Exchange</p>
-              <p className="text-taupe-400">Hassle-free return policy</p>
+              <p className="font-semibold text-white text-sm">
+                {isBn ? 'সহজ ৭ দিনের এক্সচেঞ্জ' : 'Easy 7-Day Exchange'}
+              </p>
+              <p className="text-taupe-400">
+                {isBn ? 'ঝামেলাহীন রিটার্ন ও পলিসি' : 'Hassle-free return policy'}
+              </p>
             </div>
           </div>
 
@@ -54,8 +70,12 @@ export default function Footer() {
               <CreditCard className="w-5 h-5" />
             </div>
             <div>
-              <p className="font-semibold text-white text-sm">Flexible Payment</p>
-              <p className="text-taupe-400">Cash on Delivery, bKash, Nagad</p>
+              <p className="font-semibold text-white text-sm">
+                {isBn ? 'সহজ ও নিরাপদ পেমেন্ট' : 'Flexible Payment'}
+              </p>
+              <p className="text-taupe-400">
+                {isBn ? 'ক্যাশ অন ডেলিভারি, বিকাশ, নগদ' : 'Cash on Delivery, bKash, Nagad'}
+              </p>
             </div>
           </div>
         </div>
@@ -72,28 +92,28 @@ export default function Footer() {
                 className="object-contain object-left px-2"
               />
             </div>
-            <p className="text-white font-medium text-sm">Your Choice, Our Passion.</p>
-            <p className="text-xs text-taupe-400 font-bengali">আপনার পছন্দ, আমাদের ভালোবাসা।</p>
+            <p className="text-white font-medium text-sm">
+              {t('brandTagline')}
+            </p>
             <p className="text-xs text-taupe-400 leading-relaxed max-w-sm">
-              SHOKHORA is a modern Bangladeshi lifestyle brand dedicated to providing thoughtfully
-              curated everyday essentials, hair accessories, artisanal jewellery, and gentle skincare.
+              {t('footerAbout')}
             </p>
 
             <div className="pt-2 space-y-2 text-xs">
               <div className="flex items-center gap-2">
                 <MapPin className="w-4 h-4 text-sage-400 flex-shrink-0" />
-                <span>House 14, Road 7, Dhanmondi, Dhaka 1205</span>
+                <span>{t('footerShowroom')}</span>
               </div>
               <div className="flex items-center gap-2">
                 <Phone className="w-4 h-4 text-sage-400 flex-shrink-0" />
-                <a href="tel:+8801712345678" className="hover:text-white transition-colors">
-                  +880 1712-345678
+                <a href="tel:01568923850" className="hover:text-white transition-colors">
+                  01568923850
                 </a>
               </div>
               <div className="flex items-center gap-2">
                 <Mail className="w-4 h-4 text-sage-400 flex-shrink-0" />
-                <a href="mailto:contact@shokhora.com" className="hover:text-white transition-colors">
-                  contact@shokhora.com
+                <a href="mailto:info.shokhora@gmail.com" className="hover:text-white transition-colors">
+                  info.shokhora@gmail.com
                 </a>
               </div>
             </div>
@@ -102,37 +122,42 @@ export default function Footer() {
           {/* Shop Categories */}
           <div>
             <h4 className="text-white text-sm font-semibold tracking-wider uppercase mb-4">
-              Categories
+              {t('footerCategories')}
             </h4>
             <ul className="space-y-2.5 text-xs">
               <li>
                 <Link href="/category/fashion-clothing" className="hover:text-white transition-colors">
-                  Fashion & Clothing
+                  {isBn ? 'পোশাক ও ফ্যাশন' : 'Fashion & Clothing'}
                 </Link>
               </li>
               <li>
                 <Link href="/category/cosmetics-beauty" className="hover:text-white transition-colors">
-                  Cosmetics & Beauty
+                  {isBn ? 'কসমেটিক্স ও বিউটি' : 'Cosmetics & Beauty'}
                 </Link>
               </li>
               <li>
                 <Link href="/category/kids-hairbands-clips" className="hover:text-white transition-colors">
-                  Kids Hair Accessories
+                  {isBn ? 'কিডস হেয়ার ক্লিপ' : 'Kids Hair Accessories'}
                 </Link>
               </li>
               <li>
                 <Link href="/category/scrunchies-hair-accessories" className="hover:text-white transition-colors">
-                  Silk Scrunchies
+                  {isBn ? 'স্ক্রাঞ্চি ও হেয়ার' : 'Silk Scrunchies & Ties'}
                 </Link>
               </li>
               <li>
                 <Link href="/category/jewellery-fashion-accessories" className="hover:text-white transition-colors">
-                  Jewellery & Accessories
+                  {isBn ? 'জুয়েলারি ও গহনা' : 'Artisan Jewellery'}
                 </Link>
               </li>
               <li>
                 <Link href="/category/gifts-lifestyle" className="hover:text-white transition-colors">
-                  Gifts & Candles
+                  {isBn ? 'গিফট ও লাইফস্টাইল' : 'Gifts & Scented Candles'}
+                </Link>
+              </li>
+              <li>
+                <Link href="/category/other-everyday" className="hover:text-white transition-colors">
+                  {isBn ? 'দৈনন্দিন পণ্য' : 'Everyday Products'}
                 </Link>
               </li>
             </ul>
@@ -141,37 +166,37 @@ export default function Footer() {
           {/* Customer Care */}
           <div>
             <h4 className="text-white text-sm font-semibold tracking-wider uppercase mb-4">
-              Customer Care
+              {t('footerCustomerCare')}
             </h4>
             <ul className="space-y-2.5 text-xs">
               <li>
                 <Link href="/track-order" className="hover:text-white transition-colors">
-                  Track Your Order
+                  {t('footerTrackOrder')}
                 </Link>
               </li>
               <li>
-                <Link href="/delivery-policy" className="hover:text-white transition-colors">
-                  Delivery Policy
+                <Link href="/policies/shipping" className="hover:text-white transition-colors">
+                  {t('footerShippingPolicy')}
                 </Link>
               </li>
               <li>
-                <Link href="/return-refund-policy" className="hover:text-white transition-colors">
-                  Return & Exchange
+                <Link href="/policies/return" className="hover:text-white transition-colors">
+                  {t('footerReturnPolicy')}
                 </Link>
               </li>
               <li>
                 <Link href="/faq" className="hover:text-white transition-colors">
-                  FAQs
+                  {isBn ? 'সাধারণ প্রশ্নাবলী (FAQ)' : 'Frequently Asked Questions'}
                 </Link>
               </li>
               <li>
                 <Link href="/contact" className="hover:text-white transition-colors">
-                  Contact Support
+                  {t('footerContactUs')}
                 </Link>
               </li>
               <li>
                 <Link href="/account" className="hover:text-white transition-colors">
-                  My Account
+                  {t('myAccount')}
                 </Link>
               </li>
             </ul>
@@ -180,44 +205,44 @@ export default function Footer() {
           {/* Policies & Legal */}
           <div>
             <h4 className="text-white text-sm font-semibold tracking-wider uppercase mb-4">
-              About & Legal
+              {t('footerPolicies')}
             </h4>
             <ul className="space-y-2.5 text-xs">
               <li>
                 <Link href="/about" className="hover:text-white transition-colors">
-                  About SHOKHORA
+                  {t('footerAboutUs')}
                 </Link>
               </li>
               <li>
-                <Link href="/privacy-policy" className="hover:text-white transition-colors">
-                  Privacy Policy
+                <Link href="/policies/privacy" className="hover:text-white transition-colors">
+                  {t('footerPrivacyPolicy')}
                 </Link>
               </li>
               <li>
-                <Link href="/terms-conditions" className="hover:text-white transition-colors">
-                  Terms & Conditions
+                <Link href="/policies/terms" className="hover:text-white transition-colors">
+                  {t('footerTermsConditions')}
+                </Link>
+              </li>
+              <li>
+                <Link href="/wishlist" className="hover:text-white transition-colors">
+                  {t('wishlist')}
                 </Link>
               </li>
             </ul>
 
             <div className="pt-6">
-              <p className="text-xs text-white font-medium mb-2">Connect With Us</p>
+              <p className="text-xs text-white font-medium mb-2">
+                {isBn ? 'সোশ্যাল মিডিয়ায় যুক্ত থাকুন' : 'Connect With Us'}
+              </p>
               <div className="flex items-center gap-3 text-taupe-400">
                 <a
-                  href="https://facebook.com"
+                  href="https://facebook.com/Shokhora"
                   target="_blank"
                   rel="noreferrer"
                   className="p-2 rounded-full bg-charcoal-900 hover:text-white hover:bg-charcoal-800 transition-colors"
+                  aria-label="Facebook"
                 >
                   <Facebook className="w-4 h-4" />
-                </a>
-                <a
-                  href="https://instagram.com"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="p-2 rounded-full bg-charcoal-900 hover:text-white hover:bg-charcoal-800 transition-colors"
-                >
-                  <Instagram className="w-4 h-4" />
                 </a>
               </div>
             </div>
@@ -226,10 +251,10 @@ export default function Footer() {
 
         {/* Bottom Bar: Payment Methods & Copyright */}
         <div className="pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-taupe-500">
-          <p>© {new Date().getFullYear()} SHOKHORA (শখোরা). All rights reserved.</p>
+          <p>{t('footerCopyright')}</p>
 
           <div className="flex flex-wrap items-center gap-2">
-            <span className="text-[11px] text-taupe-400 mr-1">Accepted Payments:</span>
+            <span className="text-[11px] text-taupe-400 mr-1">{t('footerPaymentPartners')}:</span>
             <span className="px-2 py-0.5 rounded bg-charcoal-900 border border-charcoal-800 text-[11px] text-white font-semibold">
               Cash on Delivery
             </span>
@@ -238,9 +263,6 @@ export default function Footer() {
             </span>
             <span className="px-2 py-0.5 rounded bg-orange-900/60 border border-orange-700/60 text-[11px] text-orange-200 font-bold">
               Nagad
-            </span>
-            <span className="px-2 py-0.5 rounded bg-blue-900/50 border border-blue-700/50 text-[11px] text-blue-200 font-semibold">
-              Visa / Mastercard
             </span>
           </div>
         </div>

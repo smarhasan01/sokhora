@@ -5,13 +5,14 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
+import AccountNav from '@/components/account/AccountNav';
 import InvoiceView from '@/components/invoice/InvoiceView';
 import { useAuth } from '@/lib/context/AuthContext';
-import { getOrders, getSettings } from '@/lib/db/store';
+import { useLanguage } from '@/lib/context/LanguageContext';
+import { getOrders } from '@/lib/db/store';
 import { Order } from '@/types';
-import { formatPrice, formatDate } from '@/lib/utils/formatters';
+import { formatDate } from '@/lib/utils/formatters';
 import {
-  User,
   ShoppingBag,
   FileText,
   LogOut,
@@ -20,30 +21,27 @@ import {
   Clock,
   AlertTriangle,
   ChevronRight,
+  ArrowRight,
+  PackageCheck,
 } from 'lucide-react';
 
 export default function AccountPage() {
   const router = useRouter();
-  const { user, logout, isAdmin } = useAuth();
+  const { user, logout } = useAuth();
+  const { isBn, t, formatPrice, formatNumber } = useLanguage();
   const [selectedOrderForInvoice, setSelectedOrderForInvoice] = useState<Order | null>(null);
 
-  // If user is not logged in, redirect to login
-  if (!user) {
-    if (typeof window !== 'undefined') {
-      router.push('/login');
-    }
-    return null;
-  }
-
+  // If user is not logged in, show customer guest preview with login prompt
   const allOrders = getOrders();
-  // Filter customer orders by userId or customer email/phone, or show relevant orders
-  const customerOrders = allOrders.filter(
-    (o) =>
-      o.userId === user.uid ||
-      (user.email && o.customer.email?.toLowerCase() === user.email.toLowerCase()) ||
-      (user.phone && o.customer.phone === user.phone) ||
-      allOrders.indexOf(o) < 3 // fallback to show recent orders for demo preview
-  );
+  const customerOrders = user
+    ? allOrders.filter(
+        (o) =>
+          o.userId === user.uid ||
+          (user.email && o.customer.email?.toLowerCase() === user.email.toLowerCase()) ||
+          (user.phone && o.customer.phone === user.phone) ||
+          allOrders.indexOf(o) < 3
+      )
+    : allOrders.slice(0, 2);
 
   const handleLogout = async () => {
     await logout();
@@ -57,150 +55,183 @@ export default function AccountPage() {
       <main className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full">
         {/* Breadcrumb */}
         <nav className="flex items-center gap-1.5 text-xs text-charcoal-500 mb-6">
-          <Link href="/" className="hover:text-charcoal-900">Home</Link>
+          <Link href="/" className="hover:text-charcoal-900">{t('navHome')}</Link>
           <ChevronRight className="w-3.5 h-3.5 text-taupe-400" />
-          <span className="text-charcoal-900 font-medium">My Account</span>
+          <span className="text-charcoal-900 font-medium">{t('myAccount')}</span>
         </nav>
 
         {/* Profile Card Header */}
-        <div className="bg-white rounded-3xl p-6 sm:p-8 border border-taupe-200 shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 mb-8">
+        <div className="bg-white rounded-3xl p-6 sm:p-8 border border-taupe-200 shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 mb-6">
           <div className="flex items-center gap-4">
             <div className="w-16 h-16 rounded-2xl bg-charcoal-900 text-white flex items-center justify-center text-xl font-bold font-serif shadow-md">
-              {user.displayName ? user.displayName.charAt(0).toUpperCase() : 'C'}
+              {user?.displayName ? user.displayName.charAt(0).toUpperCase() : 'C'}
             </div>
             <div>
               <h1 className="text-xl sm:text-2xl font-serif font-bold text-charcoal-950">
-                {user.displayName || 'Valued Customer'}
+                {user?.displayName || (isBn ? 'সম্মানিত গ্রাহক' : 'Valued Customer')}
               </h1>
-              <p className="text-xs text-charcoal-500 mt-0.5">{user.email || 'customer@shokhora.com'}</p>
+              <p className="text-xs text-charcoal-500 mt-0.5">
+                {user?.email || (isBn ? 'লগইন করুন আপনার প্রোফাইল অ্যাক্সেস করতে' : 'customer@shokhora.com')}
+              </p>
+              {user?.phone && <p className="text-xs text-taupe-600 font-mono mt-0.5">{user.phone}</p>}
             </div>
           </div>
 
           <div className="flex flex-wrap items-center gap-2.5">
-            <button
-              onClick={handleLogout}
-              className="inline-flex items-center gap-1.5 px-4 py-2 bg-taupe-100 hover:bg-taupe-200 text-charcoal-800 rounded-xl text-xs font-semibold transition-colors"
-            >
-              <LogOut className="w-3.5 h-3.5" /> Sign Out
-            </button>
+            {user ? (
+              <button
+                onClick={handleLogout}
+                className="inline-flex items-center gap-1.5 px-4 py-2 bg-taupe-100 hover:bg-taupe-200 text-charcoal-800 rounded-xl text-xs font-semibold transition-colors"
+              >
+                <LogOut className="w-3.5 h-3.5" /> {t('logout')}
+              </button>
+            ) : (
+              <Link
+                href="/login"
+                className="inline-flex items-center gap-1.5 px-5 py-2.5 bg-charcoal-900 hover:bg-charcoal-800 text-white rounded-xl text-xs font-semibold transition-colors shadow-sm"
+              >
+                <span>{t('signIn')}</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
+            )}
           </div>
         </div>
 
+        {/* Account Sub-navigation Tabs */}
+        <AccountNav />
+
         {/* Invoice Modal Overlay if open */}
         {selectedOrderForInvoice && (
-          <div className="fixed inset-0 z-50 overflow-y-auto bg-charcoal-950/70 backdrop-blur-sm p-4 flex items-center justify-center">
-            <div className="w-full max-w-4xl bg-white rounded-3xl p-6 max-h-[90vh] overflow-y-auto shadow-2xl">
-              <InvoiceView
-                order={selectedOrderForInvoice}
-                settings={getSettings()}
-                onBack={() => setSelectedOrderForInvoice(null)}
-              />
+          <div className="fixed inset-0 z-50 bg-charcoal-950/70 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
+            <div className="relative w-full max-w-3xl my-8">
+              <button
+                onClick={() => setSelectedOrderForInvoice(null)}
+                className="absolute top-4 right-4 z-10 p-2 rounded-full bg-white text-charcoal-900 shadow-lg hover:bg-taupe-100 text-xs font-bold"
+              >
+                ✕ Close
+              </button>
+              <InvoiceView order={selectedOrderForInvoice} />
             </div>
           </div>
         )}
 
-        {/* Order History Section */}
-        <div className="bg-white rounded-3xl p-6 sm:p-8 border border-taupe-200 shadow-sm space-y-6">
-          <div className="flex items-center justify-between pb-4 border-b border-taupe-200">
+        {/* Overview Stats Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-8">
+          <div className="bg-white p-6 rounded-2xl border border-taupe-200 shadow-sm flex items-center gap-4">
+            <div className="w-12 h-12 rounded-xl bg-sage-50 text-sage-700 flex items-center justify-center">
+              <ShoppingBag className="w-6 h-6" />
+            </div>
             <div>
-              <h2 className="text-lg font-serif font-bold text-charcoal-950 flex items-center gap-2">
-                <ShoppingBag className="w-5 h-5 text-sage-600" />
-                Order History & Receipts
-              </h2>
-              <p className="text-xs text-charcoal-500 mt-0.5">
-                View your past purchases, verify delivery status, and reprint official money receipts.
+              <p className="text-xs text-taupe-500 font-medium uppercase tracking-wider">
+                {isBn ? 'মোট অর্ডার' : 'Total Orders'}
+              </p>
+              <p className="text-xl font-bold font-mono text-charcoal-900">
+                {formatNumber(customerOrders.length)}
               </p>
             </div>
           </div>
 
+          <div className="bg-white p-6 rounded-2xl border border-taupe-200 shadow-sm flex items-center gap-4">
+            <div className="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center">
+              <Truck className="w-6 h-6" />
+            </div>
+            <div>
+              <p className="text-xs text-taupe-500 font-medium uppercase tracking-wider">
+                {isBn ? 'ডেলিভারি সম্পন্ন' : 'Delivered'}
+              </p>
+              <p className="text-xl font-bold font-mono text-charcoal-900">
+                {formatNumber(customerOrders.filter((o) => o.orderStatus === 'Delivered').length)}
+              </p>
+            </div>
+          </div>
+
+          <div className="bg-white p-6 rounded-2xl border border-taupe-200 shadow-sm flex items-center gap-4">
+            <div className="w-12 h-12 rounded-xl bg-amber-50 text-amber-700 flex items-center justify-center">
+              <Clock className="w-6 h-6" />
+            </div>
+            <div>
+              <p className="text-xs text-taupe-500 font-medium uppercase tracking-wider">
+                {isBn ? 'প্রসেসিং অর্ডার' : 'Pending / Active'}
+              </p>
+              <p className="text-xl font-bold font-mono text-charcoal-900">
+                {formatNumber(customerOrders.filter((o) => o.orderStatus !== 'Delivered' && o.orderStatus !== 'Cancelled').length)}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Recent Orders Table */}
+        <div className="bg-white rounded-3xl p-6 sm:p-8 border border-taupe-200 shadow-sm space-y-6">
+          <div className="flex items-center justify-between pb-4 border-b border-taupe-200">
+            <div>
+              <h2 className="text-base sm:text-lg font-serif font-bold text-charcoal-950">
+                {t('recentOrders')}
+              </h2>
+              <p className="text-xs text-taupe-600 mt-0.5">
+                {isBn ? 'আপনার পূর্বের অর্ডার এবং মানি রিসিট দেখুন' : 'View recent purchases and download verified receipts'}
+              </p>
+            </div>
+            <Link
+              href="/account/orders"
+              className="text-xs font-semibold text-charcoal-800 hover:text-charcoal-950 flex items-center gap-1"
+            >
+              <span>{t('viewAllOrders')}</span>
+              <ChevronRight className="w-3.5 h-3.5" />
+            </Link>
+          </div>
+
           {customerOrders.length === 0 ? (
-            <div className="py-12 text-center space-y-3">
-              <p className="text-xs text-charcoal-500">You haven't placed any orders yet.</p>
+            <div className="text-center py-12 space-y-3">
+              <PackageCheck className="w-12 h-12 text-taupe-300 mx-auto" />
+              <h3 className="text-sm font-semibold text-charcoal-800">{t('noOrdersYet')}</h3>
+              <p className="text-xs text-charcoal-500 max-w-sm mx-auto">
+                {isBn ? 'আমাদের কালেকশন ব্রাউজ করে প্রথম অর্ডার করুন।' : 'Start browsing our lifestyle collections to place your first order.'}
+              </p>
               <Link
                 href="/shop"
-                className="inline-block px-5 py-2.5 bg-charcoal-950 text-white rounded-full text-xs font-semibold"
+                className="inline-block px-5 py-2 bg-charcoal-900 text-white rounded-full text-xs font-medium hover:bg-charcoal-800 mt-2"
               >
-                Start Shopping
+                {t('shopNow')}
               </Link>
             </div>
           ) : (
-            <div className="overflow-x-auto">
-              <table className="w-full text-left text-xs">
-                <thead>
-                  <tr className="border-b border-taupe-200 uppercase tracking-wider text-charcoal-400 font-semibold">
-                    <th className="py-3 px-3">Order ID</th>
-                    <th className="py-3 px-3">Date</th>
-                    <th className="py-3 px-3">Items</th>
-                    <th className="py-3 px-3">Total</th>
-                    <th className="py-3 px-3">Order Status</th>
-                    <th className="py-3 px-3">Payment</th>
-                    <th className="py-3 px-3 text-right">Actions</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-taupe-100">
-                  {customerOrders.map((ord) => (
-                    <tr key={ord.id} className="hover:bg-taupe-50/60 transition-colors">
-                      <td className="py-4 px-3 font-mono font-bold text-charcoal-900">
-                        {ord.id}
-                        <p className="text-[10px] text-charcoal-400 font-normal font-sans">
-                          {ord.invoiceNumber}
-                        </p>
-                      </td>
-                      <td className="py-4 px-3 text-charcoal-600 whitespace-nowrap">
-                        {formatDate(ord.createdAt)}
-                      </td>
-                      <td className="py-4 px-3 max-w-[200px]">
-                        <p className="font-medium text-charcoal-900 truncate">
-                          {ord.items.map((i) => i.name).join(', ')}
-                        </p>
-                        <p className="text-[11px] text-charcoal-400">
-                          {ord.items.length} {ord.items.length === 1 ? 'item' : 'items'}
-                        </p>
-                      </td>
-                      <td className="py-4 px-3 font-mono font-bold text-charcoal-950 whitespace-nowrap">
-                        {formatPrice(ord.total)}
-                      </td>
-                      <td className="py-4 px-3 whitespace-nowrap">
-                        <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-charcoal-100 text-charcoal-800">
-                          {ord.orderStatus}
-                        </span>
-                      </td>
-                      <td className="py-4 px-3 whitespace-nowrap">
-                        <span
-                          className={`px-2.5 py-1 rounded-full text-[10px] font-bold ${
-                            ord.paymentStatus === 'Paid'
-                              ? 'bg-emerald-100 text-emerald-800'
-                              : 'bg-rose-100 text-rose-800'
-                          }`}
-                        >
-                          {ord.paymentStatus}
-                        </span>
-                      </td>
-                      <td className="py-4 px-3 text-right whitespace-nowrap">
-                        <div className="flex items-center justify-end gap-2">
-                          <button
-                            onClick={() => setSelectedOrderForInvoice(ord)}
-                            className="p-1.5 rounded-lg border border-taupe-200 bg-white hover:bg-taupe-100 text-charcoal-700 flex items-center gap-1 text-[11px] font-medium"
-                            title="View Money Receipt"
-                          >
-                            <FileText className="w-3.5 h-3.5 text-sage-600" />
-                            <span>Receipt</span>
-                          </button>
+            <div className="divide-y divide-taupe-100">
+              {customerOrders.slice(0, 3).map((order) => (
+                <div key={order.id} className="py-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <span className="font-mono font-bold text-sm text-charcoal-900">{order.id}</span>
+                      <span
+                        className={`text-[10px] font-semibold px-2 py-0.5 rounded-full ${
+                          order.orderStatus === 'Delivered'
+                            ? 'bg-emerald-100 text-emerald-800'
+                            : order.orderStatus === 'Pending'
+                            ? 'bg-amber-100 text-amber-800'
+                            : 'bg-blue-100 text-blue-800'
+                        }`}
+                      >
+                        {order.orderStatus}
+                      </span>
+                    </div>
+                    <p className="text-xs text-charcoal-500 mt-1">
+                      {formatDate(order.createdAt)} • {formatNumber(order.items.length)} {t('items')} • {order.customer.district}
+                    </p>
+                  </div>
 
-                          <Link
-                            href={`/track-order?orderId=${ord.id}&phone=${ord.customer.phone}`}
-                            className="p-1.5 rounded-lg border border-taupe-200 bg-white hover:bg-taupe-100 text-charcoal-700 flex items-center gap-1 text-[11px] font-medium"
-                            title="Track delivery status"
-                          >
-                            <Truck className="w-3.5 h-3.5 text-charcoal-500" />
-                            <span>Track</span>
-                          </Link>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+                  <div className="flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-end">
+                    <span className="font-mono font-bold text-sm text-charcoal-950">
+                      {formatPrice(order.total)}
+                    </span>
+                    <button
+                      onClick={() => setSelectedOrderForInvoice(order)}
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-taupe-300 text-xs font-semibold text-charcoal-700 hover:bg-taupe-50"
+                    >
+                      <FileText className="w-3.5 h-3.5 text-sage-600" />
+                      <span>{isBn ? 'রিসিট দেখুন' : 'View Receipt'}</span>
+                    </button>
+                  </div>
+                </div>
+              ))}
             </div>
           )}
         </div>

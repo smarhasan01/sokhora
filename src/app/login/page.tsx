@@ -7,18 +7,18 @@ import Image from 'next/image';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import { useAuth } from '@/lib/context/AuthContext';
-import { Lock, Mail, ArrowRight, CheckCircle2, HelpCircle } from 'lucide-react';
+import { useLanguage } from '@/lib/context/LanguageContext';
+import { Lock, Mail, ArrowRight, ShieldCheck } from 'lucide-react';
 
 export default function LoginPage() {
   const router = useRouter();
   const { login } = useAuth();
+  const { isBn, t } = useLanguage();
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
-  const [forgotModalOpen, setForgotModalOpen] = useState(false);
-  const [forgotEmail, setForgotEmail] = useState('');
-  const [forgotSent, setForgotSent] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -31,19 +31,7 @@ export default function LoginPage() {
     if (res.success) {
       router.push('/account');
     } else {
-      setError(res.error || 'Invalid email or password.');
-    }
-  };
-
-  const handleForgotSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (forgotEmail.trim()) {
-      setForgotSent(true);
-      setTimeout(() => {
-        setForgotSent(false);
-        setForgotModalOpen(false);
-        setForgotEmail('');
-      }, 3000);
+      setError(res.error || (isBn ? 'ইমেইল বা পাসওয়ার্ড সঠিক নয়।' : 'Invalid email or password.'));
     }
   };
 
@@ -63,9 +51,13 @@ export default function LoginPage() {
                 className="object-contain"
               />
             </div>
-            <h1 className="text-2xl font-serif font-bold text-charcoal-950">Customer Sign In</h1>
+            <h1 className="text-2xl font-serif font-bold text-charcoal-950">
+              {isBn ? 'গ্রাহক লগইন' : 'Customer Sign In'}
+            </h1>
             <p className="text-xs text-charcoal-500 max-w-xs mx-auto">
-              Sign in to view your past orders, delivery tracking, and saved addresses.
+              {isBn
+                ? 'আপনার অর্ডার হিস্ট্রি, ডেলিভারি ট্র্যাকিং এবং সংরক্ষিত ঠিকানা দেখতে সাইন ইন করুন।'
+                : 'Sign in to view your past orders, delivery tracking, and saved addresses.'}
             </p>
           </div>
 
@@ -78,7 +70,7 @@ export default function LoginPage() {
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label className="block text-xs font-semibold text-charcoal-700 uppercase tracking-wider mb-1.5">
-                Email Address
+                {isBn ? 'ইমেইল অ্যাড্রেস' : 'Email Address'}
               </label>
               <div className="relative">
                 <input
@@ -96,15 +88,14 @@ export default function LoginPage() {
             <div>
               <div className="flex justify-between items-center mb-1.5">
                 <label className="text-xs font-semibold text-charcoal-700 uppercase tracking-wider">
-                  Password
+                  {isBn ? 'পাসওয়ার্ড' : 'Password'}
                 </label>
-                <button
-                  type="button"
-                  onClick={() => setForgotModalOpen(true)}
+                <Link
+                  href="/forgot-password"
                   className="text-[11px] text-terracotta-600 hover:text-terracotta-700 hover:underline font-medium"
                 >
-                  Forgot password?
-                </button>
+                  {isBn ? 'পাসওয়ার্ড ভুলে গেছেন?' : 'Forgot password?'}
+                </Link>
               </div>
               <div className="relative">
                 <input
@@ -124,7 +115,7 @@ export default function LoginPage() {
               disabled={loading}
               className="w-full py-3.5 px-4 rounded-xl bg-charcoal-950 hover:bg-charcoal-900 text-white text-xs sm:text-sm font-semibold transition-all shadow-sm flex items-center justify-center gap-2 disabled:opacity-50"
             >
-              {loading ? 'Verifying...' : 'Sign In to My Account'}{' '}
+              <span>{loading ? (isBn ? 'যাচাই করা হচ্ছে...' : 'Verifying...') : (isBn ? 'লগইন করুন' : 'Sign In')}</span>
               <ArrowRight className="w-4 h-4" />
             </button>
           </form>
@@ -132,71 +123,22 @@ export default function LoginPage() {
           {/* Registration Link for Customers */}
           <div className="pt-4 border-t border-taupe-200 text-center">
             <p className="text-xs text-charcoal-600">
-              Don&apos;t have a customer account?{' '}
+              {isBn ? 'কোনো কাস্টমার অ্যাকাউন্ট নেই?' : "Don't have a customer account?"}{' '}
               <Link
                 href="/register"
                 className="font-bold text-charcoal-900 hover:text-terracotta-600 underline transition-colors"
               >
-                Create Account
+                {isBn ? 'অ্যাকাউন্ট খুলুন' : 'Create Account'}
               </Link>
             </p>
           </div>
-        </div>
-      </main>
 
-      {/* Forgot Password Modal */}
-      {forgotModalOpen && (
-        <div className="fixed inset-0 z-50 bg-charcoal-950/60 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-white rounded-3xl max-w-md w-full p-6 sm:p-8 space-y-4 shadow-2xl border border-taupe-200 animate-in fade-in zoom-in-95 duration-200">
-            <div className="flex items-center justify-between">
-              <h3 className="text-lg font-serif font-bold text-charcoal-950">Reset Password</h3>
-              <button
-                onClick={() => setForgotModalOpen(false)}
-                className="text-charcoal-400 hover:text-charcoal-700 text-sm font-semibold"
-              >
-                ✕
-              </button>
-            </div>
-
-            <p className="text-xs text-charcoal-500 leading-relaxed">
-              Enter the email address registered with your SHOKHORA customer account. We will send you instructions to reset your password.
-            </p>
-
-            {forgotSent ? (
-              <div className="p-4 bg-emerald-50 border border-emerald-200 rounded-2xl flex items-center gap-3 text-emerald-800 text-xs">
-                <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0" />
-                <span>Password reset link has been dispatched to {forgotEmail}. Please check your inbox.</span>
-              </div>
-            ) : (
-              <form onSubmit={handleForgotSubmit} className="space-y-4">
-                <input
-                  type="email"
-                  required
-                  placeholder="Enter your customer email"
-                  value={forgotEmail}
-                  onChange={(e) => setForgotEmail(e.target.value)}
-                  className="w-full px-4 py-2.5 rounded-xl border border-taupe-300 text-xs focus:ring-2 focus:ring-charcoal-900 focus:outline-none"
-                />
-                <div className="flex gap-2">
-                  <button
-                    type="button"
-                    onClick={() => setForgotModalOpen(false)}
-                    className="flex-1 py-2.5 rounded-xl border border-taupe-300 text-xs font-semibold text-charcoal-700 hover:bg-taupe-50"
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    type="submit"
-                    className="flex-1 py-2.5 rounded-xl bg-charcoal-950 text-white text-xs font-semibold hover:bg-charcoal-900"
-                  >
-                    Send Reset Link
-                  </button>
-                </div>
-              </form>
-            )}
+          <div className="pt-2 flex items-center justify-center gap-1.5 text-[11px] text-taupe-500">
+            <ShieldCheck className="w-3.5 h-3.5 text-sage-600" />
+            <span>{isBn ? 'সুরক্ষিত গ্রাহক অ্যাকাউন্ট পোর্টাল' : 'Secure Customer Account Portal'}</span>
           </div>
         </div>
-      )}
+      </main>
 
       <Footer />
     </div>

@@ -1,27 +1,32 @@
+'use client';
+
 import React from 'react';
-import { Truck, ShieldCheck, RefreshCw, Headphones, Heart, Award } from 'lucide-react';
+import { useLanguage } from '@/lib/context/LanguageContext';
+import { Truck, ShieldCheck, RefreshCw, Headphones, Heart, Sparkles } from 'lucide-react';
 
 export default function CustomerBenefits() {
+  const { isBn, t } = useLanguage();
+
   const benefits = [
     {
       icon: Truck,
-      title: 'Nationwide Delivery',
-      desc: 'Prompt courier delivery to all 64 districts in Bangladesh within 24-72 hours.',
+      title: t('whyDeliveryTitle'),
+      desc: t('whyDeliveryDesc'),
     },
     {
       icon: ShieldCheck,
-      title: '100% Genuine Quality',
-      desc: 'Hand-inspected mulberry silk, authentic Khadi linen, and skin-safe cosmetics.',
+      title: t('whyQualityTitle'),
+      desc: t('whyQualityDesc'),
     },
     {
       icon: RefreshCw,
-      title: 'Hassle-Free 7 Days Exchange',
-      desc: 'Simple exchange process if you wish to adjust size or color.',
+      title: t('whyExchangeTitle'),
+      desc: t('whyExchangeDesc'),
     },
     {
       icon: Headphones,
-      title: 'Dedicated Local Support',
-      desc: 'Direct phone & WhatsApp customer assistance from 9 AM to 10 PM daily.',
+      title: t('whyPaymentTitle'),
+      desc: t('whyPaymentDesc'),
     },
   ];
 
@@ -30,17 +35,17 @@ export default function CustomerBenefits() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-xl mx-auto mb-12">
           <p className="text-xs uppercase font-bold tracking-wider text-sage-600 mb-1">
-            Why Choose Shokhora
+            {isBn ? 'শখোরা ব্র্যান্ড ভ্যালু' : 'Brand Story & Values'}
           </p>
           <h2 className="text-2xl sm:text-3xl font-serif font-bold text-charcoal-950">
-            Crafted with Care & Passion
+            {t('whyTitle')}
           </h2>
-          <p className="text-xs text-taupe-600 font-bengali mt-1">
-            বিশ্বাস ও ভালোবাসার মেলবন্ধন
+          <p className="text-xs text-taupe-600 mt-1 max-w-md mx-auto">
+            {t('whySubtitle')}
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
           {benefits.map((b, idx) => {
             const Icon = b.icon;
             return (

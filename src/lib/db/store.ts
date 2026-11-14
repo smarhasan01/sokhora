@@ -10,6 +10,7 @@ import {
   OrderStatus,
   PaymentStatus,
   AdminMember,
+  Brand,
 } from '@/types';
 import {
   initialCategories,
@@ -18,6 +19,7 @@ import {
   initialOrders,
   initialSettings,
   initialAdminTeam,
+  initialBrands,
 } from './mock-data';
 import { generateOrderId, generateInvoiceNumber } from '@/lib/utils/formatters';
 
@@ -29,6 +31,7 @@ const STORAGE_KEYS = {
   SETTINGS: 'shokhora_settings_v2',
   INVENTORY: 'shokhora_inventory_v2',
   ADMIN_TEAM: 'shokhora_admin_team_v2',
+  BRANDS: 'shokhora_brands_v2',
 };
 
 // Helper for LocalStorage
@@ -154,6 +157,17 @@ export function deleteCategory(id: string): boolean {
     return true;
   }
   return false;
+}
+
+// ---------------- BRANDS ----------------
+
+export function getBrands(): Brand[] {
+  return getFromStorage<Brand[]>(STORAGE_KEYS.BRANDS, initialBrands);
+}
+
+export function getBrandBySlug(slug: string): Brand | undefined {
+  const brands = getBrands();
+  return brands.find((b) => b.slug === slug);
 }
 
 // ---------------- ORDERS & TRANSACTIONS ----------------

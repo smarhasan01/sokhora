@@ -7,11 +7,14 @@ import Image from 'next/image';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import { useAuth } from '@/lib/context/AuthContext';
-import { Lock, Mail, User, Phone, ArrowRight } from 'lucide-react';
+import { useLanguage } from '@/lib/context/LanguageContext';
+import { Lock, Mail, User, Phone, ArrowRight, ShieldCheck } from 'lucide-react';
 
 export default function RegisterPage() {
   const router = useRouter();
   const { register } = useAuth();
+  const { isBn, t } = useLanguage();
+
   const [fullName, setFullName] = useState('');
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
@@ -25,23 +28,24 @@ export default function RegisterPage() {
     setError(null);
 
     if (password !== confirmPassword) {
-      setError('Passwords do not match');
+      setError(isBn ? 'পাসওয়ার্ড দুটি মেলেনি।' : 'Passwords do not match');
       return;
     }
 
     if (password.length < 6) {
-      setError('Password must be at least 6 characters');
+      setError(isBn ? 'পাসওয়ার্ড কমপক্ষে ৬ অক্ষরের হতে হবে।' : 'Password must be at least 6 characters');
       return;
     }
 
     setLoading(true);
+    // Public registration always assigns customer role
     const res = await register(email, password, fullName, phone);
     setLoading(false);
 
     if (res.success) {
       router.push('/account');
     } else {
-      setError(res.error || 'Failed to create account.');
+      setError(res.error || (isBn ? 'অ্যাকাউন্ট তৈরি করা যায়নি।' : 'Failed to create customer account.'));
     }
   };
 
@@ -55,9 +59,13 @@ export default function RegisterPage() {
             <div className="relative w-40 h-12 mx-auto">
               <Image src="/images/Logo-01.png" alt="SHOKHORA" fill priority className="object-contain" />
             </div>
-            <h1 className="text-xl font-serif font-bold text-charcoal-950">Create an Account</h1>
+            <h1 className="text-xl font-serif font-bold text-charcoal-950">
+              {isBn ? 'কাস্টমার অ্যাকাউন্ট খুলুন' : 'Create Customer Account'}
+            </h1>
             <p className="text-xs text-charcoal-500">
-              Join SHOKHORA to easily track orders, save shipping details, and access member perks.
+              {isBn
+                ? 'অর্ডার ট্র্যাকিং ও দ্রুত ডেলিভারির জন্য আপনার তথ্য দিয়ে অ্যাকাউন্ট তৈরি করুন।'
+                : 'Join SHOKHORA to easily track orders, save shipping details, and access member perks.'}
             </p>
           </div>
 
@@ -70,7 +78,7 @@ export default function RegisterPage() {
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label className="block text-xs font-semibold text-charcoal-700 uppercase tracking-wider mb-1">
-                Full Name *
+                {t('fullName')} *
               </label>
               <div className="relative">
                 <input
@@ -87,13 +95,13 @@ export default function RegisterPage() {
 
             <div>
               <label className="block text-xs font-semibold text-charcoal-700 uppercase tracking-wider mb-1">
-                Mobile Number *
+                {t('phoneNumber')} *
               </label>
               <div className="relative">
                 <input
                   type="tel"
                   required
-                  placeholder="017XXXXXXXX"
+                  placeholder="01XXXXXXXXX"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
                   className="w-full pl-9 pr-3.5 py-2.5 rounded-xl border border-taupe-300 text-xs font-mono focus:ring-1 focus:ring-charcoal-800 focus:outline-none"
@@ -104,13 +112,13 @@ export default function RegisterPage() {
 
             <div>
               <label className="block text-xs font-semibold text-charcoal-700 uppercase tracking-wider mb-1">
-                Email Address *
+                {isBn ? 'ইমেইল অ্যাড্রেস *' : 'Email Address *'}
               </label>
               <div className="relative">
                 <input
                   type="email"
                   required
-                  placeholder="your.email@example.com"
+                  placeholder="name@example.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="w-full pl-9 pr-3.5 py-2.5 rounded-xl border border-taupe-300 text-xs focus:ring-1 focus:ring-charcoal-800 focus:outline-none"
@@ -121,13 +129,13 @@ export default function RegisterPage() {
 
             <div>
               <label className="block text-xs font-semibold text-charcoal-700 uppercase tracking-wider mb-1">
-                Password *
+                {isBn ? 'পাসওয়ার্ড (কমপক্ষে ৬ অক্ষর) *' : 'Password (min. 6 characters) *'}
               </label>
               <div className="relative">
                 <input
                   type="password"
                   required
-                  placeholder="At least 6 characters"
+                  placeholder="••••••••"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   className="w-full pl-9 pr-3.5 py-2.5 rounded-xl border border-taupe-300 text-xs focus:ring-1 focus:ring-charcoal-800 focus:outline-none"
@@ -138,13 +146,13 @@ export default function RegisterPage() {
 
             <div>
               <label className="block text-xs font-semibold text-charcoal-700 uppercase tracking-wider mb-1">
-                Confirm Password *
+                {isBn ? 'পাসওয়ার্ড নিশ্চিত করুন *' : 'Confirm Password *'}
               </label>
               <div className="relative">
                 <input
                   type="password"
                   required
-                  placeholder="Re-type password"
+                  placeholder="••••••••"
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   className="w-full pl-9 pr-3.5 py-2.5 rounded-xl border border-taupe-300 text-xs focus:ring-1 focus:ring-charcoal-800 focus:outline-none"
@@ -156,17 +164,28 @@ export default function RegisterPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3 px-4 rounded-xl bg-charcoal-950 hover:bg-charcoal-900 text-white text-xs font-semibold transition-all shadow-sm flex items-center justify-center gap-2 disabled:opacity-50"
+              className="w-full py-3.5 px-4 rounded-xl bg-charcoal-950 hover:bg-charcoal-900 text-white text-xs font-semibold transition-all shadow-sm flex items-center justify-center gap-2 disabled:opacity-50"
             >
-              {loading ? 'Creating Account...' : 'Complete Registration'} <ArrowRight className="w-4 h-4" />
+              <span>{loading ? (isBn ? 'প্রসেসিং হচ্ছে...' : 'Creating Account...') : (isBn ? 'অ্যাকাউন্ট খুলুন' : 'Register Customer Account')}</span>
+              <ArrowRight className="w-4 h-4" />
             </button>
           </form>
 
-          <div className="text-center text-xs text-charcoal-600">
-            Already have an account?{' '}
-            <Link href="/login" className="font-semibold text-charcoal-950 hover:underline">
-              Sign In
-            </Link>
+          <div className="pt-4 border-t border-taupe-200 text-center">
+            <p className="text-xs text-charcoal-600">
+              {isBn ? 'পূর্বেই অ্যাকাউন্ট খুলেছেন?' : 'Already have an account?'}{' '}
+              <Link
+                href="/login"
+                className="font-bold text-charcoal-900 hover:text-terracotta-600 underline transition-colors"
+              >
+                {isBn ? 'সাইন ইন করুন' : 'Sign In'}
+              </Link>
+            </p>
+          </div>
+
+          <div className="pt-1 flex items-center justify-center gap-1.5 text-[11px] text-taupe-500">
+            <ShieldCheck className="w-3.5 h-3.5 text-sage-600" />
+            <span>{isBn ? 'কাস্টমার প্রোফাইল ডেটা সুরক্ষিত' : 'Secure Customer Account Data'}</span>
           </div>
         </div>
       </main>

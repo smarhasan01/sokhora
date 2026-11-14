@@ -1,3 +1,16 @@
+export type Language = 'en' | 'bn';
+
+export interface Brand {
+  id: string;
+  name: string;
+  nameBn: string;
+  slug: string;
+  isOwnBrand: boolean; // true for 'SHOKHORA Originals', false for partner brand
+  description?: string;
+  descriptionBn?: string;
+  itemCount?: number;
+}
+
 export type ProductCategory =
   | 'fashion-clothing'
   | 'cosmetics-beauty'
@@ -39,6 +52,8 @@ export interface Product {
   discountPrice?: number;
   sku: string;
   category: ProductCategory | string;
+  brand?: string;
+  brandBn?: string;
   stock: number;
   images: string[];
   variations?: {

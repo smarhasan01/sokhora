@@ -7,9 +7,9 @@ import { useRouter } from 'next/navigation';
 import { useCart } from '@/lib/context/CartContext';
 import { useAuth } from '@/lib/context/AuthContext';
 import { useWishlist } from '@/lib/context/WishlistContext';
+import { useLanguage } from '@/lib/context/LanguageContext';
 import { getProducts } from '@/lib/db/store';
 import { Product } from '@/types';
-import { formatPrice } from '@/lib/utils/formatters';
 import {
   Search,
   ShoppingBag,
@@ -19,19 +19,18 @@ import {
   X,
   Truck,
   Phone,
-  ChevronDown,
-  Sparkles,
+  Globe,
   ArrowRight,
 } from 'lucide-react';
 
 const CATEGORIES = [
-  { name: 'Fashion & Clothing', nameBn: 'পোশাক', slug: 'fashion-clothing' },
-  { name: 'Cosmetics & Beauty', nameBn: 'প্রসাধনী', slug: 'cosmetics-beauty' },
-  { name: 'Kids Hair Clips', nameBn: 'কিডস হেয়ার ক্লিপ', slug: 'kids-hairbands-clips' },
-  { name: 'Scrunchies & Hair', nameBn: 'স্ক্রাঞ্চি', slug: 'scrunchies-hair-accessories' },
-  { name: 'Jewellery', nameBn: 'জুয়েলারি', slug: 'jewellery-fashion-accessories' },
-  { name: 'Gifts & Lifestyle', nameBn: 'উপহার', slug: 'gifts-lifestyle' },
-  { name: 'Everyday Products', nameBn: 'নিত্যপণ্য', slug: 'other-everyday' },
+  { name: 'Fashion & Clothing', nameBn: 'পোশাক ও ফ্যাশন', slug: 'fashion-clothing' },
+  { name: 'Cosmetics & Beauty', nameBn: 'কসমেটিক্স ও বিউটি', slug: 'cosmetics-beauty' },
+  { name: 'Kids Hair Accessories', nameBn: 'কিডস হেয়ার ক্লিপ', slug: 'kids-hairbands-clips' },
+  { name: 'Hair Accessories', nameBn: 'স্ক্রাঞ্চি ও হেয়ার', slug: 'scrunchies-hair-accessories' },
+  { name: 'Jewellery', nameBn: 'জুয়েলারি ও গহনা', slug: 'jewellery-fashion-accessories' },
+  { name: 'Gifts & Lifestyle', nameBn: 'গিফট ও লাইফস্টাইল', slug: 'gifts-lifestyle' },
+  { name: 'Everyday Products', nameBn: 'দৈনন্দিন পণ্য', slug: 'other-everyday' },
 ];
 
 export default function Header() {
@@ -39,17 +38,17 @@ export default function Header() {
   const { itemCount, setIsCartOpen } = useCart();
   const { user } = useAuth();
   const { wishlistCount } = useWishlist();
+  const { language, setLanguage, isBn, t, formatPrice } = useLanguage();
 
   const [searchQuery, setSearchQuery] = useState('');
   const [suggestions, setSuggestions] = useState<Product[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [allProducts, setAllProducts] = useState<Product[]>([]);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [categoryDropdownOpen, setCategoryDropdownOpen] = useState(false);
 
   const searchContainerRef = useRef<HTMLDivElement>(null);
 
-  // Load products for live instant search suggestions
+  // Load products for live search suggestions
   useEffect(() => {
     setAllProducts(getProducts());
   }, []);
@@ -63,8 +62,9 @@ export default function Header() {
           (p) =>
             p.name.toLowerCase().includes(q) ||
             (p.nameBn && p.nameBn.includes(q)) ||
+            (p.brand && p.brand.toLowerCase().includes(q)) ||
             p.category.toLowerCase().includes(q) ||
-            p.tags?.some((t) => t.toLowerCase().includes(q))
+            p.tags?.some((tag) => tag.toLowerCase().includes(q))
         )
         .slice(0, 5);
       setSuggestions(matches);
@@ -93,7 +93,7 @@ export default function Header() {
     e.preventDefault();
     if (searchQuery.trim()) {
       setShowSuggestions(false);
-      router.push(`/shop?q=${encodeURIComponent(searchQuery.trim())}`);
+      router.push(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
       setMobileMenuOpen(false);
     }
   };
@@ -102,32 +102,62 @@ export default function Header() {
     <header className="sticky top-0 z-40 bg-white/98 backdrop-blur-md border-b border-taupe-200/90 shadow-[0_2px_12px_rgba(0,0,0,0.03)] transition-all">
       {/* 1. Slim Announcement Bar */}
       <div className="bg-charcoal-950 text-ivory-100 text-xs py-2 px-4 border-b border-charcoal-800">
-        <div className="max-w-7xl mx-auto flex justify-between items-center">
-          <div className="flex items-center gap-2 tracking-wide font-normal">
+        <div className="max-w-7xl mx-auto flex justify-between items-center gap-2">
+          <div className="flex items-center gap-2 tracking-wide font-normal truncate">
             <Truck className="w-3.5 h-3.5 text-sage-400 shrink-0" />
             <span className="hidden sm:inline">
-              Delivery across Bangladesh &bull; FREE home delivery on orders over ৳2,000 &bull; Use code:{' '}
-              <span className="font-bold text-amber-300 tracking-wider">SHOKHORA10</span> for 10% off
+              {t('freeShippingBar')} &bull;{' '}
+              {isBn ? '১০% বিশেষ ছাড়ে কোড:' : 'Use code:'}{' '}
+              <span className="font-bold text-amber-300 tracking-wider">SHOKHORA10</span>
             </span>
-            <span className="sm:hidden font-medium text-[11px]">
-              Free delivery over ৳2,000 | Code: <strong className="text-amber-300">SHOKHORA10</strong>
+            <span className="sm:hidden font-medium text-[11px] truncate">
+              {isBn ? '৳১,৫০০+ অর্ডারে ফ্রি ডেলিভারি' : 'Free delivery over ৳1,500'} |{' '}
+              <strong className="text-amber-300">SHOKHORA10</strong>
             </span>
           </div>
 
-          <div className="flex items-center gap-4 text-taupe-300 text-[11px] font-medium">
+          <div className="flex items-center gap-3 sm:gap-5 text-taupe-300 text-[11px] font-medium shrink-0">
+            {/* Language Switcher in Top Bar */}
+            <div className="flex items-center gap-1 bg-charcoal-900 border border-charcoal-700 rounded-full px-2 py-0.5 text-[11px]">
+              <Globe className="w-3 h-3 text-taupe-400" />
+              <button
+                type="button"
+                onClick={() => setLanguage('en')}
+                className={`px-1 rounded transition-colors ${
+                  language === 'en'
+                    ? 'text-white font-bold underline underline-offset-2'
+                    : 'text-taupe-400 hover:text-white'
+                }`}
+              >
+                EN
+              </button>
+              <span className="text-charcoal-600">|</span>
+              <button
+                type="button"
+                onClick={() => setLanguage('bn')}
+                className={`px-1 rounded font-bengali transition-colors ${
+                  language === 'bn'
+                    ? 'text-white font-bold underline underline-offset-2'
+                    : 'text-taupe-400 hover:text-white'
+                }`}
+              >
+                বাংলা
+              </button>
+            </div>
+
             <Link
               href="/track-order"
-              className="hover:text-white transition-colors flex items-center gap-1"
+              className="hidden sm:flex hover:text-white transition-colors items-center gap-1"
             >
-              Track Order
+              {t('footerTrackOrder')}
             </Link>
-            <span className="hidden md:inline text-charcoal-700">|</span>
+
             <a
-              href="tel:+8801712345678"
+              href="tel:01568923850"
               className="hidden md:flex items-center gap-1.5 hover:text-white transition-colors"
             >
               <Phone className="w-3 h-3 text-sage-400" />
-              <span>01712-345678</span>
+              <span>01568923850</span>
             </a>
           </div>
         </div>
@@ -135,7 +165,7 @@ export default function Header() {
 
       {/* 2. Main Storefront Header */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-20 gap-4 sm:gap-8">
+        <div className="flex items-center justify-between h-20 gap-3 sm:gap-6">
           {/* Mobile hamburger button */}
           <button
             type="button"
@@ -164,7 +194,7 @@ export default function Header() {
             <form onSubmit={handleSearchSubmit} className="w-full relative">
               <input
                 type="text"
-                placeholder="Search silk scrunchies, linen kurti, jewellery, hair clips..."
+                placeholder={t('searchPlaceholder')}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 onFocus={() => searchQuery.trim().length >= 2 && setShowSuggestions(true)}
@@ -183,8 +213,8 @@ export default function Header() {
             {showSuggestions && suggestions.length > 0 && (
               <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-taupe-200 rounded-2xl shadow-xl overflow-hidden z-50 animate-in fade-in slide-in-from-top-2 duration-150">
                 <div className="p-2 border-b border-taupe-100 bg-ivory-50 flex items-center justify-between text-[11px] font-semibold text-charcoal-500 uppercase tracking-wider">
-                  <span>Product Suggestions</span>
-                  <span>{suggestions.length} results</span>
+                  <span>{t('searchSuggestions')}</span>
+                  <span>{suggestions.length} {t('items')}</span>
                 </div>
                 <div className="divide-y divide-taupe-100 max-h-80 overflow-y-auto">
                   {suggestions.map((item) => (
@@ -204,10 +234,10 @@ export default function Header() {
                       </div>
                       <div className="flex-1 min-w-0">
                         <p className="text-xs font-semibold text-charcoal-900 group-hover:text-terracotta-600 transition-colors line-clamp-1">
-                          {item.name}
+                          {isBn && item.nameBn ? item.nameBn : item.name}
                         </p>
                         <p className="text-[11px] text-charcoal-400 capitalize">
-                          {item.category.replace(/-/g, ' ')}
+                          {item.brand || 'SHOKHORA'}
                         </p>
                       </div>
                       <div className="text-right shrink-0">
@@ -224,7 +254,7 @@ export default function Header() {
                     onClick={handleSearchSubmit}
                     className="text-xs font-medium text-charcoal-700 hover:text-charcoal-950 flex items-center justify-center gap-1 w-full py-1"
                   >
-                    <span>View all matching products for &ldquo;{searchQuery}&rdquo;</span>
+                    <span>{isBn ? `"${searchQuery}" এর সকল ফলাফল দেখুন` : `View all results for "${searchQuery}"`}</span>
                     <ArrowRight className="w-3.5 h-3.5" />
                   </button>
                 </div>
@@ -232,8 +262,19 @@ export default function Header() {
             )}
           </div>
 
-          {/* Right Action Icons: Customer Account, Wishlist, Cart */}
-          <div className="flex items-center gap-1.5 sm:gap-3">
+          {/* Right Action Icons: Language Toggle, Customer Account, Wishlist, Bag */}
+          <div className="flex items-center gap-1.5 sm:gap-2.5">
+            {/* Quick Language Toggle Pill */}
+            <button
+              type="button"
+              onClick={() => setLanguage(isBn ? 'en' : 'bn')}
+              className="flex items-center gap-1 px-2.5 py-1.5 rounded-full border border-taupe-300 hover:border-charcoal-800 text-xs font-medium text-charcoal-800 transition-colors"
+              title="Change Language"
+            >
+              <Globe className="w-3.5 h-3.5 text-taupe-500" />
+              <span>{isBn ? 'English' : 'বাংলা'}</span>
+            </button>
+
             {/* Customer Account Button (Customer Only) */}
             <Link
               href={user ? '/account' : '/login'}
@@ -242,15 +283,15 @@ export default function Header() {
             >
               <User className="w-5 h-5 text-charcoal-800" />
               <span className="hidden xl:inline text-xs font-medium">
-                {user ? user.displayName?.split(' ')[0] || 'My Account' : 'Sign In'}
+                {user ? user.displayName?.split(' ')[0] || t('myAccount') : t('signIn')}
               </span>
             </Link>
 
-            {/* Wishlist Button with Badge */}
+            {/* Wishlist Button with Counter */}
             <Link
-              href="/shop"
+              href="/wishlist"
               className="relative p-2.5 rounded-full hover:bg-taupe-100 text-charcoal-800 transition-colors"
-              title="Saved Wishlist"
+              title={t('wishlist')}
               aria-label="Wishlist"
             >
               <Heart className="w-5 h-5" />
@@ -261,14 +302,16 @@ export default function Header() {
               )}
             </Link>
 
-            {/* Shopping Cart Button */}
+            {/* Shopping Cart Bag Button */}
             <button
               onClick={() => setIsCartOpen(true)}
               className="relative flex items-center gap-2 px-3 py-2 sm:px-4 sm:py-2 rounded-full bg-charcoal-900 hover:bg-charcoal-800 text-white transition-all shadow-sm"
-              aria-label="Shopping Cart"
+              aria-label="Shopping Bag"
             >
               <ShoppingBag className="w-4 h-4 text-white" />
-              <span className="hidden sm:inline text-xs font-medium tracking-wide">Bag</span>
+              <span className="hidden sm:inline text-xs font-medium tracking-wide">
+                {t('cart')}
+              </span>
               {itemCount > 0 && (
                 <span className="bg-amber-400 text-charcoal-950 text-[11px] font-black px-1.5 py-0.2 rounded-full min-w-[18px] text-center">
                   {itemCount}
@@ -278,14 +321,21 @@ export default function Header() {
           </div>
         </div>
 
-        {/* 3. Simple Category Navigation Bar with Dropdown (Desktop) */}
+        {/* 3. Main Navigation Bar with Categories (Desktop) */}
         <nav className="hidden md:flex items-center justify-between border-t border-taupe-200/70 py-2.5 text-xs font-medium text-charcoal-700">
-          <div className="flex items-center gap-6 lg:gap-7 overflow-x-auto no-scrollbar">
+          <div className="flex items-center gap-5 lg:gap-6 overflow-x-auto no-scrollbar">
+            <Link
+              href="/"
+              className="hover:text-charcoal-950 transition-colors whitespace-nowrap text-charcoal-700 hover:font-semibold"
+            >
+              {t('navHome')}
+            </Link>
+
             <Link
               href="/shop"
               className="hover:text-charcoal-950 font-bold transition-colors whitespace-nowrap text-charcoal-900"
             >
-              All Products
+              {t('navAllProducts')}
             </Link>
 
             {CATEGORIES.map((cat) => (
@@ -294,17 +344,17 @@ export default function Header() {
                 href={`/category/${cat.slug}`}
                 className="hover:text-charcoal-950 transition-colors whitespace-nowrap text-charcoal-700 hover:font-semibold"
               >
-                {cat.name}
+                {isBn ? cat.nameBn : cat.name}
               </Link>
             ))}
           </div>
 
-          <div className="flex items-center gap-5 text-taupe-600 shrink-0 pl-4 border-l border-taupe-200">
+          <div className="flex items-center gap-4 text-taupe-600 shrink-0 pl-4 border-l border-taupe-200">
             <Link href="/about" className="hover:text-charcoal-900 transition-colors">
-              Our Story
+              {t('footerAboutUs')}
             </Link>
             <Link href="/contact" className="hover:text-charcoal-900 transition-colors">
-              Contact
+              {t('footerContactUs')}
             </Link>
           </div>
         </nav>
@@ -318,7 +368,7 @@ export default function Header() {
             <form onSubmit={handleSearchSubmit} className="relative">
               <input
                 type="text"
-                placeholder="Search products in Bangladesh..."
+                placeholder={t('searchPlaceholder')}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="w-full bg-ivory-100 border border-taupe-300 rounded-xl py-2.5 pl-4 pr-11 text-sm focus:outline-none focus:ring-2 focus:ring-charcoal-900"
@@ -332,10 +382,42 @@ export default function Header() {
               </button>
             </form>
 
+            {/* Mobile Language Switcher */}
+            <div className="flex items-center justify-between p-3 bg-ivory-100 rounded-xl border border-taupe-200">
+              <div className="flex items-center gap-2 text-xs font-semibold text-charcoal-800">
+                <Globe className="w-4 h-4 text-sage-600" />
+                <span>{isBn ? 'ভাষা পরিবর্তন করুন:' : 'Language / ভাষা:'}</span>
+              </div>
+              <div className="flex items-center gap-1 bg-white border border-taupe-300 rounded-lg p-0.5 text-xs">
+                <button
+                  type="button"
+                  onClick={() => setLanguage('en')}
+                  className={`px-3 py-1 rounded-md transition-colors ${
+                    language === 'en'
+                      ? 'bg-charcoal-900 text-white font-bold'
+                      : 'text-charcoal-700 hover:bg-taupe-100'
+                  }`}
+                >
+                  English
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setLanguage('bn')}
+                  className={`px-3 py-1 rounded-md font-bengali transition-colors ${
+                    language === 'bn'
+                      ? 'bg-charcoal-900 text-white font-bold'
+                      : 'text-charcoal-700 hover:bg-taupe-100'
+                  }`}
+                >
+                  বাংলা
+                </button>
+              </div>
+            </div>
+
             {/* Categories */}
             <div>
               <p className="text-[11px] uppercase font-bold tracking-wider text-charcoal-400 mb-2">
-                Shop By Category
+                {t('categoriesTitle')}
               </p>
               <div className="divide-y divide-taupe-100">
                 <Link
@@ -343,7 +425,7 @@ export default function Header() {
                   onClick={() => setMobileMenuOpen(false)}
                   className="block py-2.5 text-sm font-bold text-charcoal-900"
                 >
-                  View All Products
+                  {t('navAllProducts')}
                 </Link>
                 {CATEGORIES.map((cat) => (
                   <Link
@@ -352,36 +434,38 @@ export default function Header() {
                     onClick={() => setMobileMenuOpen(false)}
                     className="flex items-center justify-between py-2.5 text-sm text-charcoal-700 hover:text-charcoal-950"
                   >
-                    <span>{cat.name}</span>
-                    <span className="text-xs font-bengali text-taupe-500">{cat.nameBn}</span>
+                    <span>{isBn ? cat.nameBn : cat.name}</span>
+                    <span className="text-xs font-bengali text-taupe-500">
+                      {isBn ? cat.name : cat.nameBn}
+                    </span>
                   </Link>
                 ))}
               </div>
             </div>
 
-            {/* Customer Care Links */}
+            {/* Quick Links */}
             <div>
               <p className="text-[11px] uppercase font-bold tracking-wider text-charcoal-400 mb-2">
-                Customer Care
+                {t('footerQuickLinks')}
               </p>
               <div className="grid grid-cols-2 gap-2 text-xs text-charcoal-600">
+                <Link href="/wishlist" onClick={() => setMobileMenuOpen(false)} className="py-1">
+                  {t('wishlist')} ({wishlistCount})
+                </Link>
                 <Link href="/track-order" onClick={() => setMobileMenuOpen(false)} className="py-1">
-                  Track Order
+                  {t('footerTrackOrder')}
                 </Link>
                 <Link href="/about" onClick={() => setMobileMenuOpen(false)} className="py-1">
-                  About Us
+                  {t('footerAboutUs')}
                 </Link>
                 <Link href="/contact" onClick={() => setMobileMenuOpen(false)} className="py-1">
-                  Contact Us
+                  {t('footerContactUs')}
                 </Link>
-                <Link href="/faq" onClick={() => setMobileMenuOpen(false)} className="py-1">
-                  FAQ
+                <Link href="/policies/shipping" onClick={() => setMobileMenuOpen(false)} className="py-1">
+                  {t('footerShippingPolicy')}
                 </Link>
-                <Link href="/delivery-policy" onClick={() => setMobileMenuOpen(false)} className="py-1">
-                  Delivery Policy
-                </Link>
-                <Link href="/return-refund-policy" onClick={() => setMobileMenuOpen(false)} className="py-1">
-                  Return Policy
+                <Link href="/policies/return" onClick={() => setMobileMenuOpen(false)} className="py-1">
+                  {t('footerReturnPolicy')}
                 </Link>
               </div>
             </div>
@@ -395,7 +479,7 @@ export default function Header() {
               className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-charcoal-900 text-white text-sm font-medium shadow-sm"
             >
               <User className="w-4 h-4" />
-              <span>{user ? 'My Customer Account' : 'Customer Sign In / Register'}</span>
+              <span>{user ? t('myAccount') : t('signIn')}</span>
             </Link>
           </div>
         </div>

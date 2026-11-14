@@ -6,7 +6,7 @@ import Image from 'next/image';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import { useCart } from '@/lib/context/CartContext';
-import { formatPrice } from '@/lib/utils/formatters';
+import { useLanguage } from '@/lib/context/LanguageContext';
 import {
   ShoppingBag,
   Trash2,
@@ -18,6 +18,7 @@ import {
   ShieldCheck,
   CheckCircle2,
   ChevronRight,
+  ArrowLeft,
 } from 'lucide-react';
 
 export default function CartPage() {
@@ -39,6 +40,7 @@ export default function CartPage() {
     settings,
   } = useCart();
 
+  const { isBn, t, formatPrice, formatNumber } = useLanguage();
   const [couponInput, setCouponInput] = useState('');
 
   const handleCouponSubmit = (e: React.FormEvent) => {
@@ -59,14 +61,14 @@ export default function CartPage() {
         {/* Breadcrumb */}
         <nav className="flex items-center gap-1.5 text-xs text-charcoal-500 mb-6">
           <Link href="/" className="hover:text-charcoal-900 transition-colors">
-            Home
+            {t('navHome')}
           </Link>
           <ChevronRight className="w-3.5 h-3.5 text-taupe-400" />
-          <span className="text-charcoal-900 font-medium">Shopping Bag</span>
+          <span className="text-charcoal-900 font-medium">{t('cartTitle')}</span>
         </nav>
 
         <h1 className="text-2xl sm:text-3xl font-serif font-bold text-charcoal-950 mb-8">
-          Shopping Bag ({items.length} {items.length === 1 ? 'item' : 'items'})
+          {t('cartTitle')} ({formatNumber(items.length)} {t('items')})
         </h1>
 
         {items.length === 0 ? (
@@ -74,15 +76,18 @@ export default function CartPage() {
             <div className="w-16 h-16 rounded-full bg-taupe-100 flex items-center justify-center mx-auto text-charcoal-400">
               <ShoppingBag className="w-8 h-8" />
             </div>
-            <h2 className="text-lg font-semibold text-charcoal-900">Your bag is currently empty</h2>
+            <h2 className="text-lg font-semibold text-charcoal-900">
+              {t('cartEmptyTitle')}
+            </h2>
             <p className="text-xs text-charcoal-500">
-              Explore our handcrafted silk scrunchies, kids hair accessories, and lifestyle products.
+              {t('cartEmptySubtitle')}
             </p>
             <Link
               href="/shop"
-              className="inline-block px-6 py-3 bg-charcoal-950 text-white rounded-full text-xs font-semibold hover:bg-charcoal-800 transition-all shadow-md"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-charcoal-950 text-white rounded-full text-xs font-semibold hover:bg-charcoal-800 transition-all shadow-md"
             >
-              Start Shopping
+              <span>{t('shopNow')}</span>
+              <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
         ) : (
@@ -96,16 +101,23 @@ export default function CartPage() {
                     <Truck className="w-4 h-4 text-sage-600" />
                     {amountNeededForFreeDelivery > 0 ? (
                       <span>
-                        Add <span className="font-bold">{formatPrice(amountNeededForFreeDelivery)}</span> more for{' '}
-                        <span className="text-sage-700 font-bold">FREE Nationwide Delivery</span>
+                        {isBn ? (
+                          <>
+                            আর <strong className="text-charcoal-950">{formatPrice(amountNeededForFreeDelivery)}</strong> টাকার কেনাকাটায় পাবেন <strong className="text-sage-700">ফ্রি ডেলিভারি</strong>
+                          </>
+                        ) : (
+                          <>
+                            Add <strong>{formatPrice(amountNeededForFreeDelivery)}</strong> more for <strong className="text-sage-700">FREE Nationwide Delivery</strong>
+                          </>
+                        )}
                       </span>
                     ) : (
                       <span className="text-emerald-700 font-semibold flex items-center gap-1">
-                        <CheckCircle2 className="w-4 h-4" /> Congratulations! You unlocked FREE shipping!
+                        <CheckCircle2 className="w-4 h-4" /> {isBn ? 'অভিনন্দন! আপনি ফ্রি ডেলিভারি আনলক করেছেন!' : 'Congratulations! You unlocked FREE shipping!'}
                       </span>
                     )}
                   </span>
-                  <span className="font-mono text-xs font-bold">{progressPercent}%</span>
+                  <span className="font-mono text-xs font-bold">{formatNumber(progressPercent)}%</span>
                 </div>
                 <div className="w-full bg-taupe-200 rounded-full h-2 overflow-hidden">
                   <div
@@ -138,9 +150,9 @@ export default function CartPage() {
                         </Link>
                         {(item.selectedColor || item.selectedSize) && (
                           <p className="text-xs text-charcoal-500 mt-0.5">
-                            {item.selectedColor && `Color: ${item.selectedColor}`}
+                            {item.selectedColor && `${isBn ? 'রং' : 'Color'}: ${item.selectedColor}`}
                             {item.selectedColor && item.selectedSize && ' • '}
-                            {item.selectedSize && `Size: ${item.selectedSize}`}
+                            {item.selectedSize && `${isBn ? 'সাইজ' : 'Size'}: ${item.selectedSize}`}
                           </p>
                         )}
                         <p className="text-xs text-charcoal-400 font-mono mt-0.5">SKU: {item.sku}</p>
@@ -152,7 +164,7 @@ export default function CartPage() {
 
                     <div className="flex items-center justify-between w-full sm:w-auto gap-6">
                       <div className="hidden sm:block text-right">
-                        <p className="text-xs text-charcoal-400">Unit Price</p>
+                        <p className="text-xs text-charcoal-400">{isBn ? 'মূল্য' : 'Unit Price'}</p>
                         <p className="text-sm font-semibold text-charcoal-900 font-mono">
                           {formatPrice(item.price)}
                         </p>
@@ -168,7 +180,7 @@ export default function CartPage() {
                           <Minus className="w-3.5 h-3.5" />
                         </button>
                         <span className="w-8 text-center text-xs font-bold font-mono text-charcoal-900">
-                          {item.quantity}
+                          {formatNumber(item.quantity)}
                         </span>
                         <button
                           onClick={() => updateQuantity(item.id, item.quantity + 1)}
@@ -191,7 +203,7 @@ export default function CartPage() {
                       <button
                         onClick={() => removeItem(item.id)}
                         className="text-taupe-400 hover:text-rose-600 p-2 rounded-lg hover:bg-taupe-100 transition-colors"
-                        title="Remove item"
+                        title={isBn ? 'পণ্যটি সরান' : 'Remove item'}
                       >
                         <Trash2 className="w-4 h-4" />
                       </button>
@@ -205,10 +217,11 @@ export default function CartPage() {
                   onClick={clearCart}
                   className="text-rose-600 hover:text-rose-800 font-medium"
                 >
-                  Clear Bag
+                  {isBn ? 'ব্যাগ খালি করুন' : 'Clear Bag'}
                 </button>
-                <Link href="/shop" className="text-charcoal-700 hover:text-charcoal-950 font-medium">
-                  ← Continue Shopping
+                <Link href="/shop" className="text-charcoal-700 hover:text-charcoal-950 font-medium flex items-center gap-1">
+                  <ArrowLeft className="w-3.5 h-3.5" />
+                  <span>{t('continueShopping')}</span>
                 </Link>
               </div>
             </div>
@@ -216,13 +229,13 @@ export default function CartPage() {
             {/* Right Order Summary Column */}
             <div className="lg:col-span-4 bg-white rounded-3xl p-6 sm:p-8 border border-taupe-200 shadow-sm space-y-6">
               <h2 className="text-lg font-serif font-bold text-charcoal-950 pb-4 border-b border-taupe-200">
-                Order Summary
+                {t('orderSummary')}
               </h2>
 
               {/* Delivery Zone Selector */}
               <div className="space-y-2">
                 <label className="block text-xs font-semibold text-charcoal-700 uppercase tracking-wider">
-                  Select Delivery Zone
+                  {isBn ? 'ডেলিভারি এরিয়া নির্বাচন করুন' : 'Select Delivery Zone'}
                 </label>
                 <div className="grid grid-cols-2 gap-2 text-xs">
                   <button
@@ -234,9 +247,9 @@ export default function CartPage() {
                         : 'border-taupe-200 text-charcoal-600 hover:bg-taupe-50'
                     }`}
                   >
-                    <p className="font-medium">Inside Dhaka</p>
+                    <p className="font-medium">{isBn ? 'ঢাকার ভেতরে' : 'Inside Dhaka'}</p>
                     <p className="text-[11px] text-charcoal-500 font-mono mt-0.5">
-                      {subtotal >= settings.freeDeliveryThreshold ? 'FREE' : formatPrice(settings.insideDhakaDeliveryFee)}
+                      {subtotal >= settings.freeDeliveryThreshold ? (isBn ? 'ফ্রি' : 'FREE') : formatPrice(settings.insideDhakaDeliveryFee)}
                     </p>
                   </button>
 
@@ -249,9 +262,9 @@ export default function CartPage() {
                         : 'border-taupe-200 text-charcoal-600 hover:bg-taupe-50'
                     }`}
                   >
-                    <p className="font-medium">Outside Dhaka</p>
+                    <p className="font-medium">{isBn ? 'ঢাকার বাইরে (৬৪ জেলা)' : 'Outside Dhaka'}</p>
                     <p className="text-[11px] text-charcoal-500 font-mono mt-0.5">
-                      {subtotal >= settings.freeDeliveryThreshold ? 'FREE' : formatPrice(settings.outsideDhakaDeliveryFee)}
+                      {subtotal >= settings.freeDeliveryThreshold ? (isBn ? 'ফ্রি' : 'FREE') : formatPrice(settings.outsideDhakaDeliveryFee)}
                     </p>
                   </button>
                 </div>
@@ -260,7 +273,7 @@ export default function CartPage() {
               {/* Coupon Form */}
               <div className="pt-2">
                 <label className="block text-xs font-semibold text-charcoal-700 uppercase tracking-wider mb-2">
-                  Promo / Coupon Code
+                  {t('couponCode')}
                 </label>
                 {coupon ? (
                   <div className="flex items-center justify-between p-3 rounded-xl bg-emerald-50 border border-emerald-200 text-xs">
@@ -274,7 +287,7 @@ export default function CartPage() {
                       onClick={removeCoupon}
                       className="text-emerald-700 hover:text-emerald-900 underline text-xs font-semibold"
                     >
-                      Remove
+                      {isBn ? 'বাতিল' : 'Remove'}
                     </button>
                   </div>
                 ) : (
@@ -290,7 +303,7 @@ export default function CartPage() {
                       type="submit"
                       className="px-4 py-2.5 bg-charcoal-900 text-white rounded-xl text-xs font-semibold hover:bg-charcoal-800 transition-colors"
                     >
-                      Apply
+                      {t('applyCoupon')}
                     </button>
                   </form>
                 )}
@@ -300,7 +313,7 @@ export default function CartPage() {
               {/* Price Calculation */}
               <div className="space-y-2.5 pt-4 border-t border-taupe-200 text-xs text-charcoal-600">
                 <div className="flex justify-between">
-                  <span>Subtotal</span>
+                  <span>{t('subtotal')}</span>
                   <span className="font-mono text-charcoal-900 font-medium">
                     {formatPrice(subtotal)}
                   </span>
@@ -308,16 +321,16 @@ export default function CartPage() {
 
                 {couponDiscount > 0 && (
                   <div className="flex justify-between text-emerald-700">
-                    <span>Discount ({coupon?.code})</span>
+                    <span>{isBn ? 'ডিসকাউন্ট' : 'Discount'} ({coupon?.code})</span>
                     <span className="font-mono font-medium">-{formatPrice(couponDiscount)}</span>
                   </div>
                 )}
 
                 <div className="flex justify-between">
-                  <span>Delivery Charge</span>
+                  <span>{t('deliveryFee')}</span>
                   <span className="font-mono text-charcoal-900 font-medium">
                     {deliveryCharge === 0 ? (
-                      <span className="text-emerald-700 font-bold">FREE</span>
+                      <span className="text-emerald-700 font-bold">{isBn ? 'ফ্রি' : 'FREE'}</span>
                     ) : (
                       formatPrice(deliveryCharge)
                     )}
@@ -325,7 +338,7 @@ export default function CartPage() {
                 </div>
 
                 <div className="flex justify-between text-base font-bold text-charcoal-950 pt-3 border-t border-taupe-200">
-                  <span>Total Amount</span>
+                  <span>{t('estimatedTotal')}</span>
                   <span className="font-mono text-lg">{formatPrice(total)}</span>
                 </div>
               </div>
@@ -335,13 +348,14 @@ export default function CartPage() {
                 href="/checkout"
                 className="w-full flex items-center justify-center gap-2 py-4 px-6 rounded-2xl bg-charcoal-950 hover:bg-charcoal-900 text-white text-sm font-semibold transition-all shadow-md hover:shadow-lg"
               >
-                Proceed to Checkout <ArrowRight className="w-4 h-4" />
+                <span>{t('proceedToCheckout')}</span>
+                <ArrowRight className="w-4 h-4" />
               </Link>
 
               {/* Guarantee */}
               <div className="pt-2 flex items-center justify-center gap-2 text-xs text-taupe-600 text-center">
                 <ShieldCheck className="w-4 h-4 text-sage-600" />
-                <span>100% Secure Checkout & Guarantee</span>
+                <span>{isBn ? '১০০% নিরাপদ ও সুরক্ষিত চেকআউট' : '100% Secure Checkout & Guarantee'}</span>
               </div>
             </div>
           </div>
