@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { getProducts } from '@/lib/db/store';
 import ProductCard from '@/components/product/ProductCard';
 import { useLanguage } from '@/lib/context/LanguageContext';
-import { ArrowRight, Flame } from 'lucide-react';
+import { ArrowUpRight, Flame } from 'lucide-react';
 
 export default function BestSellersSection() {
   const { isBn, t } = useLanguage();
@@ -20,37 +20,42 @@ export default function BestSellersSection() {
       : allProducts.slice(0, 4);
 
   return (
-    <section className="py-14 sm:py-16 bg-white border-b border-taupe-200/80">
+    <section className="py-20 lg:py-28 bg-[#FFFFFF] border-b border-stone-200/80">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-8 gap-4">
-          <div>
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-50 border border-amber-200 text-amber-800 text-[11px] font-semibold uppercase tracking-wider mb-2">
-              <Flame className="w-3.5 h-3.5 text-amber-600 fill-amber-500" />
-              <span>{isBn ? 'গ্রাহকদের পছন্দের শীর্ষে' : 'Customer Favorites'}</span>
-            </div>
-            <h2 className="text-2xl sm:text-3xl font-serif font-bold text-charcoal-950 tracking-tight">
-              {t('bestSellersTitle')}
+        
+        {/* Section Header */}
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-12 gap-6">
+          <div className="max-w-xl">
+            <span className="text-xs uppercase tracking-widest font-mono text-amber-700 font-semibold flex items-center gap-1.5">
+              <Flame className="w-3.5 h-3.5 fill-amber-500 text-amber-600" />
+              {isBn ? 'জনপ্রিয়তার শীর্ষে' : 'Most Cherished'}
+            </span>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-serif font-medium text-[#191817] mt-2">
+              {isBn ? 'গ্রাহকদের পছন্দের সেরা পণ্য' : 'The Bestseller Edit'}
             </h2>
-            <p className="text-xs text-taupe-600 mt-1 max-w-xl">
-              {t('bestSellersSubtitle')}
+            <p className="text-xs sm:text-sm text-stone-600 mt-2">
+              {isBn
+                ? 'আমাদের সবচেয়ে প্রশংসিত লাইফস্টাইল পণ্য, যা গ্রাহকদের দৈনন্দিন জীবনে এনেছে অনাবিল প্রশান্তি।'
+                : 'Loved for quality, tactile comfort, and timeless everyday elegance.'}
             </p>
           </div>
 
           <Link
             href="/shop?sort=popularity"
-            className="text-xs sm:text-sm font-semibold text-charcoal-900 hover:text-terracotta-600 flex items-center gap-1.5 group transition-colors"
+            className="group inline-flex items-center gap-2 text-xs uppercase tracking-widest font-bold text-stone-900 pb-1 border-b border-stone-900 hover:text-stone-600 hover:border-stone-400 transition-all"
           >
-            <span>{t('viewAll')}</span>
-            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            <span>{isBn ? 'সবগুলো দেখুন' : 'Explore All'}</span>
+            <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
           </Link>
         </div>
 
-        {/* 4-column product grid */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+        {/* 4-column Luxury Product Grid */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
           {displayProducts.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}
         </div>
+
       </div>
     </section>
   );

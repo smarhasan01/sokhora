@@ -52,7 +52,7 @@ export default function AccountNav() {
   ];
 
   return (
-    <nav className="flex items-center gap-2 overflow-x-auto no-scrollbar pb-2 mb-8 border-b border-taupe-200">
+    <nav className="flex items-center gap-2 overflow-x-auto no-scrollbar pb-3 mb-8 border-b border-stone-200">
       {links.map((link) => {
         const Icon = link.icon;
         const isActive = link.exact
@@ -63,10 +63,10 @@ export default function AccountNav() {
           <Link
             key={link.href}
             href={link.href}
-            className={`inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all ${
+            className={`inline-flex items-center gap-2 px-4 py-2.5 rounded-full text-xs font-mono font-medium whitespace-nowrap transition-all ${
               isActive
-                ? 'bg-charcoal-900 text-white shadow-sm'
-                : 'bg-white border border-taupe-200 text-charcoal-700 hover:bg-taupe-100 hover:text-charcoal-950'
+                ? 'bg-[#191817] text-white shadow-sm'
+                : 'bg-white border border-stone-200 text-stone-600 hover:bg-stone-50 hover:text-stone-900'
             }`}
           >
             <Icon className="w-3.5 h-3.5" />

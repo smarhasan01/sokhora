@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import { useCart } from '@/lib/context/CartContext';
 import { useAuth } from '@/lib/context/AuthContext';
 import { useWishlist } from '@/lib/context/WishlistContext';
@@ -21,21 +21,24 @@ import {
   Phone,
   Globe,
   ArrowRight,
+  ChevronDown,
+  Sparkles,
 } from 'lucide-react';
 
 const CATEGORIES = [
   { name: 'Fashion & Clothing', nameBn: 'পোশাক ও ফ্যাশন', slug: 'fashion-clothing' },
   { name: 'Cosmetics & Beauty', nameBn: 'কসমেটিক্স ও বিউটি', slug: 'cosmetics-beauty' },
-  { name: 'Kids Hair Accessories', nameBn: 'কিডস হেয়ার ক্লিপ', slug: 'kids-hairbands-clips' },
-  { name: 'Hair Accessories', nameBn: 'স্ক্রাঞ্চি ও হেয়ার', slug: 'scrunchies-hair-accessories' },
-  { name: 'Jewellery', nameBn: 'জুয়েলারি ও গহনা', slug: 'jewellery-fashion-accessories' },
+  { name: 'Kids Hair Accessories', nameBn: 'কিডস হেয়ার এক্সেসরিজ', slug: 'kids-hairbands-clips' },
+  { name: 'Scrunchies & Hair Ties', nameBn: 'স্ক্রাঞ্চি ও হেয়ার ব্যান্ড', slug: 'scrunchies-hair-accessories' },
+  { name: 'Jewellery & Brass', nameBn: 'জুয়েলারি ও গহনা', slug: 'jewellery-fashion-accessories' },
   { name: 'Gifts & Lifestyle', nameBn: 'গিফট ও লাইফস্টাইল', slug: 'gifts-lifestyle' },
-  { name: 'Everyday Products', nameBn: 'দৈনন্দিন পণ্য', slug: 'other-everyday' },
+  { name: 'Everyday Essentials', nameBn: 'দৈনন্দিন নিত্যপণ্য', slug: 'other-everyday' },
 ];
 
 export default function Header() {
   const router = useRouter();
-  const { itemCount, setIsCartOpen } = useCart();
+  const pathname = usePathname();
+  const { itemCount, setIsCartOpen, subtotal } = useCart();
   const { user } = useAuth();
   const { wishlistCount } = useWishlist();
   const { language, setLanguage, isBn, t, formatPrice } = useLanguage();
@@ -45,15 +48,14 @@ export default function Header() {
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [allProducts, setAllProducts] = useState<Product[]>([]);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [searchOpenMobile, setSearchOpenMobile] = useState(false);
 
   const searchContainerRef = useRef<HTMLDivElement>(null);
 
-  // Load products for live search suggestions
   useEffect(() => {
     setAllProducts(getProducts());
   }, []);
 
-  // Update suggestions dynamically as user types
   useEffect(() => {
     const q = searchQuery.trim().toLowerCase();
     if (q.length >= 2) {
@@ -63,8 +65,7 @@ export default function Header() {
             p.name.toLowerCase().includes(q) ||
             (p.nameBn && p.nameBn.includes(q)) ||
             (p.brand && p.brand.toLowerCase().includes(q)) ||
-            p.category.toLowerCase().includes(q) ||
-            p.tags?.some((tag) => tag.toLowerCase().includes(q))
+            p.category.toLowerCase().includes(q)
         )
         .slice(0, 5);
       setSuggestions(matches);
@@ -75,7 +76,6 @@ export default function Header() {
     }
   }, [searchQuery, allProducts]);
 
-  // Click outside to close suggestion dropdown
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (
@@ -93,68 +93,71 @@ export default function Header() {
     e.preventDefault();
     if (searchQuery.trim()) {
       setShowSuggestions(false);
+      setSearchOpenMobile(false);
       router.push(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
       setMobileMenuOpen(false);
     }
   };
 
   return (
-    <header className="sticky top-0 z-40 bg-white/98 backdrop-blur-md border-b border-taupe-200/90 shadow-[0_2px_12px_rgba(0,0,0,0.03)] transition-all">
-      {/* 1. Slim Announcement Bar */}
-      <div className="bg-charcoal-950 text-ivory-100 text-xs py-2 px-4 border-b border-charcoal-800">
-        <div className="max-w-7xl mx-auto flex justify-between items-center gap-2">
+    <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-taupe-200 transition-all">
+      {/* 1. Slim Luxury Announcement Bar */}
+      <div className="bg-[#1C1917] text-ivory-100 text-[11px] py-2 px-4 border-b border-stone-800">
+        <div className="max-w-7xl mx-auto flex justify-between items-center gap-4">
           <div className="flex items-center gap-2 tracking-wide font-normal truncate">
-            <Truck className="w-3.5 h-3.5 text-sage-400 shrink-0" />
-            <span className="hidden sm:inline">
+            <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-sage-900/60 text-sage-300 border border-sage-700/50 text-[10px] font-semibold uppercase">
+              <Sparkles className="w-2.5 h-2.5 text-sage-400" />
+              {isBn ? 'উৎসবের অফার' : 'Festive Season'}
+            </span>
+            <span className="hidden sm:inline text-stone-300">
               {t('freeShippingBar')} &bull;{' '}
               {isBn ? '১০% বিশেষ ছাড়ে কোড:' : 'Use code:'}{' '}
-              <span className="font-bold text-amber-300 tracking-wider">SHOKHORA10</span>
+              <strong className="text-amber-300 tracking-wider">SHOKHORA10</strong>
             </span>
-            <span className="sm:hidden font-medium text-[11px] truncate">
+            <span className="sm:hidden font-medium text-[11px] truncate text-stone-300">
               {isBn ? '৳১,৫০০+ অর্ডারে ফ্রি ডেলিভারি' : 'Free delivery over ৳1,500'} |{' '}
               <strong className="text-amber-300">SHOKHORA10</strong>
             </span>
           </div>
 
-          <div className="flex items-center gap-3 sm:gap-5 text-taupe-300 text-[11px] font-medium shrink-0">
-            {/* Language Switcher in Top Bar */}
-            <div className="flex items-center gap-1 bg-charcoal-900 border border-charcoal-700 rounded-full px-2 py-0.5 text-[11px]">
-              <Globe className="w-3 h-3 text-taupe-400" />
+          <div className="flex items-center gap-4 sm:gap-6 text-stone-300 text-[11px] font-medium shrink-0">
+            {/* Language Switcher */}
+            <div className="flex items-center gap-1 bg-stone-900 border border-stone-700 rounded-full px-2 py-0.5">
+              <Globe className="w-3 h-3 text-stone-400" />
               <button
                 type="button"
                 onClick={() => setLanguage('en')}
-                className={`px-1 rounded transition-colors ${
+                className={`px-1.5 py-0.5 rounded text-[10px] uppercase font-semibold transition-all ${
                   language === 'en'
-                    ? 'text-white font-bold underline underline-offset-2'
-                    : 'text-taupe-400 hover:text-white'
+                    ? 'bg-stone-700 text-white shadow-sm'
+                    : 'text-stone-400 hover:text-white'
                 }`}
               >
                 EN
               </button>
-              <span className="text-charcoal-600">|</span>
               <button
                 type="button"
                 onClick={() => setLanguage('bn')}
-                className={`px-1 rounded font-bengali transition-colors ${
+                className={`px-1.5 py-0.5 rounded text-[10px] font-bengali font-semibold transition-all ${
                   language === 'bn'
-                    ? 'text-white font-bold underline underline-offset-2'
-                    : 'text-taupe-400 hover:text-white'
+                    ? 'bg-stone-700 text-white shadow-sm'
+                    : 'text-stone-400 hover:text-white'
                 }`}
               >
-                বাংলা
+                বাং
               </button>
             </div>
 
             <Link
               href="/track-order"
-              className="hidden sm:flex hover:text-white transition-colors items-center gap-1"
+              className="hidden md:flex hover:text-white transition-colors items-center gap-1 text-[11px]"
             >
               {t('footerTrackOrder')}
             </Link>
 
             <a
               href="tel:01568923850"
-              className="hidden md:flex items-center gap-1.5 hover:text-white transition-colors"
+              className="hidden lg:flex items-center gap-1.5 hover:text-white transition-colors text-[11px]"
             >
               <Phone className="w-3 h-3 text-sage-400" />
               <span>01568923850</span>
@@ -163,68 +166,98 @@ export default function Header() {
         </div>
       </div>
 
-      {/* 2. Main Storefront Header */}
+      {/* 2. Main Storefront Header Bar */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-20 gap-3 sm:gap-6">
-          {/* Mobile hamburger button */}
+        <div className="flex items-center justify-between h-20 gap-4 lg:gap-8">
+          {/* Mobile menu button */}
           <button
             type="button"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden p-2 -ml-2 rounded-xl text-charcoal-800 hover:bg-taupe-100 transition-colors"
-            aria-label="Toggle navigation menu"
+            onClick={() => setMobileMenuOpen(true)}
+            className="lg:hidden p-2 -ml-2 rounded-xl text-charcoal-800 hover:bg-taupe-100 transition-colors"
+            aria-label="Open navigation menu"
           >
-            {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            <Menu className="w-6 h-6" />
           </button>
 
-          {/* Original SHOKHORA Logo (Never recolored, distorted, or modified) */}
-          <Link href="/" className="shrink-0 flex items-center">
-            <div className="relative w-36 sm:w-44 h-12 sm:h-14">
+          {/* Desktop Left: Refined Category Quick Links */}
+          <nav className="hidden lg:flex items-center gap-6">
+            <Link
+              href="/shop"
+              className={`text-xs uppercase tracking-widest font-semibold transition-colors py-1 relative ${
+                pathname === '/shop' ? 'text-charcoal-950 font-bold' : 'text-charcoal-600 hover:text-charcoal-950'
+              }`}
+            >
+              {t('allProducts')}
+            </Link>
+            <Link
+              href="/category/fashion-clothing"
+              className="text-xs uppercase tracking-widest font-medium text-charcoal-600 hover:text-charcoal-950 transition-colors py-1"
+            >
+              {isBn ? 'পোশাক' : 'Fashion'}
+            </Link>
+            <Link
+              href="/category/cosmetics-beauty"
+              className="text-xs uppercase tracking-widest font-medium text-charcoal-600 hover:text-charcoal-950 transition-colors py-1"
+            >
+              {isBn ? 'বিউটি' : 'Beauty'}
+            </Link>
+            <Link
+              href="/category/scrunchies-hair-accessories"
+              className="text-xs uppercase tracking-widest font-medium text-charcoal-600 hover:text-charcoal-950 transition-colors py-1"
+            >
+              {isBn ? 'স্ক্রাঞ্চি' : 'Scrunchies'}
+            </Link>
+            <Link
+              href="/category/jewellery-fashion-accessories"
+              className="text-xs uppercase tracking-widest font-medium text-charcoal-600 hover:text-charcoal-950 transition-colors py-1"
+            >
+              {isBn ? 'জুয়েলারি' : 'Jewellery'}
+            </Link>
+          </nav>
+
+          {/* Center: Original SHOKHORA Logo */}
+          <Link href="/" className="shrink-0 flex items-center justify-center py-2">
+            <div className="relative w-40 sm:w-48 h-12 sm:h-14">
               <Image
                 src="/images/Logo-01.png"
                 alt="SHOKHORA (শখোরা)"
                 fill
                 priority
-                className="object-contain object-left"
+                className="object-contain object-center"
               />
             </div>
           </Link>
 
-          {/* Prominent Live Search Bar with Suggestions (Desktop) */}
-          <div ref={searchContainerRef} className="hidden md:flex flex-1 max-w-lg relative">
-            <form onSubmit={handleSearchSubmit} className="w-full relative">
-              <input
-                type="text"
-                placeholder={t('searchPlaceholder')}
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                onFocus={() => searchQuery.trim().length >= 2 && setShowSuggestions(true)}
-                className="w-full bg-ivory-100 border border-taupe-300 text-charcoal-900 rounded-full py-2.5 pl-4 pr-11 text-xs lg:text-sm focus:outline-none focus:ring-2 focus:ring-charcoal-900 focus:bg-white transition-all placeholder:text-charcoal-400"
-              />
-              <button
-                type="submit"
-                className="absolute right-1.5 top-1/2 -translate-y-1/2 p-2 rounded-full bg-charcoal-900 text-white hover:bg-charcoal-800 transition-colors"
-                aria-label="Search catalog"
-              >
-                <Search className="w-4 h-4" />
-              </button>
-            </form>
+          {/* Right: Search, Wishlist, Account, Cart */}
+          <div className="flex items-center gap-2 sm:gap-4">
+            {/* Live Search Input (Desktop) */}
+            <div ref={searchContainerRef} className="hidden md:block relative w-48 lg:w-64">
+              <form onSubmit={handleSearchSubmit} className="relative">
+                <input
+                  type="text"
+                  placeholder={isBn ? 'পণ্য বা ব্র্যান্ড খুঁজুন...' : 'Search products...'}
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onFocus={() => searchQuery.trim().length >= 2 && setShowSuggestions(true)}
+                  className="w-full pl-9 pr-4 py-2 rounded-full text-xs bg-taupe-100/70 border border-taupe-300 text-charcoal-900 placeholder:text-charcoal-400 focus:bg-white focus:outline-none focus:border-charcoal-800 transition-all"
+                />
+                <Search className="w-4 h-4 text-charcoal-500 absolute left-3 top-1/2 -translate-y-1/2" />
+              </form>
 
-            {/* Live Search Suggestions Dropdown */}
-            {showSuggestions && suggestions.length > 0 && (
-              <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-taupe-200 rounded-2xl shadow-xl overflow-hidden z-50 animate-in fade-in slide-in-from-top-2 duration-150">
-                <div className="p-2 border-b border-taupe-100 bg-ivory-50 flex items-center justify-between text-[11px] font-semibold text-charcoal-500 uppercase tracking-wider">
-                  <span>{t('searchSuggestions')}</span>
-                  <span>{suggestions.length} {t('items')}</span>
-                </div>
-                <div className="divide-y divide-taupe-100 max-h-80 overflow-y-auto">
+              {/* Suggestions Dropdown */}
+              {showSuggestions && suggestions.length > 0 && (
+                <div className="absolute left-0 right-0 top-full mt-2 bg-white rounded-2xl shadow-xl border border-taupe-200 overflow-hidden z-50 p-2 space-y-1">
+                  <div className="px-3 py-1 text-[10px] uppercase font-bold text-taupe-500 tracking-wider">
+                    {isBn ? 'ম্যাচিং প্রোডাক্টস' : 'Suggested Products'}
+                  </div>
                   {suggestions.map((item) => (
                     <Link
                       key={item.id}
                       href={`/product/${item.slug}`}
                       onClick={() => setShowSuggestions(false)}
-                      className="p-3 flex items-center gap-3 hover:bg-ivory-100 transition-colors group"
+                      className="flex items-center gap-3 p-2 rounded-xl hover:bg-taupe-100 transition-colors"
                     >
-                      <div className="relative w-12 h-14 rounded-lg overflow-hidden bg-ivory-200 shrink-0 border border-taupe-200">
+                      <div className="relative w-10 h-10 rounded-lg overflow-hidden bg-ivory-200 shrink-0">
                         <Image
                           src={item.images[0] || '/images/Logo-01.png'}
                           alt={item.name}
@@ -233,254 +266,222 @@ export default function Header() {
                         />
                       </div>
                       <div className="flex-1 min-w-0">
-                        <p className="text-xs font-semibold text-charcoal-900 group-hover:text-terracotta-600 transition-colors line-clamp-1">
+                        <p className="text-xs font-semibold text-charcoal-900 truncate">
                           {isBn && item.nameBn ? item.nameBn : item.name}
                         </p>
-                        <p className="text-[11px] text-charcoal-400 capitalize">
-                          {item.brand || 'SHOKHORA'}
-                        </p>
-                      </div>
-                      <div className="text-right shrink-0">
-                        <span className="font-mono font-bold text-xs text-charcoal-900">
+                        <p className="text-[11px] text-sage-700 font-mono">
                           {formatPrice(item.discountPrice ?? item.regularPrice)}
-                        </span>
+                        </p>
                       </div>
                     </Link>
                   ))}
-                </div>
-                <div className="p-2 bg-ivory-50 border-t border-taupe-100 text-center">
-                  <button
-                    type="button"
-                    onClick={handleSearchSubmit}
-                    className="text-xs font-medium text-charcoal-700 hover:text-charcoal-950 flex items-center justify-center gap-1 w-full py-1"
+                  <Link
+                    href={`/search?q=${encodeURIComponent(searchQuery)}`}
+                    onClick={() => setShowSuggestions(false)}
+                    className="block text-center py-2 text-xs font-semibold text-charcoal-900 hover:bg-taupe-100 rounded-lg transition-colors border-t border-taupe-100 mt-1"
                   >
-                    <span>{isBn ? `"${searchQuery}" এর সকল ফলাফল দেখুন` : `View all results for "${searchQuery}"`}</span>
-                    <ArrowRight className="w-3.5 h-3.5" />
-                  </button>
+                    {isBn ? 'সকল ফলাফল দেখুন' : 'View all results'} &rarr;
+                  </Link>
                 </div>
-              </div>
-            )}
-          </div>
+              )}
+            </div>
 
-          {/* Right Action Icons: Language Toggle, Customer Account, Wishlist, Bag */}
-          <div className="flex items-center gap-1.5 sm:gap-2.5">
-            {/* Quick Language Toggle Pill */}
+            {/* Mobile Search Toggle Icon */}
             <button
               type="button"
-              onClick={() => setLanguage(isBn ? 'en' : 'bn')}
-              className="flex items-center gap-1 px-2.5 py-1.5 rounded-full border border-taupe-300 hover:border-charcoal-800 text-xs font-medium text-charcoal-800 transition-colors"
-              title="Change Language"
+              onClick={() => setSearchOpenMobile(!searchOpenMobile)}
+              className="md:hidden p-2 rounded-xl text-charcoal-700 hover:bg-taupe-100 transition-colors"
+              aria-label="Search"
             >
-              <Globe className="w-3.5 h-3.5 text-taupe-500" />
-              <span>{isBn ? 'English' : 'বাংলা'}</span>
+              <Search className="w-5 h-5" />
             </button>
 
-            {/* Customer Account Button (Customer Only) */}
-            <Link
-              href={user ? '/account' : '/login'}
-              className="flex items-center gap-2 p-2 sm:px-3 sm:py-2 rounded-full hover:bg-taupe-100 text-charcoal-800 transition-colors"
-              title={user ? `Signed in as ${user.displayName}` : 'Customer Login / Register'}
-            >
-              <User className="w-5 h-5 text-charcoal-800" />
-              <span className="hidden xl:inline text-xs font-medium">
-                {user ? user.displayName?.split(' ')[0] || t('myAccount') : t('signIn')}
-              </span>
-            </Link>
-
-            {/* Wishlist Button with Counter */}
+            {/* Wishlist Link */}
             <Link
               href="/wishlist"
-              className="relative p-2.5 rounded-full hover:bg-taupe-100 text-charcoal-800 transition-colors"
+              className="relative p-2 rounded-xl text-charcoal-700 hover:bg-taupe-100 transition-colors"
               title={t('wishlist')}
-              aria-label="Wishlist"
             >
               <Heart className="w-5 h-5" />
               {wishlistCount > 0 && (
-                <span className="absolute -top-0.5 -right-0.5 bg-terracotta-500 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center shadow-sm">
+                <span className="absolute top-1 right-1 w-4 h-4 rounded-full bg-rose-600 text-white text-[10px] font-bold flex items-center justify-center shadow-sm">
                   {wishlistCount}
                 </span>
               )}
             </Link>
 
-            {/* Shopping Cart Bag Button */}
-            <button
-              onClick={() => setIsCartOpen(true)}
-              className="relative flex items-center gap-2 px-3 py-2 sm:px-4 sm:py-2 rounded-full bg-charcoal-900 hover:bg-charcoal-800 text-white transition-all shadow-sm"
-              aria-label="Shopping Bag"
+            {/* Customer Account */}
+            <Link
+              href={user ? '/account' : '/login'}
+              className="p-2 rounded-xl text-charcoal-700 hover:bg-taupe-100 transition-colors flex items-center gap-1.5"
+              title={user ? t('myAccount') : t('login')}
             >
-              <ShoppingBag className="w-4 h-4 text-white" />
-              <span className="hidden sm:inline text-xs font-medium tracking-wide">
-                {t('cart')}
-              </span>
-              {itemCount > 0 && (
-                <span className="bg-amber-400 text-charcoal-950 text-[11px] font-black px-1.5 py-0.2 rounded-full min-w-[18px] text-center">
-                  {itemCount}
+              <User className="w-5 h-5" />
+              {user && (
+                <span className="hidden xl:inline text-xs font-semibold text-charcoal-800 max-w-[100px] truncate">
+                  {(user.displayName || 'Account').split(' ')[0]}
+                </span>
+              )}
+            </Link>
+
+            {/* Shopping Bag Button */}
+            <button
+              type="button"
+              onClick={() => setIsCartOpen(true)}
+              className="inline-flex items-center gap-2 px-3 sm:px-4 py-2 rounded-full bg-charcoal-950 text-white hover:bg-charcoal-800 transition-all shadow-sm"
+              aria-label="Shopping Cart"
+            >
+              <ShoppingBag className="w-4 h-4 text-sage-300" />
+              <span className="text-xs font-bold font-mono">{itemCount}</span>
+              {subtotal > 0 && (
+                <span className="hidden sm:inline border-l border-charcoal-700 pl-2 text-xs font-medium text-stone-200">
+                  {formatPrice(subtotal)}
                 </span>
               )}
             </button>
           </div>
         </div>
 
-        {/* 3. Main Navigation Bar with Categories (Desktop) */}
-        <nav className="hidden md:flex items-center justify-between border-t border-taupe-200/70 py-2.5 text-xs font-medium text-charcoal-700">
-          <div className="flex items-center gap-5 lg:gap-6 overflow-x-auto no-scrollbar">
-            <Link
-              href="/"
-              className="hover:text-charcoal-950 transition-colors whitespace-nowrap text-charcoal-700 hover:font-semibold"
-            >
-              {t('navHome')}
-            </Link>
-
-            <Link
-              href="/shop"
-              className="hover:text-charcoal-950 font-bold transition-colors whitespace-nowrap text-charcoal-900"
-            >
-              {t('navAllProducts')}
-            </Link>
-
-            {CATEGORIES.map((cat) => (
-              <Link
-                key={cat.slug}
-                href={`/category/${cat.slug}`}
-                className="hover:text-charcoal-950 transition-colors whitespace-nowrap text-charcoal-700 hover:font-semibold"
-              >
-                {isBn ? cat.nameBn : cat.name}
-              </Link>
-            ))}
-          </div>
-
-          <div className="flex items-center gap-4 text-taupe-600 shrink-0 pl-4 border-l border-taupe-200">
-            <Link href="/about" className="hover:text-charcoal-900 transition-colors">
-              {t('footerAboutUs')}
-            </Link>
-            <Link href="/contact" className="hover:text-charcoal-900 transition-colors">
-              {t('footerContactUs')}
-            </Link>
-          </div>
-        </nav>
-      </div>
-
-      {/* 4. Mobile Drawer Navigation */}
-      {mobileMenuOpen && (
-        <div className="md:hidden fixed inset-0 top-[112px] z-50 bg-white/98 backdrop-blur-md p-5 overflow-y-auto border-t border-taupe-200 animate-in fade-in duration-200 flex flex-col justify-between">
-          <div className="space-y-5">
-            {/* Mobile Search Input */}
+        {/* Mobile Search Expandable Bar */}
+        {searchOpenMobile && (
+          <div className="md:hidden pb-3 pt-1 border-t border-taupe-200 animate-fadeIn">
             <form onSubmit={handleSearchSubmit} className="relative">
               <input
                 type="text"
-                placeholder={t('searchPlaceholder')}
+                placeholder={isBn ? 'পণ্য বা ব্র্যান্ড খুঁজুন...' : 'Search products...'}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full bg-ivory-100 border border-taupe-300 rounded-xl py-2.5 pl-4 pr-11 text-sm focus:outline-none focus:ring-2 focus:ring-charcoal-900"
+                autoFocus
+                className="w-full pl-10 pr-4 py-2.5 rounded-xl text-xs bg-taupe-100 border border-taupe-300 text-charcoal-900 focus:bg-white focus:outline-none focus:border-charcoal-800"
               />
-              <button
-                type="submit"
-                className="absolute right-2 top-1/2 -translate-y-1/2 p-2 rounded-lg text-charcoal-700"
-                aria-label="Search"
-              >
-                <Search className="w-4 h-4" />
-              </button>
+              <Search className="w-4 h-4 text-charcoal-500 absolute left-3 top-1/2 -translate-y-1/2" />
             </form>
+          </div>
+        )}
+      </div>
 
-            {/* Mobile Language Switcher */}
-            <div className="flex items-center justify-between p-3 bg-ivory-100 rounded-xl border border-taupe-200">
-              <div className="flex items-center gap-2 text-xs font-semibold text-charcoal-800">
-                <Globe className="w-4 h-4 text-sage-600" />
-                <span>{isBn ? 'ভাষা পরিবর্তন করুন:' : 'Language / ভাষা:'}</span>
-              </div>
-              <div className="flex items-center gap-1 bg-white border border-taupe-300 rounded-lg p-0.5 text-xs">
-                <button
-                  type="button"
-                  onClick={() => setLanguage('en')}
-                  className={`px-3 py-1 rounded-md transition-colors ${
-                    language === 'en'
-                      ? 'bg-charcoal-900 text-white font-bold'
-                      : 'text-charcoal-700 hover:bg-taupe-100'
-                  }`}
+      {/* 3. Sub-Category Navigation Bar (Desktop) */}
+      <div className="hidden lg:block bg-ivory-100/70 border-t border-taupe-200/60 py-2">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <ul className="flex items-center justify-between text-xs font-medium text-charcoal-700">
+            {CATEGORIES.map((cat) => (
+              <li key={cat.slug}>
+                <Link
+                  href={`/category/${cat.slug}`}
+                  className="hover:text-charcoal-950 transition-colors py-1 relative group inline-block"
                 >
-                  English
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setLanguage('bn')}
-                  className={`px-3 py-1 rounded-md font-bengali transition-colors ${
-                    language === 'bn'
-                      ? 'bg-charcoal-900 text-white font-bold'
-                      : 'text-charcoal-700 hover:bg-taupe-100'
-                  }`}
-                >
-                  বাংলা
-                </button>
-              </div>
-            </div>
+                  <span>{isBn ? cat.nameBn : cat.name}</span>
+                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-charcoal-900 transition-all duration-300 group-hover:w-full" />
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
 
-            {/* Categories */}
+      {/* Mobile Menu Drawer */}
+      {mobileMenuOpen && (
+        <div className="fixed inset-0 z-50 lg:hidden">
+          <div
+            className="fixed inset-0 bg-charcoal-950/60 backdrop-blur-sm transition-opacity"
+            onClick={() => setMobileMenuOpen(false)}
+          />
+          <div className="fixed inset-y-0 left-0 max-w-xs w-full bg-white shadow-2xl z-50 flex flex-col justify-between overflow-y-auto">
             <div>
-              <p className="text-[11px] uppercase font-bold tracking-wider text-charcoal-400 mb-2">
-                {t('categoriesTitle')}
-              </p>
-              <div className="divide-y divide-taupe-100">
+              {/* Drawer Header */}
+              <div className="p-5 border-b border-taupe-200 flex items-center justify-between bg-ivory-100">
+                <div className="relative w-32 h-10">
+                  <Image
+                    src="/images/Logo-01.png"
+                    alt="SHOKHORA"
+                    fill
+                    className="object-contain object-left"
+                  />
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="p-2 rounded-xl text-charcoal-600 hover:bg-taupe-200 transition-colors"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+
+              {/* Language Switcher in Drawer */}
+              <div className="p-4 bg-taupe-100/50 border-b border-taupe-200 flex items-center justify-between">
+                <span className="text-xs font-semibold text-charcoal-700">
+                  {isBn ? 'ভাষা নির্বাচন করুন:' : 'Select Language:'}
+                </span>
+                <div className="flex rounded-lg border border-taupe-300 p-0.5 bg-white text-xs">
+                  <button
+                    onClick={() => setLanguage('en')}
+                    className={`px-3 py-1 rounded font-semibold transition-all ${
+                      language === 'en'
+                        ? 'bg-charcoal-900 text-white shadow-sm'
+                        : 'text-charcoal-600'
+                    }`}
+                  >
+                    English
+                  </button>
+                  <button
+                    onClick={() => setLanguage('bn')}
+                    className={`px-3 py-1 rounded font-bengali font-semibold transition-all ${
+                      language === 'bn'
+                        ? 'bg-charcoal-900 text-white shadow-sm'
+                        : 'text-charcoal-600'
+                    }`}
+                  >
+                    বাংলা
+                  </button>
+                </div>
+              </div>
+
+              {/* Navigation Links */}
+              <div className="p-4 space-y-1">
+                <p className="px-3 py-1 text-[10px] uppercase font-bold tracking-wider text-taupe-500">
+                  {isBn ? 'প্রধান ক্যাটাগরি' : 'Main Categories'}
+                </p>
                 <Link
                   href="/shop"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="block py-2.5 text-sm font-bold text-charcoal-900"
+                  className="flex items-center justify-between p-3 rounded-xl font-semibold text-sm text-charcoal-900 hover:bg-ivory-100 transition-colors"
                 >
-                  {t('navAllProducts')}
+                  <span>{t('allProducts')}</span>
+                  <ArrowRight className="w-4 h-4 text-taupe-400" />
                 </Link>
                 {CATEGORIES.map((cat) => (
                   <Link
                     key={cat.slug}
                     href={`/category/${cat.slug}`}
                     onClick={() => setMobileMenuOpen(false)}
-                    className="flex items-center justify-between py-2.5 text-sm text-charcoal-700 hover:text-charcoal-950"
+                    className="flex items-center justify-between p-3 rounded-xl text-sm text-charcoal-700 hover:bg-ivory-100 transition-colors"
                   >
                     <span>{isBn ? cat.nameBn : cat.name}</span>
-                    <span className="text-xs font-bengali text-taupe-500">
-                      {isBn ? cat.name : cat.nameBn}
-                    </span>
+                    <ArrowRight className="w-4 h-4 text-taupe-400" />
                   </Link>
                 ))}
               </div>
             </div>
 
-            {/* Quick Links */}
-            <div>
-              <p className="text-[11px] uppercase font-bold tracking-wider text-charcoal-400 mb-2">
-                {t('footerQuickLinks')}
-              </p>
-              <div className="grid grid-cols-2 gap-2 text-xs text-charcoal-600">
-                <Link href="/wishlist" onClick={() => setMobileMenuOpen(false)} className="py-1">
-                  {t('wishlist')} ({wishlistCount})
-                </Link>
-                <Link href="/track-order" onClick={() => setMobileMenuOpen(false)} className="py-1">
-                  {t('footerTrackOrder')}
-                </Link>
-                <Link href="/about" onClick={() => setMobileMenuOpen(false)} className="py-1">
-                  {t('footerAboutUs')}
-                </Link>
-                <Link href="/contact" onClick={() => setMobileMenuOpen(false)} className="py-1">
-                  {t('footerContactUs')}
-                </Link>
-                <Link href="/policies/shipping" onClick={() => setMobileMenuOpen(false)} className="py-1">
-                  {t('footerShippingPolicy')}
-                </Link>
-                <Link href="/policies/return" onClick={() => setMobileMenuOpen(false)} className="py-1">
-                  {t('footerReturnPolicy')}
-                </Link>
+            {/* Drawer Footer */}
+            <div className="p-5 border-t border-taupe-200 bg-ivory-100 space-y-3">
+              <Link
+                href={user ? '/account' : '/login'}
+                onClick={() => setMobileMenuOpen(false)}
+                className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-charcoal-900 text-white text-xs font-semibold shadow-sm"
+              >
+                <User className="w-4 h-4" />
+                <span>{user ? t('myAccount') : t('login')}</span>
+              </Link>
+              <div className="text-center">
+                <a
+                  href="tel:01568923850"
+                  className="text-xs font-mono text-charcoal-600 hover:text-charcoal-950"
+                >
+                  Hotline: 01568923850
+                </a>
               </div>
             </div>
-          </div>
-
-          {/* Account Footer in Mobile Menu */}
-          <div className="pt-6 mt-6 border-t border-taupe-200">
-            <Link
-              href={user ? '/account' : '/login'}
-              onClick={() => setMobileMenuOpen(false)}
-              className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-charcoal-900 text-white text-sm font-medium shadow-sm"
-            >
-              <User className="w-4 h-4" />
-              <span>{user ? t('myAccount') : t('signIn')}</span>
-            </Link>
           </div>
         </div>
       )}

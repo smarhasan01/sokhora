@@ -20,10 +20,10 @@ export default function ContactPage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-ivory-100">
+    <div className="min-h-screen flex flex-col bg-[#FAF7F2] text-[#191817]">
       <Header />
 
-      <main className="flex-1 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full space-y-10">
+      <main className="flex-1 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 w-full space-y-10">
         {/* Breadcrumb */}
         <nav className="flex items-center gap-1.5 text-xs text-charcoal-500">
           <Link href="/" className="hover:text-charcoal-900">{t('navHome')}</Link>

@@ -239,6 +239,19 @@ export interface Translations {
   contactUsTitle: string;
   sendMessage: string;
   messageSuccess: string;
+
+  // Shortcuts & Aliases
+  allProducts: string;
+  login: string;
+  clearCart: string;
+  emptyCart: string;
+  deliveryLocation: string;
+  insideDhaka: string;
+  outsideDhaka: string;
+  promoCode: string;
+  apply: string;
+  discount: string;
+  total: string;
 }
 
 export const translations: Record<Language, Translations> = {
@@ -481,6 +494,18 @@ export const translations: Record<Language, Translations> = {
     contactUsTitle: 'Contact Us & Showroom',
     sendMessage: 'Send Us a Message',
     messageSuccess: 'Thank you! Your message has been sent to our customer care team.',
+
+    allProducts: 'All Products',
+    login: 'Sign In',
+    clearCart: 'Clear Bag',
+    emptyCart: 'Your shopping bag is empty',
+    deliveryLocation: 'Delivery Location',
+    insideDhaka: 'Inside Dhaka',
+    outsideDhaka: 'Outside Dhaka',
+    promoCode: 'Promo Code',
+    apply: 'Apply',
+    discount: 'Discount',
+    total: 'Total',
   },
 
   bn: {
@@ -722,5 +747,17 @@ export const translations: Record<Language, Translations> = {
     contactUsTitle: 'যোগাযোগ ও শোরুম',
     sendMessage: 'আমাদের বার্তা পাঠান',
     messageSuccess: 'ধন্যবাদ! আপনার বার্তাটি আমাদের গ্রাহক সেবা টিমের কাছে পৌঁছে গেছে।',
+
+    allProducts: 'সকল পণ্য',
+    login: 'লগইন',
+    clearCart: 'ব্যাগ খালি করুন',
+    emptyCart: 'আপনার শপিং ব্যাগটি খালি',
+    deliveryLocation: 'ডেলিভারির এলাকা',
+    insideDhaka: 'ঢাকা সিটি',
+    outsideDhaka: 'ঢাকার বাইরে',
+    promoCode: 'প্রোমো কোড',
+    apply: 'প্রয়োগ',
+    discount: 'ছাড়',
+    total: 'মোট',
   },
 };

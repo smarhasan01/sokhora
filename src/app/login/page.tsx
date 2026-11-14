@@ -36,13 +36,13 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-ivory-100">
+    <div className="min-h-screen flex flex-col bg-[#FAF7F2] text-[#191817]">
       <Header />
 
-      <main className="flex-1 flex items-center justify-center p-4 sm:p-8">
-        <div className="w-full max-w-md bg-white rounded-3xl p-8 sm:p-10 border border-taupe-200/90 shadow-[0_4px_20px_rgba(0,0,0,0.04)] space-y-6">
+      <main className="flex-1 flex items-center justify-center p-4 sm:p-10">
+        <div className="w-full max-w-md bg-white rounded-3xl p-8 sm:p-10 border border-stone-200/90 shadow-[0_8px_30px_rgba(0,0,0,0.04)] space-y-6">
           <div className="text-center space-y-2">
-            <div className="relative w-40 h-12 mx-auto mb-2">
+            <div className="relative w-44 h-12 mx-auto mb-2">
               <Image
                 src="/images/Logo-01.png"
                 alt="SHOKHORA"
@@ -51,13 +51,13 @@ export default function LoginPage() {
                 className="object-contain"
               />
             </div>
-            <h1 className="text-2xl font-serif font-bold text-charcoal-950">
+            <h1 className="text-2xl sm:text-3xl font-serif font-medium text-stone-900">
               {isBn ? 'গ্রাহক লগইন' : 'Customer Sign In'}
             </h1>
-            <p className="text-xs text-charcoal-500 max-w-xs mx-auto">
+            <p className="text-xs text-stone-500 max-w-xs mx-auto font-mono">
               {isBn
-                ? 'আপনার অর্ডার হিস্ট্রি, ডেলিভারি ট্র্যাকিং এবং সংরক্ষিত ঠিকানা দেখতে সাইন ইন করুন।'
-                : 'Sign in to view your past orders, delivery tracking, and saved addresses.'}
+                ? 'আপনার অর্ডার হিস্ট্রি, ট্র্যাকিং এবং ডেলিভারি ঠিকানা দেখতে সাইন ইন করুন।'
+                : 'Sign in to access your orders, saved addresses, and wishlist.'}
             </p>
           </div>
 

@@ -119,10 +119,10 @@ function ShopContent() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-ivory-100">
+    <div className="min-h-screen flex flex-col bg-[#FAF7F2] text-[#191817]">
       <Header />
 
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-16">
         {/* Page Title & Breadcrumb */}
         <div className="mb-8">
           <h1 className="text-2xl sm:text-3xl font-serif font-bold text-charcoal-950">

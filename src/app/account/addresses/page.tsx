@@ -77,10 +77,10 @@ export default function AddressesPage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-ivory-100">
+    <div className="min-h-screen flex flex-col bg-[#FAF7F2] text-[#191817]">
       <Header />
 
-      <main className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full">
+      <main className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-16 w-full">
         {/* Breadcrumb */}
         <nav className="flex items-center gap-1.5 text-xs text-charcoal-500 mb-6">
           <Link href="/" className="hover:text-charcoal-900">{t('navHome')}</Link>

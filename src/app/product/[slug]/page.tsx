@@ -83,197 +83,175 @@ export default function ProductDetailPage() {
     }
   };
 
-  // Related products
-  const relatedProducts = getProducts()
+  const allProducts = getProducts();
+  const relatedProducts = allProducts
     .filter((p) => p.category === product.category && p.id !== product.id && p.isPublished)
     .slice(0, 4);
 
   const displayName = isBn && product.nameBn ? product.nameBn : product.name;
   const displayBrand = isBn && product.brandBn ? product.brandBn : (product.brand || 'SHOKHORA');
-  const displayDesc = isBn && product.descriptionBn ? product.descriptionBn : product.description;
 
   return (
-    <div className="min-h-screen flex flex-col bg-ivory-100">
+    <div className="min-h-screen flex flex-col bg-[#FAF7F2] text-[#191817]">
       <Header />
 
-      <main className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
-        {/* Breadcrumb */}
-        <nav className="flex items-center gap-1.5 text-xs text-charcoal-500 mb-6 flex-wrap">
-          <Link href="/" className="hover:text-charcoal-900 transition-colors">
-            {t('navHome')}
-          </Link>
-          <ChevronRight className="w-3.5 h-3.5 text-taupe-400" />
-          <Link href="/shop" className="hover:text-charcoal-900 transition-colors">
-            {t('navAllProducts')}
-          </Link>
-          <ChevronRight className="w-3.5 h-3.5 text-taupe-400" />
-          <Link
-            href={`/category/${product.category}`}
-            className="hover:text-charcoal-900 transition-colors capitalize"
-          >
-            {product.category.replace(/-/g, ' ')}
-          </Link>
-          <ChevronRight className="w-3.5 h-3.5 text-taupe-400" />
-          <span className="text-charcoal-900 font-medium truncate max-w-xs">{displayName}</span>
-        </nav>
+      <main className="flex-1">
+        {/* Breadcrumb Navigation */}
+        <div className="border-b border-stone-200/80 bg-white py-3.5">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex items-center gap-2 text-xs text-stone-500 font-mono">
+              <Link href="/" className="hover:text-stone-900 transition-colors">
+                {t('navHome')}
+              </Link>
+              <ChevronRight className="w-3.5 h-3.5 text-stone-400" />
+              <Link href="/shop" className="hover:text-stone-900 transition-colors">
+                {t('allProducts')}
+              </Link>
+              <ChevronRight className="w-3.5 h-3.5 text-stone-400" />
+              <Link
+                href={`/category/${product.category}`}
+                className="hover:text-stone-900 transition-colors capitalize"
+              >
+                {product.category.replace(/-/g, ' ')}
+              </Link>
+              <ChevronRight className="w-3.5 h-3.5 text-stone-400" />
+              <span className="text-stone-900 font-semibold truncate max-w-xs">{displayName}</span>
+            </div>
+          </div>
+        </div>
 
-        {/* Product Main Showcase */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 bg-white rounded-3xl p-6 sm:p-10 border border-taupe-200 shadow-sm">
-          {/* Left Column: Image Gallery */}
-          <div className="lg:col-span-6 flex flex-col-reverse sm:flex-row gap-4">
-            {/* Thumbnails */}
-            {product.images.length > 1 && (
-              <div className="flex sm:flex-col gap-3 overflow-x-auto sm:overflow-y-auto max-h-[500px] flex-shrink-0">
+        {/* Product Details Section */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-16">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14">
+            
+            {/* Gallery Column (7 cols) */}
+            <div className="lg:col-span-7 flex flex-col-reverse sm:flex-row gap-4">
+              {/* Thumbnail Strip */}
+              <div className="flex sm:flex-col gap-3 overflow-x-auto sm:overflow-visible shrink-0 pb-2 sm:pb-0">
                 {product.images.map((img, idx) => (
                   <button
                     key={idx}
                     type="button"
                     onClick={() => setSelectedImage(img)}
-                    className={`relative w-16 h-16 sm:w-20 sm:h-20 rounded-xl overflow-hidden border-2 transition-all flex-shrink-0 ${
+                    className={`relative w-16 h-20 sm:w-20 sm:h-24 rounded-xl overflow-hidden border-2 transition-all shrink-0 bg-white shadow-sm ${
                       selectedImage === img
-                        ? 'border-charcoal-950 shadow-sm'
-                        : 'border-taupe-200 hover:border-taupe-400'
+                        ? 'border-stone-900 ring-2 ring-stone-900/10'
+                        : 'border-stone-200 hover:border-stone-400'
                     }`}
                   >
-                    <Image src={img} alt={`${product.name} ${idx}`} fill className="object-cover" />
+                    <Image
+                      src={img}
+                      alt={`${displayName} ${idx + 1}`}
+                      fill
+                      className="object-cover object-center"
+                    />
                   </button>
                 ))}
               </div>
-            )}
 
-            {/* Main Image */}
-            <div className="relative aspect-square flex-1 rounded-2xl overflow-hidden bg-taupe-100 border border-taupe-200">
-              <Image
-                src={selectedImage}
-                alt={displayName}
-                fill
-                priority
-                className="object-cover object-center"
-              />
+              {/* Main Active Image Container */}
+              <div className="relative flex-1 aspect-[4/5] rounded-3xl overflow-hidden bg-white border border-stone-200/90 shadow-lg">
+                <Image
+                  src={selectedImage}
+                  alt={displayName}
+                  fill
+                  priority
+                  sizes="(max-width: 1024px) 100vw, 55vw"
+                  className="object-cover object-center"
+                />
 
-              {hasDiscount && (
-                <span className="absolute top-4 left-4 px-3 py-1 rounded-full text-xs font-bold bg-terracotta-500 text-white shadow-md">
-                  {isBn ? `ছাড় ${formatNumber(discountPercent)}%` : `SAVE ${discountPercent}%`}
-                </span>
-              )}
+                {/* Badges on Gallery */}
+                <div className="absolute top-4 left-4 flex flex-col gap-2 z-10">
+                  {hasDiscount && (
+                    <span className="px-3 py-1 rounded-full text-xs font-mono font-bold bg-[#191817] text-amber-300 shadow">
+                      -{formatNumber(discountPercent)}%
+                    </span>
+                  )}
+                  {product.isNewArrival && (
+                    <span className="px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider bg-white/95 text-stone-900 border border-stone-300 shadow">
+                      {isBn ? 'নতুন' : 'NEW'}
+                    </span>
+                  )}
+                </div>
 
-              <div className="absolute top-4 right-4 flex items-center gap-2">
+                {/* Floating Wishlist Heart */}
                 <button
                   type="button"
                   onClick={() => toggleWishlist(product)}
-                  className={`p-2.5 rounded-full backdrop-blur-sm shadow-sm transition-all ${
+                  className={`absolute top-4 right-4 z-10 p-3 rounded-full transition-all shadow-md ${
                     inWishlist
-                      ? 'bg-white text-terracotta-500 shadow-md scale-105'
-                      : 'bg-white/90 text-charcoal-700 hover:text-terracotta-500 hover:bg-white'
+                      ? 'bg-white text-rose-600 scale-105'
+                      : 'bg-white/90 backdrop-blur-sm text-stone-700 hover:text-rose-600 hover:bg-white'
                   }`}
                   title={inWishlist ? t('removeFromWishlist') : t('wishlist')}
                 >
                   <Heart
-                    className={`w-4 h-4 transition-colors ${
-                      inWishlist ? 'fill-terracotta-500 stroke-terracotta-500' : 'stroke-current'
-                    }`}
+                    className={`w-5 h-5 ${inWishlist ? 'fill-rose-600 text-rose-600' : ''}`}
                   />
-                </button>
-
-                <button
-                  onClick={handleShare}
-                  className="p-2.5 rounded-full bg-white/90 backdrop-blur-sm text-charcoal-700 hover:bg-white hover:text-charcoal-900 shadow-sm transition-all"
-                  title={t('share')}
-                >
-                  {copiedLink ? <Check className="w-4 h-4 text-emerald-600" /> : <Share2 className="w-4 h-4" />}
                 </button>
               </div>
             </div>
-          </div>
 
-          {/* Right Column: Product Info & Purchase Controls */}
-          <div className="lg:col-span-6 flex flex-col justify-between space-y-6">
-            <div className="space-y-4">
-              {/* Brand & Stock Status */}
-              <div className="flex items-center justify-between">
-                <Link
-                  href={`/shop?brand=${encodeURIComponent(product.brand || '')}`}
-                  className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-taupe-100 text-charcoal-800 hover:bg-taupe-200 transition-colors"
-                >
-                  <Tag className="w-3 h-3 text-sage-600" />
-                  <span>{displayBrand}</span>
-                </Link>
-
-                {product.stock > 5 ? (
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 animate-pulse" />{' '}
-                    {isBn ? `স্টকে আছে (${formatNumber(product.stock)}টি)` : `In Stock (${product.stock} available)`}
+            {/* Info Column (5 cols) */}
+            <div className="lg:col-span-5 space-y-6">
+              <div>
+                <div className="flex items-center justify-between text-xs font-mono text-stone-500 mb-2">
+                  <span className="uppercase tracking-widest font-semibold text-emerald-800 bg-emerald-50 px-2.5 py-1 rounded-md">
+                    {displayBrand}
                   </span>
-                ) : product.stock > 0 ? (
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-amber-100 text-amber-800">
-                    {isBn ? `সীমিত স্টক: মাত্র ${formatNumber(product.stock)}টি বাকি!` : `Low Stock: Only ${product.stock} left!`}
-                  </span>
-                ) : (
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-rose-100 text-rose-800">
-                    {t('outOfStock')}
-                  </span>
-                )}
-              </div>
+                  <span>SKU: {product.sku}</span>
+                </div>
 
-              {/* Title */}
-              <h1 className="text-2xl sm:text-3xl font-serif font-bold text-charcoal-950 leading-tight">
-                {displayName}
-              </h1>
+                <h1 className="text-2xl sm:text-3xl lg:text-4xl font-serif font-medium text-[#191817] leading-tight">
+                  {displayName}
+                </h1>
 
-              {/* Rating & SKU */}
-              <div className="flex items-center gap-4 text-xs text-charcoal-500 pt-1">
-                {product.rating && (
-                  <div className="flex items-center gap-1.5">
-                    <div className="flex text-amber-500">
-                      {[...Array(5)].map((_, i) => (
-                        <Star
-                          key={i}
-                          className={`w-3.5 h-3.5 ${
-                            i < Math.floor(product.rating || 0)
-                              ? 'fill-amber-400 stroke-amber-400'
-                              : 'text-taupe-300'
-                          }`}
-                        />
-                      ))}
-                    </div>
-                    <span className="font-semibold text-charcoal-800">
-                      {formatNumber(product.rating.toFixed(1))}
-                    </span>
-                    <span className="text-charcoal-400">
-                      ({formatNumber(product.reviewCount || 12)} {isBn ? 'মতামত' : 'reviews'})
-                    </span>
+                {/* Rating & Stock */}
+                <div className="flex items-center gap-4 mt-3 pt-2 text-xs font-mono">
+                  <div className="flex items-center gap-1 text-amber-600">
+                    <Star className="w-4 h-4 fill-amber-400 text-amber-400" />
+                    <span className="font-bold text-stone-900">{product.rating || '4.9'}</span>
+                    <span className="text-stone-400">({product.reviewCount || 42} reviews)</span>
                   </div>
-                )}
-                <span>•</span>
-                <span className="font-mono text-xs">SKU: {product.sku}</span>
+                  <span className="text-stone-300">&bull;</span>
+                  {product.stock > 0 ? (
+                    <span className="inline-flex items-center gap-1.5 text-emerald-700 font-semibold">
+                      <span className="w-2 h-2 rounded-full bg-emerald-600 animate-pulse" />
+                      {isBn ? 'স্টকে আছে' : 'In Stock'} ({formatNumber(product.stock)} items)
+                    </span>
+                  ) : (
+                    <span className="text-rose-600 font-semibold">
+                      {isBn ? 'স্টক শেষ' : 'Out of Stock'}
+                    </span>
+                  )}
+                </div>
               </div>
 
-              {/* Price Block */}
-              <div className="p-4 rounded-2xl bg-taupe-50/80 border border-taupe-200 flex items-baseline gap-3">
-                <span className="text-2xl sm:text-3xl font-bold font-mono text-charcoal-950">
+              {/* Price Panel */}
+              <div className="p-5 rounded-2xl bg-white border border-stone-200/90 shadow-sm flex items-baseline gap-3">
+                <span className="text-2xl sm:text-3xl font-mono font-bold text-stone-900">
                   {formatPrice(price)}
                 </span>
                 {hasDiscount && (
                   <>
-                    <span className="text-base text-charcoal-400 line-through font-mono">
+                    <span className="text-sm font-mono text-stone-400 line-through">
                       {formatPrice(product.regularPrice)}
                     </span>
-                    <span className="text-xs font-semibold text-terracotta-600 bg-terracotta-50 px-2 py-0.5 rounded border border-terracotta-200">
-                      {isBn
-                        ? `সাশ্রয় ${formatPrice(product.regularPrice - product.discountPrice!)}`
-                        : `You save ${formatPrice(product.regularPrice - product.discountPrice!)}`}
+                    <span className="text-xs font-mono font-semibold text-amber-700 bg-amber-50 px-2 py-0.5 rounded">
+                      {isBn ? 'সাশ্রয়' : 'Save'} {formatPrice(product.regularPrice - price)}
                     </span>
                   </>
                 )}
               </div>
 
-              {/* Variations: Colors */}
+              {/* Color Variation Selector */}
               {product.variations?.colors && product.variations.colors.length > 0 && (
-                <div className="space-y-2 pt-2">
-                  <div className="flex justify-between text-xs">
-                    <span className="font-semibold text-charcoal-700 uppercase tracking-wider">
-                      {t('selectColor')}: <span className="text-charcoal-950 font-normal">{selectedColor}</span>
+                <div className="space-y-2.5">
+                  <div className="flex items-center justify-between text-xs">
+                    <span className="font-semibold text-stone-700 uppercase tracking-wider font-mono">
+                      {isBn ? 'রং নির্বাচন:' : 'Select Color:'}
                     </span>
+                    <span className="text-stone-500 font-mono">{selectedColor}</span>
                   </div>
                   <div className="flex flex-wrap gap-2.5">
                     {product.variations.colors.map((c) => (
@@ -281,14 +259,14 @@ export default function ProductDetailPage() {
                         key={c.name}
                         type="button"
                         onClick={() => setSelectedColor(c.name)}
-                        className={`flex items-center gap-2 px-3 py-1.5 rounded-full border text-xs font-medium transition-all ${
+                        className={`group flex items-center gap-2 px-3 py-1.5 rounded-full border text-xs font-medium transition-all ${
                           selectedColor === c.name
-                            ? 'border-charcoal-900 bg-charcoal-900 text-white shadow-sm'
-                            : 'border-taupe-300 bg-white text-charcoal-700 hover:border-taupe-500'
+                            ? 'border-stone-900 bg-white ring-2 ring-stone-900/15 text-stone-900 shadow-sm'
+                            : 'border-stone-300 bg-white/60 text-stone-600 hover:border-stone-400'
                         }`}
                       >
                         <span
-                          className="w-3.5 h-3.5 rounded-full border border-black/10"
+                          className="w-3.5 h-3.5 rounded-full border border-black/10 shrink-0"
                           style={{ backgroundColor: c.hex }}
                         />
                         <span>{c.name}</span>
@@ -298,22 +276,25 @@ export default function ProductDetailPage() {
                 </div>
               )}
 
-              {/* Variations: Sizes */}
+              {/* Size Selector */}
               {product.variations?.sizes && product.variations.sizes.length > 0 && (
-                <div className="space-y-2 pt-2">
-                  <span className="text-xs font-semibold text-charcoal-700 uppercase tracking-wider">
-                    {t('selectSize')}: <span className="text-charcoal-950 font-normal">{selectedSize}</span>
-                  </span>
+                <div className="space-y-2.5">
+                  <div className="flex items-center justify-between text-xs">
+                    <span className="font-semibold text-stone-700 uppercase tracking-wider font-mono">
+                      {isBn ? 'সাইজ নির্বাচন:' : 'Select Size:'}
+                    </span>
+                    <span className="text-stone-500 font-mono">{selectedSize}</span>
+                  </div>
                   <div className="flex flex-wrap gap-2">
                     {product.variations.sizes.map((s) => (
                       <button
                         key={s}
                         type="button"
                         onClick={() => setSelectedSize(s)}
-                        className={`px-3.5 py-1.5 rounded-lg border text-xs font-medium transition-all ${
+                        className={`min-w-[48px] px-3.5 py-2 rounded-xl text-xs font-mono font-semibold border transition-all ${
                           selectedSize === s
-                            ? 'border-charcoal-900 bg-charcoal-900 text-white shadow-sm'
-                            : 'border-taupe-300 bg-white text-charcoal-700 hover:border-taupe-500'
+                            ? 'bg-[#191817] text-white border-[#191817] shadow-sm'
+                            : 'bg-white text-stone-700 border-stone-300 hover:border-stone-400'
                         }`}
                       >
                         {s}
@@ -323,220 +304,212 @@ export default function ProductDetailPage() {
                 </div>
               )}
 
-              {/* Quantity Selector */}
-              <div className="pt-2">
-                <span className="text-xs font-semibold text-charcoal-700 uppercase tracking-wider mb-2 block">
-                  {t('quantity')}
-                </span>
+              {/* Quantity Stepper & Add to Bag / Buy Now */}
+              <div className="space-y-3 pt-2">
                 <div className="flex items-center gap-3">
-                  <div className="flex items-center border border-taupe-300 rounded-xl bg-white p-1">
+                  {/* Quantity Stepper */}
+                  <div className="flex items-center rounded-2xl border border-stone-300 bg-white p-1">
                     <button
                       type="button"
-                      onClick={() => setQuantity((q) => Math.max(1, q - 1))}
+                      onClick={() => setQuantity(Math.max(1, quantity - 1))}
                       disabled={quantity <= 1}
-                      className="p-1.5 hover:bg-taupe-100 rounded-lg text-charcoal-700 disabled:opacity-40 transition-colors"
-                      aria-label="Decrease quantity"
+                      className="p-2 rounded-xl hover:bg-stone-100 text-stone-600 disabled:opacity-30 transition-colors"
                     >
                       <Minus className="w-4 h-4" />
                     </button>
-                    <span className="w-10 text-center font-mono font-bold text-sm text-charcoal-900">
-                      {formatNumber(quantity)}
+                    <span className="w-10 text-center font-mono font-bold text-sm text-stone-900">
+                      {quantity}
                     </span>
                     <button
                       type="button"
-                      onClick={() => setQuantity((q) => Math.min(product.stock, q + 1))}
+                      onClick={() => setQuantity(Math.min(product.stock, quantity + 1))}
                       disabled={quantity >= product.stock}
-                      className="p-1.5 hover:bg-taupe-100 rounded-lg text-charcoal-700 disabled:opacity-40 transition-colors"
-                      aria-label="Increase quantity"
+                      className="p-2 rounded-xl hover:bg-stone-100 text-stone-600 disabled:opacity-30 transition-colors"
                     >
                       <Plus className="w-4 h-4" />
                     </button>
                   </div>
-                  <span className="text-xs text-charcoal-500">
-                    {isBn ? 'মোট:' : 'Subtotal:'}{' '}
-                    <span className="font-mono font-bold text-charcoal-900">
-                      {formatPrice(price * quantity)}
-                    </span>
-                  </span>
+
+                  {/* Add to Cart Button */}
+                  <button
+                    type="button"
+                    onClick={handleAddToCart}
+                    disabled={product.stock <= 0}
+                    className={`flex-1 py-3.5 px-6 rounded-2xl text-xs uppercase tracking-widest font-semibold flex items-center justify-center gap-2 transition-all shadow-md ${
+                      addedAnimation
+                        ? 'bg-emerald-700 text-white'
+                        : 'bg-[#191817] text-white hover:bg-stone-800'
+                    }`}
+                  >
+                    {addedAnimation ? (
+                      <>
+                        <Check className="w-4 h-4" />
+                        <span>{isBn ? 'ব্যাগে যোগ হয়েছে' : 'Added to Bag'}</span>
+                      </>
+                    ) : (
+                      <>
+                        <ShoppingBag className="w-4 h-4 text-amber-300" />
+                        <span>{t('addToCart')}</span>
+                      </>
+                    )}
+                  </button>
                 </div>
-              </div>
-            </div>
 
-            {/* Action Buttons: Add to Cart & Buy Now */}
-            <div className="pt-6 border-t border-taupe-200 space-y-3">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <button
-                  type="button"
-                  onClick={handleAddToCart}
-                  disabled={product.stock <= 0}
-                  className={`py-3.5 px-6 rounded-2xl font-semibold text-sm transition-all flex items-center justify-center gap-2 shadow-sm ${
-                    addedAnimation
-                      ? 'bg-emerald-600 text-white'
-                      : 'bg-white border-2 border-charcoal-900 text-charcoal-900 hover:bg-charcoal-50 disabled:opacity-50'
-                  }`}
-                >
-                  <ShoppingBag className="w-4 h-4" />
-                  {addedAnimation ? t('addedToCart') : t('addToCart')}
-                </button>
-
+                {/* Direct Buy Now Button */}
                 <button
                   type="button"
                   onClick={handleBuyNow}
                   disabled={product.stock <= 0}
-                  className="py-3.5 px-6 rounded-2xl font-semibold text-sm bg-charcoal-950 hover:bg-charcoal-900 text-white transition-all flex items-center justify-center gap-2 shadow-md hover:shadow-lg disabled:opacity-50"
+                  className="w-full py-3.5 px-6 rounded-2xl bg-white border-2 border-stone-900 text-stone-900 hover:bg-stone-900 hover:text-white text-xs uppercase tracking-widest font-bold flex items-center justify-center gap-2 transition-all shadow-sm"
                 >
-                  <Zap className="w-4 h-4" /> {t('buyNow')}
+                  <Zap className="w-4 h-4 text-amber-500 fill-amber-400" />
+                  <span>{t('buyNow')}</span>
                 </button>
               </div>
 
-              {/* Trust Features Strip */}
-              <div className="pt-4 grid grid-cols-3 gap-2 text-center text-[11px] text-charcoal-600 border-t border-taupe-100">
-                <div className="flex flex-col items-center gap-1">
-                  <Truck className="w-4 h-4 text-sage-600" />
-                  <span>{isBn ? '৪৮-৭২ ঘণ্টার ডেলিভারি' : 'Delivery in 48-72h'}</span>
+              {/* Express Delivery Information Box */}
+              <div className="p-4 rounded-2xl bg-white border border-stone-200/90 space-y-3 text-xs">
+                <div className="flex items-start gap-3">
+                  <Truck className="w-4 h-4 text-emerald-700 shrink-0 mt-0.5" />
+                  <div>
+                    <p className="font-semibold text-stone-900 font-mono">
+                      {isBn ? 'দ্রুত হোম ডেলিভারি' : 'Express Home Delivery'}
+                    </p>
+                    <p className="text-stone-500 text-[11px] mt-0.5 font-mono">
+                      {isBn
+                        ? 'ঢাকা সিটি: ২৪-৪৮ ঘণ্টা (৳৬০) • ঢাকার বাইরে: ২-৪ দিন (৳১২০)'
+                        : 'Inside Dhaka: 24-48 hrs (৳60) • Outside Dhaka: 2-4 days (৳120)'}
+                    </p>
+                  </div>
                 </div>
-                <div className="flex flex-col items-center gap-1">
-                  <ShieldCheck className="w-4 h-4 text-sage-600" />
-                  <span>{isBn ? 'ক্যাশ অন ডেলিভারি' : 'Cash on Delivery'}</span>
-                </div>
-                <div className="flex flex-col items-center gap-1">
-                  <RefreshCw className="w-4 h-4 text-sage-600" />
-                  <span>{isBn ? '৭ দিনের এক্সচেঞ্জ' : '7 Days Exchange'}</span>
+
+                <div className="flex items-start gap-3 pt-2 border-t border-stone-100">
+                  <RefreshCw className="w-4 h-4 text-amber-700 shrink-0 mt-0.5" />
+                  <div>
+                    <p className="font-semibold text-stone-900 font-mono">
+                      {isBn ? '৭ দিনের সহজ এক্সচেঞ্জ' : '7-Day Return & Exchange'}
+                    </p>
+                    <p className="text-stone-500 text-[11px] mt-0.5 font-mono">
+                      {isBn
+                        ? 'দরজায় কোনো ঝামেলা ছাড়াই সাইজ বা কালার এক্সচেঞ্জ সুবিধা।'
+                        : 'Doorstep size and color replacement nationwide.'}
+                    </p>
+                  </div>
                 </div>
               </div>
+
+              {/* Tabbed Content: Details / Specifications / Shipping */}
+              <div className="pt-4 border-t border-stone-200">
+                <div className="flex border-b border-stone-200 text-xs font-semibold">
+                  <button
+                    onClick={() => setActiveTab('desc')}
+                    className={`pb-2.5 px-3 border-b-2 font-mono uppercase tracking-wider transition-colors ${
+                      activeTab === 'desc'
+                        ? 'border-stone-900 text-stone-900'
+                        : 'border-transparent text-stone-400 hover:text-stone-700'
+                    }`}
+                  >
+                    {isBn ? 'বিবরণ' : 'Description'}
+                  </button>
+                  <button
+                    onClick={() => setActiveTab('specs')}
+                    className={`pb-2.5 px-3 border-b-2 font-mono uppercase tracking-wider transition-colors ${
+                      activeTab === 'specs'
+                        ? 'border-stone-900 text-stone-900'
+                        : 'border-transparent text-stone-400 hover:text-stone-700'
+                    }`}
+                  >
+                    {isBn ? 'স্পেসিফিকেশন' : 'Details & Care'}
+                  </button>
+                  <button
+                    onClick={() => setActiveTab('shipping')}
+                    className={`pb-2.5 px-3 border-b-2 font-mono uppercase tracking-wider transition-colors ${
+                      activeTab === 'shipping'
+                        ? 'border-stone-900 text-stone-900'
+                        : 'border-transparent text-stone-400 hover:text-stone-700'
+                    }`}
+                  >
+                    {isBn ? 'ডেলিভারি' : 'Shipping'}
+                  </button>
+                </div>
+
+                <div className="pt-4 text-xs text-stone-600 leading-relaxed font-sans">
+                  {activeTab === 'desc' && (
+                    <div className="space-y-2">
+                      <p>{product.description}</p>
+                      {product.descriptionBn && (
+                        <p className="text-stone-500 pt-1 font-bengali">
+                          {product.descriptionBn}
+                        </p>
+                      )}
+                    </div>
+                  )}
+
+                  {activeTab === 'specs' && (
+                    <div className="space-y-2 font-mono text-[11px]">
+                      <div className="flex justify-between py-1 border-b border-stone-100">
+                        <span className="text-stone-400">Brand</span>
+                        <span className="text-stone-900 font-semibold">{product.brand || 'SHOKHORA'}</span>
+                      </div>
+                      <div className="flex justify-between py-1 border-b border-stone-100">
+                        <span className="text-stone-400">Category</span>
+                        <span className="text-stone-900 font-semibold">{product.category}</span>
+                      </div>
+                      <div className="flex justify-between py-1 border-b border-stone-100">
+                        <span className="text-stone-400">Item SKU</span>
+                        <span className="text-stone-900 font-semibold">{product.sku}</span>
+                      </div>
+                      <div className="flex justify-between py-1 border-b border-stone-100">
+                        <span className="text-stone-400">Origin</span>
+                        <span className="text-stone-900 font-semibold">Bangladesh</span>
+                      </div>
+                    </div>
+                  )}
+
+                  {activeTab === 'shipping' && (
+                    <div className="space-y-2 font-sans">
+                      <p>
+                        {isBn
+                          ? 'আমাদের নিজস্ব ডেলিভারি পার্টনারের মাধ্যমে ৬৪টি জেলাতেই ক্যাশ অন ডেলিভারি দেওয়া হয়। ডেলিভারিম্যান উপস্থিত থাকা অবস্থায় পণ্য চেক করে রিসিভ করার সুযোগ রয়েছে।'
+                          : 'Orders are dispatched via trusted courier networks across Bangladesh. You may inspect your package upon delivery before completing cash payment.'}
+                      </p>
+                    </div>
+                  )}
+                </div>
+              </div>
+
             </div>
           </div>
+
+          {/* Related Products Section */}
+          {relatedProducts.length > 0 && (
+            <div className="mt-20 pt-16 border-t border-stone-200">
+              <div className="flex items-center justify-between mb-8">
+                <div>
+                  <span className="text-xs font-mono uppercase tracking-widest text-stone-400 font-semibold">
+                    {isBn ? 'একই ক্যাটাগরির পণ্য' : 'Curated Matching'}
+                  </span>
+                  <h2 className="text-2xl sm:text-3xl font-serif font-medium text-stone-900 mt-1">
+                    {isBn ? 'সম্পর্কিত অন্যান্য পণ্য' : 'You May Also Cherish'}
+                  </h2>
+                </div>
+                <Link
+                  href={`/category/${product.category}`}
+                  className="text-xs uppercase tracking-widest font-bold text-stone-900 hover:text-stone-600 font-mono"
+                >
+                  {isBn ? 'সব দেখুন' : 'View All'} &rarr;
+                </Link>
+              </div>
+
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
+                {relatedProducts.map((p) => (
+                  <ProductCard key={p.id} product={p} />
+                ))}
+              </div>
+            </div>
+          )}
+
         </div>
-
-        {/* Product Information Tabs */}
-        <div className="mt-12 bg-white rounded-3xl p-6 sm:p-10 border border-taupe-200 shadow-sm">
-          {/* Tab Headers */}
-          <div className="flex border-b border-taupe-200 gap-6 text-sm font-semibold">
-            <button
-              onClick={() => setActiveTab('desc')}
-              className={`pb-3 transition-colors relative ${
-                activeTab === 'desc'
-                  ? 'text-charcoal-950 border-b-2 border-charcoal-950'
-                  : 'text-charcoal-400 hover:text-charcoal-700'
-              }`}
-            >
-              {isBn ? 'পণ্যের বিবরণ' : 'Product Description'}
-            </button>
-            <button
-              onClick={() => setActiveTab('specs')}
-              className={`pb-3 transition-colors relative ${
-                activeTab === 'specs'
-                  ? 'text-charcoal-950 border-b-2 border-charcoal-950'
-                  : 'text-charcoal-400 hover:text-charcoal-700'
-              }`}
-            >
-              {isBn ? 'স্পেসিফিকেশন ও তথ্য' : 'Specifications'}
-            </button>
-            <button
-              onClick={() => setActiveTab('shipping')}
-              className={`pb-3 transition-colors relative ${
-                activeTab === 'shipping'
-                  ? 'text-charcoal-950 border-b-2 border-charcoal-950'
-                  : 'text-charcoal-400 hover:text-charcoal-700'
-              }`}
-            >
-              {isBn ? 'ডেলিভারি ও রিটার্ন পলিসি' : 'Shipping & Returns'}
-            </button>
-          </div>
-
-          {/* Tab Content */}
-          <div className="pt-6 text-xs sm:text-sm text-charcoal-700 leading-relaxed">
-            {activeTab === 'desc' && (
-              <div className="space-y-4 max-w-3xl">
-                <p className="text-base leading-relaxed">{displayDesc}</p>
-                <div className="pt-4 border-t border-taupe-100">
-                  <h4 className="font-semibold text-charcoal-900 mb-2">
-                    {isBn ? 'যত্ন ও ব্যবহারের নিয়মাবলী:' : 'Care Instructions:'}
-                  </h4>
-                  <ul className="list-disc list-inside space-y-1.5 text-charcoal-600 text-xs sm:text-sm">
-                    <li>{isBn ? 'সিল্ক ও ফ্যাব্রিক পণ্য ঠান্ডা পানিতে মৃদু সাবান বা শ্যাম্পু দিয়ে ধুয়ে নিন।' : 'For silk items: Hand wash in cold water using a mild ph-neutral detergent.'}</li>
-                    <li>{isBn ? 'সরাসরি প্রখর রোদে শুকানো থেকে বিরত থাকুন।' : 'Avoid drying under direct harsh sunlight.'}</li>
-                    <li>{isBn ? 'জুয়েলারি ও হেয়ার ক্লিপ শুকনো এবং ধুলাবালি মুক্ত বাক্সে সংরক্ষণ করুন।' : 'Store accessories in dry, dust-free containers to preserve polish.'}</li>
-                  </ul>
-                </div>
-              </div>
-            )}
-
-            {activeTab === 'specs' && (
-              <div className="max-w-xl space-y-2.5">
-                <div className="flex justify-between py-2 border-b border-taupe-100">
-                  <span className="text-charcoal-500">{t('productBrand')}</span>
-                  <span className="font-semibold text-charcoal-900">{displayBrand}</span>
-                </div>
-                <div className="flex justify-between py-2 border-b border-taupe-100">
-                  <span className="text-charcoal-500">{t('productSku')}</span>
-                  <span className="font-mono text-charcoal-900">{product.sku}</span>
-                </div>
-                <div className="flex justify-between py-2 border-b border-taupe-100">
-                  <span className="text-charcoal-500">{t('productCategory')}</span>
-                  <span className="capitalize text-charcoal-900">{product.category.replace(/-/g, ' ')}</span>
-                </div>
-                <div className="flex justify-between py-2 border-b border-taupe-100">
-                  <span className="text-charcoal-500">{isBn ? 'উৎস / প্রস্তুতকারী' : 'Country of Origin'}</span>
-                  <span className="text-charcoal-900">Bangladesh (বাংলাদেশ)</span>
-                </div>
-                <div className="flex justify-between py-2 border-b border-taupe-100">
-                  <span className="text-charcoal-500">{isBn ? 'কোয়ালিটি গ্যারান্টি' : 'Authenticity Guarantee'}</span>
-                  <span className="text-emerald-700 font-semibold">{isBn ? '১০০% খাঁটি পণ্য' : '100% Genuine'}</span>
-                </div>
-                <p className="text-[11px] text-taupe-400 font-mono pt-2">
-                  *Phase 1 Prototype: Sample development attributes for UI demonstration.
-                </p>
-              </div>
-            )}
-
-            {activeTab === 'shipping' && (
-              <div className="max-w-2xl space-y-4">
-                <div>
-                  <h4 className="font-semibold text-charcoal-900 mb-1">{t('deliveryDhaka')}</h4>
-                  <p className="text-xs text-charcoal-600">
-                    {isBn ? 'ডেলিভারি চার্জ ৳৭০। ২-৩ কার্যদিবসের মধ্যে কুরিয়ারের মাধ্যমে হোম ডেলিভারি।' : 'Standard courier delivery within 2-3 business days. Charge ৳70.'}
-                  </p>
-                </div>
-                <div>
-                  <h4 className="font-semibold text-charcoal-900 mb-1">{t('deliveryOutsideDhaka')}</h4>
-                  <p className="text-xs text-charcoal-600">
-                    {isBn ? 'ডেলিভারি চার্জ ৳১৩০। ৩-৫ কার্যদিবসের মধ্যে নির্ভরযোগ্য কুরিয়ারের মাধ্যমে ডেলিভারি।' : 'Nationwide 64 districts delivery within 3-5 business days. Charge ৳130.'}
-                  </p>
-                </div>
-                <div>
-                  <h4 className="font-semibold text-charcoal-900 mb-1">{t('sevenDaysReturn')}</h4>
-                  <p className="text-xs text-charcoal-600">
-                    {isBn ? 'পণ্য অব্যবহৃত অবস্থায় মূল প্যাকেজিং ও ইনভয়েস সহ ৭ দিনের ভেতর সহজে পরিবর্তন করা যাবে।' : 'Items are eligible for a 7-day exchange with original tags and packaging.'}
-                  </p>
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
-
-        {/* Related Products Section */}
-        {relatedProducts.length > 0 && (
-          <div className="mt-16">
-            <div className="flex items-center justify-between mb-8 pb-3 border-b border-taupe-200">
-              <h2 className="text-xl sm:text-2xl font-serif font-bold text-charcoal-950">
-                {t('relatedProducts')}
-              </h2>
-              <Link
-                href={`/category/${product.category}`}
-                className="text-xs font-semibold text-charcoal-800 hover:text-charcoal-950"
-              >
-                {t('viewAll')} →
-              </Link>
-            </div>
-
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
-              {relatedProducts.map((p) => (
-                <ProductCard key={p.id} product={p} />
-              ))}
-            </div>
-          </div>
-        )}
       </main>
 
       <Footer />

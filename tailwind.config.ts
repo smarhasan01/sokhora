@@ -54,6 +54,7 @@ const config: Config = {
       },
       fontFamily: {
         sans: ["var(--font-sans)", "system-ui", "sans-serif"],
+        serif: ["var(--font-serif)", "Garamond", "Georgia", "serif"],
         bengali: ["var(--font-bengali)", "'Kalpurush'", "'SolaimanLipi'", "system-ui", "sans-serif"],
       },
     },

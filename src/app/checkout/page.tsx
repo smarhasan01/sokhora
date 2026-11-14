@@ -180,12 +180,15 @@ export default function CheckoutPage() {
 
   if (items.length === 0) {
     return (
-      <div className="min-h-screen flex flex-col bg-ivory-100">
+      <div className="min-h-screen flex flex-col bg-[#FAF7F2] text-[#191817]">
         <Header />
         <main className="flex-1 flex flex-col items-center justify-center p-8 text-center space-y-4">
-          <h2 className="text-xl font-bold text-charcoal-900">{t('cartEmptyTitle')}</h2>
-          <p className="text-xs text-charcoal-500">{t('cartEmptySubtitle')}</p>
-          <Link href="/shop" className="px-6 py-2.5 bg-charcoal-950 text-white rounded-full text-xs font-semibold">
+          <div className="w-16 h-16 rounded-full bg-stone-100 text-stone-400 flex items-center justify-center mx-auto mb-2">
+            <Truck className="w-8 h-8" />
+          </div>
+          <h2 className="text-2xl font-serif font-medium text-stone-900">{t('cartEmptyTitle')}</h2>
+          <p className="text-xs text-stone-500 font-mono">{t('cartEmptySubtitle')}</p>
+          <Link href="/shop" className="mt-2 px-8 py-3.5 bg-[#191817] text-white rounded-full text-xs uppercase tracking-widest font-semibold hover:bg-stone-800 transition-colors shadow-md">
             {t('shopNow')}
           </Link>
         </main>
@@ -195,33 +198,38 @@ export default function CheckoutPage() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-ivory-100">
+    <div className="min-h-screen flex flex-col bg-[#FAF7F2] text-[#191817]">
       <Header />
 
-      <main className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+      <main className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-16 w-full">
         {/* Breadcrumb */}
-        <nav className="flex items-center gap-1.5 text-xs text-charcoal-500 mb-6">
-          <Link href="/" className="hover:text-charcoal-900">{t('navHome')}</Link>
-          <ChevronRight className="w-3.5 h-3.5 text-taupe-400" />
-          <Link href="/cart" className="hover:text-charcoal-900">{t('cartTitle')}</Link>
-          <ChevronRight className="w-3.5 h-3.5 text-taupe-400" />
-          <span className="text-charcoal-900 font-medium">{t('checkoutTitle')}</span>
+        <nav className="flex items-center gap-1.5 text-xs text-stone-500 font-mono mb-8">
+          <Link href="/" className="hover:text-stone-900">{t('navHome')}</Link>
+          <ChevronRight className="w-3.5 h-3.5 text-stone-400" />
+          <Link href="/cart" className="hover:text-stone-900">{t('cartTitle')}</Link>
+          <ChevronRight className="w-3.5 h-3.5 text-stone-400" />
+          <span className="text-stone-900 font-semibold">{t('checkoutTitle')}</span>
         </nav>
 
         {/* Phase 1 Prototype Notice Banner */}
-        <div className="mb-6 p-4 rounded-2xl bg-amber-50 border border-amber-200 text-amber-900 flex items-start gap-3">
+        <div className="mb-8 p-5 rounded-2xl bg-amber-50/80 border border-amber-200 text-amber-950 flex items-start gap-3 shadow-sm">
           <Info className="w-5 h-5 text-amber-700 shrink-0 mt-0.5" />
-          <div className="text-xs leading-relaxed">
-            <p className="font-semibold">{isBn ? 'ফেজ ১ ফ্রন্টএন্ড প্রোটোটাইপ বিজ্ঞপ্তি' : 'Phase 1 Frontend Demonstration'}</p>
-            <p className="text-amber-800 mt-0.5">
+          <div className="text-xs leading-relaxed font-mono">
+            <p className="font-bold">{isBn ? 'ফেজ ১ ফ্রন্টএন্ড ডেমো চেকআউট' : 'Phase 1 Frontend Demonstration Mode'}</p>
+            <p className="text-amber-800 mt-1">
               {t('checkoutDisclaimer')}
             </p>
           </div>
         </div>
 
-        <h1 className="text-2xl sm:text-3xl font-serif font-bold text-charcoal-950 mb-8">
-          {t('checkoutTitle')}
-        </h1>
+        <div className="mb-8 pb-4 border-b border-stone-200">
+          <span className="text-xs uppercase font-mono tracking-widest text-stone-400 font-semibold">
+            {isBn ? 'নিরাপদ চেকআউট' : 'Secure Checkout'}
+          </span>
+          <h1 className="text-3xl sm:text-4xl font-serif font-medium text-[#191817] mt-1">
+            {t('checkoutTitle')}
+          </h1>
+        </div>
 
         <form onSubmit={handlePlaceOrder} className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           {/* Left Column: Delivery & Payment Details */}

@@ -26,13 +26,13 @@ export default function ForgotPasswordPage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-ivory-100">
+    <div className="min-h-screen flex flex-col bg-[#FAF7F2] text-[#191817]">
       <Header />
 
-      <main className="flex-1 flex items-center justify-center p-4 sm:p-8">
-        <div className="w-full max-w-md bg-white rounded-3xl p-8 sm:p-10 border border-taupe-200 shadow-sm space-y-6">
+      <main className="flex-1 flex items-center justify-center p-4 sm:p-10">
+        <div className="w-full max-w-md bg-white rounded-3xl p-8 sm:p-10 border border-stone-200/90 shadow-[0_8px_30px_rgba(0,0,0,0.04)] space-y-6">
           <div className="text-center space-y-2">
-            <div className="relative w-40 h-12 mx-auto mb-2">
+            <div className="relative w-44 h-12 mx-auto mb-2">
               <Image
                 src="/images/Logo-01.png"
                 alt="SHOKHORA"
@@ -41,10 +41,10 @@ export default function ForgotPasswordPage() {
                 className="object-contain"
               />
             </div>
-            <h1 className="text-2xl font-serif font-bold text-charcoal-950">
+            <h1 className="text-2xl sm:text-3xl font-serif font-medium text-stone-900">
               {isBn ? 'পাসওয়ার্ড পুনরুদ্ধার' : 'Reset Your Password'}
             </h1>
-            <p className="text-xs text-charcoal-500 max-w-xs mx-auto">
+            <p className="text-xs text-stone-500 max-w-xs mx-auto font-mono">
               {isBn
                 ? 'আপনার রেজিস্টার্ড ইমেইল অ্যাড্রেস লিখুন। আমরা পাসওয়ার্ড রিসেট লিংক পাঠিয়ে দেব।'
                 : 'Enter your registered customer email address and we will send you password reset instructions.'}

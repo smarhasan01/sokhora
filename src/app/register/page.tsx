@@ -50,19 +50,19 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-ivory-100">
+    <div className="min-h-screen flex flex-col bg-[#FAF7F2] text-[#191817]">
       <Header />
 
-      <main className="flex-1 flex items-center justify-center p-4 sm:p-8">
-        <div className="w-full max-w-md bg-white rounded-3xl p-8 border border-taupe-200 shadow-sm space-y-6">
+      <main className="flex-1 flex items-center justify-center p-4 sm:p-10">
+        <div className="w-full max-w-md bg-white rounded-3xl p-8 sm:p-10 border border-stone-200/90 shadow-[0_8px_30px_rgba(0,0,0,0.04)] space-y-6">
           <div className="text-center space-y-2">
-            <div className="relative w-40 h-12 mx-auto">
+            <div className="relative w-44 h-12 mx-auto">
               <Image src="/images/Logo-01.png" alt="SHOKHORA" fill priority className="object-contain" />
             </div>
-            <h1 className="text-xl font-serif font-bold text-charcoal-950">
-              {isBn ? 'কাস্টমার অ্যাকাউন্ট খুলুন' : 'Create Customer Account'}
+            <h1 className="text-2xl sm:text-3xl font-serif font-medium text-stone-900">
+              {isBn ? 'নতুন কাস্টমার অ্যাকাউন্ট' : 'Create Customer Account'}
             </h1>
-            <p className="text-xs text-charcoal-500">
+            <p className="text-xs text-stone-500 font-mono">
               {isBn
                 ? 'অর্ডার ট্র্যাকিং ও দ্রুত ডেলিভারির জন্য আপনার তথ্য দিয়ে অ্যাকাউন্ট তৈরি করুন।'
                 : 'Join SHOKHORA to easily track orders, save shipping details, and access member perks.'}
