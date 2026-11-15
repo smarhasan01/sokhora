@@ -67,7 +67,7 @@ export default function CategoryPage() {
   const secondaryName = isBn ? category.name : category.nameBn;
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#FAF7F2] text-[#191817]">
+    <div className="min-h-screen flex flex-col bg-[#F8F9FA] text-[#191C1F]">
       <Header />
 
       <main className="flex-1">

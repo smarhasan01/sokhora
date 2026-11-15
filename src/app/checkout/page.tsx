@@ -649,7 +649,7 @@ export default function CheckoutPage() {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full flex items-center justify-center gap-2 py-4 px-6 rounded-2xl bg-charcoal-950 hover:bg-charcoal-900 text-white font-semibold text-sm transition-all shadow-md hover:shadow-lg disabled:opacity-50"
+              className="w-full flex items-center justify-center gap-2 py-3.5 px-6 rounded-xl bg-[#FF5B37] hover:bg-[#FA4A23] text-white font-bold text-sm uppercase tracking-wider transition-all shadow-md hover:shadow-lg disabled:opacity-50 active:scale-98"
             >
               <span>{isSubmitting ? t('placingOrder') : t('placeOrder')}</span>
               <ArrowRight className="w-4 h-4" />

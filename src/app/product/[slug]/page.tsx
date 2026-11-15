@@ -92,7 +92,7 @@ export default function ProductDetailPage() {
   const displayBrand = isBn && product.brandBn ? product.brandBn : (product.brand || 'SHOKHORA');
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#FAF7F2] text-[#191817]">
+    <div className="min-h-screen flex flex-col bg-[#F8F9FA] text-[#191C1F]">
       <Header />
 
       <main className="flex-1">
@@ -228,16 +228,16 @@ export default function ProductDetailPage() {
               </div>
 
               {/* Price Panel */}
-              <div className="p-5 rounded-2xl bg-white border border-stone-200/90 shadow-sm flex items-baseline gap-3">
-                <span className="text-2xl sm:text-3xl font-mono font-bold text-stone-900">
+              <div className="p-5 rounded-2xl bg-white border border-gray-200/90 shadow-sm flex items-baseline gap-3">
+                <span className="text-2xl sm:text-3xl font-mono font-bold text-[#FF5B37]">
                   {formatPrice(price)}
                 </span>
                 {hasDiscount && (
                   <>
-                    <span className="text-sm font-mono text-stone-400 line-through">
+                    <span className="text-sm font-mono text-gray-400 line-through">
                       {formatPrice(product.regularPrice)}
                     </span>
-                    <span className="text-xs font-mono font-semibold text-amber-700 bg-amber-50 px-2 py-0.5 rounded">
+                    <span className="text-xs font-mono font-semibold text-[#FF5B37] bg-[#FFF0ED] px-2 py-0.5 rounded border border-[#FFD7CC]">
                       {isBn ? 'সাশ্রয়' : 'Save'} {formatPrice(product.regularPrice - price)}
                     </span>
                   </>
@@ -335,10 +335,10 @@ export default function ProductDetailPage() {
                     type="button"
                     onClick={handleAddToCart}
                     disabled={product.stock <= 0}
-                    className={`flex-1 py-3.5 px-6 rounded-2xl text-xs uppercase tracking-widest font-semibold flex items-center justify-center gap-2 transition-all shadow-md ${
+                    className={`flex-1 py-3.5 px-6 rounded-xl text-xs uppercase tracking-widest font-bold flex items-center justify-center gap-2 transition-all shadow-md ${
                       addedAnimation
-                        ? 'bg-emerald-700 text-white'
-                        : 'bg-[#191817] text-white hover:bg-stone-800'
+                        ? 'bg-emerald-600 text-white'
+                        : 'bg-[#FF5B37] text-white hover:bg-[#FA4A23]'
                     }`}
                   >
                     {addedAnimation ? (
@@ -348,7 +348,7 @@ export default function ProductDetailPage() {
                       </>
                     ) : (
                       <>
-                        <ShoppingBag className="w-4 h-4 text-amber-300" />
+                        <ShoppingBag className="w-4 h-4" />
                         <span>{t('addToCart')}</span>
                       </>
                     )}
@@ -360,9 +360,9 @@ export default function ProductDetailPage() {
                   type="button"
                   onClick={handleBuyNow}
                   disabled={product.stock <= 0}
-                  className="w-full py-3.5 px-6 rounded-2xl bg-white border-2 border-stone-900 text-stone-900 hover:bg-stone-900 hover:text-white text-xs uppercase tracking-widest font-bold flex items-center justify-center gap-2 transition-all shadow-sm"
+                  className="w-full py-3.5 px-6 rounded-xl bg-gray-900 text-white hover:bg-black text-xs uppercase tracking-widest font-bold flex items-center justify-center gap-2 transition-all shadow-sm"
                 >
-                  <Zap className="w-4 h-4 text-amber-500 fill-amber-400" />
+                  <Zap className="w-4 h-4 text-amber-400 fill-amber-400" />
                   <span>{t('buyNow')}</span>
                 </button>
               </div>

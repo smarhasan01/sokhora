@@ -113,7 +113,7 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3.5 px-4 rounded-xl bg-charcoal-950 hover:bg-charcoal-900 text-white text-xs sm:text-sm font-semibold transition-all shadow-sm flex items-center justify-center gap-2 disabled:opacity-50"
+              className="w-full py-3.5 px-4 rounded-xl bg-[#FF5B37] hover:bg-[#FA4A23] text-white text-xs sm:text-sm font-bold uppercase tracking-wider transition-all shadow-md flex items-center justify-center gap-2 disabled:opacity-50 active:scale-98"
             >
               <span>{loading ? (isBn ? 'যাচাই করা হচ্ছে...' : 'Verifying...') : (isBn ? 'লগইন করুন' : 'Sign In')}</span>
               <ArrowRight className="w-4 h-4" />

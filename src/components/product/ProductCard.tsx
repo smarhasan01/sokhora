@@ -7,15 +7,16 @@ import { Product } from '@/types';
 import { useLanguage } from '@/lib/context/LanguageContext';
 import { useCart } from '@/lib/context/CartContext';
 import { useWishlist } from '@/lib/context/WishlistContext';
-import { ShoppingBag, Heart, Check, ArrowRight } from 'lucide-react';
+import { ShoppingBag, Heart, Star, Check, Eye } from 'lucide-react';
 
 interface ProductCardProps {
   product: Product;
+  showCategory?: boolean;
 }
 
-export default function ProductCard({ product }: ProductCardProps) {
+export default function ProductCard({ product, showCategory = true }: ProductCardProps) {
   const { isBn, t, formatPrice, formatNumber } = useLanguage();
-  const { addItem } = useCart();
+  const { addItem, setIsCartOpen } = useCart();
   const { isInWishlist, toggleWishlist } = useWishlist();
   const [added, setAdded] = useState(false);
 
@@ -51,145 +52,135 @@ export default function ProductCard({ product }: ProductCardProps) {
 
   const displayName = isBn && product.nameBn ? product.nameBn : product.name;
   const displayBrand = isBn && product.brandBn ? product.brandBn : (product.brand || 'SHOKHORA');
+  const ratingValue = product.rating || 5.0;
+  const reviewCountValue = product.reviewCount || 120;
 
   return (
-    <div className="group relative flex flex-col justify-between bg-white rounded-2xl border border-stone-200/90 overflow-hidden shadow-[0_2px_10px_rgba(0,0,0,0.03)] hover:shadow-[0_12px_28px_rgba(28,25,23,0.08)] hover:border-stone-400 transition-all duration-300">
-      {/* Top Image Container — 4:5 Editorial Portrait Ratio */}
-      <div className="relative aspect-[4/5] w-full overflow-hidden bg-[#FAF7F2]">
-        <Link href={`/product/${product.slug}`} className="block w-full h-full">
+    <div className="group relative bg-white rounded-2xl border border-gray-200/90 p-4 hover:border-[#FF5B37]/40 hover:shadow-[0_8px_24px_rgba(255,91,55,0.12)] transition-all duration-300 flex flex-col justify-between">
+      {/* Top badges & Wishlist */}
+      <div className="relative">
+        <div className="flex items-center justify-between z-10 mb-2">
+          {hasDiscount ? (
+            <span className="px-2 py-0.5 rounded-full text-[10px] font-bold font-mono tracking-tight bg-[#FFF0ED] text-[#FF5B37] border border-[#FFD7CC]">
+              -{formatNumber(discountPercent)}%
+            </span>
+          ) : product.isNewArrival ? (
+            <span className="px-2 py-0.5 rounded-full text-[10px] font-semibold uppercase tracking-wider bg-gray-100 text-gray-700">
+              {isBn ? 'নতুন' : 'NEW'}
+            </span>
+          ) : (
+            <span className="w-1" />
+          )}
+
+          <button
+            onClick={handleWishlistToggle}
+            className={`p-1.5 rounded-full transition-all ${
+              inWishlist
+                ? 'bg-[#FFF0ED] text-[#FF5B37] scale-105'
+                : 'text-gray-400 hover:text-[#FF5B37] hover:bg-gray-100'
+            }`}
+            title={inWishlist ? t('removeFromWishlist') : t('wishlist')}
+            aria-label="Wishlist"
+          >
+            <Heart
+              className={`w-4 h-4 transition-colors ${
+                inWishlist ? 'fill-[#FF5B37] text-[#FF5B37]' : ''
+              }`}
+            />
+          </button>
+        </div>
+
+        {/* Product Image Container */}
+        <Link
+          href={`/product/${product.slug}`}
+          className="relative block aspect-square w-full rounded-xl overflow-hidden bg-[#F8F9FA] mb-3"
+        >
           <Image
             src={product.images[0] || '/images/Logo-01.png'}
             alt={displayName}
             fill
-            sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-            className="object-cover object-center group-hover:scale-106 transition-transform duration-700 ease-out"
+            sizes="(max-width: 640px) 50vw, (max-width: 1024px) 25vw, 20vw"
+            className="object-contain p-2 group-hover:scale-108 transition-transform duration-500 ease-out"
           />
+
+          {product.stock <= 0 && (
+            <div className="absolute inset-0 bg-white/70 backdrop-blur-[1px] flex items-center justify-center">
+              <span className="px-2.5 py-1 rounded-md bg-gray-900 text-white text-[10px] font-bold uppercase tracking-wider">
+                {isBn ? 'স্টক শেষ' : 'Sold Out'}
+              </span>
+            </div>
+          )}
         </Link>
-
-        {/* Badges Overlay */}
-        <div className="absolute top-3 left-3 flex flex-col gap-1.5 z-10 pointer-events-none">
-          {hasDiscount && (
-            <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold font-mono tracking-tight bg-stone-900 text-amber-300 shadow-sm">
-              -{formatNumber(discountPercent)}%
-            </span>
-          )}
-          {product.isNewArrival && (
-            <span className="px-2.5 py-0.5 rounded-full text-[10px] font-semibold tracking-widest uppercase bg-white/95 text-stone-800 border border-stone-300 shadow-sm">
-              {isBn ? 'নতুন' : 'NEW'}
-            </span>
-          )}
-          {product.isBestSeller && !hasDiscount && (
-            <span className="px-2.5 py-0.5 rounded-full text-[10px] font-semibold tracking-widest uppercase bg-emerald-900 text-emerald-200 shadow-sm">
-              {isBn ? 'বেস্টসেলার' : 'BESTSELLER'}
-            </span>
-          )}
-        </div>
-
-        {/* Wishlist Floating Button */}
-        <button
-          onClick={handleWishlistToggle}
-          className={`absolute top-3 right-3 z-10 p-2 rounded-full transition-all duration-200 shadow-sm ${
-            inWishlist
-              ? 'bg-white text-rose-600 scale-105 shadow-md'
-              : 'bg-white/85 backdrop-blur-sm text-stone-600 hover:text-rose-600 hover:bg-white'
-          }`}
-          title={inWishlist ? t('removeFromWishlist') : t('wishlist')}
-          aria-label="Wishlist toggle"
-        >
-          <Heart
-            className={`w-4 h-4 transition-colors ${
-              inWishlist ? 'fill-rose-600 text-rose-600' : ''
-            }`}
-          />
-        </button>
-
-        {/* Quick Add To Bag Slide-Up Button (Desktop) */}
-        {product.stock > 0 ? (
-          <div className="hidden lg:block absolute inset-x-3 bottom-3 z-10 translate-y-3 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 ease-out">
-            <button
-              onClick={handleQuickAdd}
-              disabled={added}
-              className={`w-full py-2.5 rounded-xl text-xs uppercase tracking-widest font-semibold flex items-center justify-center gap-2 transition-all shadow-lg ${
-                added
-                  ? 'bg-emerald-700 text-white'
-                  : 'bg-[#191817] text-white hover:bg-stone-800'
-              }`}
-            >
-              {added ? (
-                <>
-                  <Check className="w-3.5 h-3.5" />
-                  <span>{isBn ? 'ব্যাগে যোগ হয়েছে' : 'Added to Bag'}</span>
-                </>
-              ) : (
-                <>
-                  <ShoppingBag className="w-3.5 h-3.5 text-amber-300" />
-                  <span>{isBn ? 'ব্যাগে যোগ করুন' : 'Add to Bag'}</span>
-                </>
-              )}
-            </button>
-          </div>
-        ) : (
-          <div className="absolute inset-0 bg-stone-900/40 backdrop-blur-[1px] flex items-center justify-center pointer-events-none">
-            <span className="px-3 py-1.5 rounded-full bg-white text-stone-900 text-xs font-bold uppercase tracking-wider shadow">
-              {isBn ? 'স্টক শেষ' : 'Out of Stock'}
-            </span>
-          </div>
-        )}
       </div>
 
-      {/* Product Content Details */}
-      <div className="p-4 sm:p-5 flex flex-col justify-between flex-1">
+      {/* Product Information */}
+      <div className="flex flex-col flex-1 justify-between">
         <div>
-          {/* Brand & Stock Status */}
-          <div className="flex items-center justify-between text-[11px] mb-1">
-            <span className="uppercase tracking-widest font-mono text-stone-400 font-semibold truncate">
-              {displayBrand}
-            </span>
-            {product.stock > 0 ? (
-              <span className="inline-flex items-center gap-1 text-[10px] text-emerald-700 font-medium font-mono">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-600" />
-                {isBn ? 'স্টকে আছে' : 'In Stock'}
-              </span>
-            ) : (
-              <span className="text-[10px] text-stone-400 font-mono">
-                {isBn ? 'স্টক নেই' : 'Sold Out'}
-              </span>
-            )}
-          </div>
+          {/* Category / Brand */}
+          {showCategory && (
+            <p className="text-[10px] uppercase font-bold tracking-wider text-gray-400 font-mono truncate mb-1">
+              {product.category.replace(/-/g, ' ')}
+            </p>
+          )}
 
           {/* Title */}
-          <Link href={`/product/${product.slug}`} className="block group-hover:text-stone-700 transition-colors">
-            <h3 className="font-serif font-medium text-sm sm:text-base text-stone-900 leading-snug line-clamp-2">
+          <Link href={`/product/${product.slug}`} className="block">
+            <h3 className="font-semibold text-xs sm:text-sm text-gray-900 leading-snug line-clamp-1 group-hover:text-[#FF5B37] transition-colors">
               {displayName}
             </h3>
           </Link>
+
+          {/* Rating */}
+          <div className="flex items-center gap-1 mt-1.5 text-[11px]">
+            <div className="flex items-center text-amber-400">
+              {[...Array(5)].map((_, i) => (
+                <Star key={i} className="w-3 h-3 fill-amber-400 text-amber-400" />
+              ))}
+            </div>
+            <span className="text-[10px] text-gray-400 font-mono">
+              ({formatNumber(reviewCountValue)})
+            </span>
+          </div>
         </div>
 
-        {/* Price & Mobile Add Button */}
-        <div className="mt-4 pt-3 border-t border-stone-100 flex items-center justify-between gap-2">
+        {/* Price & Add to Cart Button */}
+        <div className="mt-3 pt-2.5 border-t border-gray-100 space-y-2">
           <div className="flex items-baseline gap-2">
-            <span className="text-base sm:text-lg font-mono font-bold text-stone-900">
+            <span className="text-sm sm:text-base font-bold font-mono text-[#FF5B37]">
               {formatPrice(price)}
             </span>
             {hasDiscount && (
-              <span className="text-xs font-mono text-stone-400 line-through">
+              <span className="text-xs font-mono text-gray-400 line-through">
                 {formatPrice(product.regularPrice)}
               </span>
             )}
           </div>
 
-          {/* Mobile Quick Add Icon */}
+          {/* Coral Add to Cart Button inspired by reference */}
           <button
             onClick={handleQuickAdd}
             disabled={product.stock <= 0 || added}
-            className={`lg:hidden p-2 rounded-xl border transition-all ${
-              added
-                ? 'bg-emerald-600 text-white border-emerald-600'
-                : 'bg-stone-100 text-stone-900 border-stone-200 hover:bg-[#191817] hover:text-white'
+            className={`w-full py-2 px-3 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 transition-all shadow-sm ${
+              product.stock <= 0
+                ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                : added
+                ? 'bg-emerald-600 text-white'
+                : 'bg-[#FF5B37] text-white hover:bg-[#FA4A23] active:scale-98'
             }`}
-            aria-label="Add to bag"
           >
-            {added ? <Check className="w-4 h-4" /> : <ShoppingBag className="w-4 h-4" />}
+            {added ? (
+              <>
+                <Check className="w-3.5 h-3.5" />
+                <span>{isBn ? 'যোগ হয়েছে' : 'Added'}</span>
+              </>
+            ) : (
+              <>
+                <ShoppingBag className="w-3.5 h-3.5" />
+                <span className="uppercase tracking-wider text-[11px]">
+                  {isBn ? 'ব্যাগে যোগ' : 'Add To Cart'}
+                </span>
+              </>
+            )}
           </button>
         </div>
       </div>

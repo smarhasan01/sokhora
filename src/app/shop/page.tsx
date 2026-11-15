@@ -119,10 +119,10 @@ function ShopContent() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#FAF7F2] text-[#191817]">
+    <div className="min-h-screen flex flex-col bg-[#F8F9FA] text-[#191C1F]">
       <Header />
 
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-16">
+      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
         {/* Page Title & Breadcrumb */}
         <div className="mb-8">
           <h1 className="text-2xl sm:text-3xl font-serif font-bold text-charcoal-950">
@@ -221,8 +221,8 @@ function ShopContent() {
                   }}
                   className={`w-full text-left px-2.5 py-1.5 rounded-lg text-xs transition-colors flex justify-between items-center ${
                     selectedCategory === 'all'
-                      ? 'bg-charcoal-900 text-white font-medium'
-                      : 'text-charcoal-600 hover:bg-taupe-100'
+                      ? 'bg-[#FF5B37] text-white font-bold shadow-sm'
+                      : 'text-gray-700 hover:bg-gray-100'
                   }`}
                 >
                   <span>{t('navAllProducts')}</span>
@@ -241,8 +241,8 @@ function ShopContent() {
                       }}
                       className={`w-full text-left px-2.5 py-1.5 rounded-lg text-xs transition-colors flex justify-between items-center ${
                         selectedCategory === cat.slug
-                          ? 'bg-charcoal-900 text-white font-medium'
-                          : 'text-charcoal-600 hover:bg-taupe-100'
+                          ? 'bg-[#FF5B37] text-white font-bold shadow-sm'
+                          : 'text-gray-700 hover:bg-gray-100'
                       }`}
                     >
                       <span>{isBn && cat.nameBn ? cat.nameBn : cat.name}</span>
@@ -267,8 +267,8 @@ function ShopContent() {
                   }}
                   className={`w-full text-left px-2.5 py-1.5 rounded-lg text-xs transition-colors flex justify-between items-center ${
                     selectedBrand === 'all'
-                      ? 'bg-charcoal-900 text-white font-medium'
-                      : 'text-charcoal-600 hover:bg-taupe-100'
+                      ? 'bg-[#FF5B37] text-white font-bold shadow-sm'
+                      : 'text-gray-700 hover:bg-gray-100'
                   }`}
                 >
                   <span>{isBn ? 'সকল ব্র্যান্ড' : 'All Brands'}</span>
@@ -287,8 +287,8 @@ function ShopContent() {
                       }}
                       className={`w-full text-left px-2.5 py-1.5 rounded-lg text-xs transition-colors flex justify-between items-center ${
                         selectedBrand === b.name
-                          ? 'bg-charcoal-900 text-white font-medium'
-                          : 'text-charcoal-600 hover:bg-taupe-100'
+                          ? 'bg-[#FF5B37] text-white font-bold shadow-sm'
+                          : 'text-gray-700 hover:bg-gray-100'
                       }`}
                     >
                       <span>{isBn && b.nameBn ? b.nameBn : b.name}</span>
@@ -405,8 +405,8 @@ function ShopContent() {
                             onClick={() => setCurrentPage(pageNum)}
                             className={`w-8 h-8 rounded-lg transition-colors ${
                               currentPage === pageNum
-                                ? 'bg-charcoal-900 text-white font-bold'
-                                : 'text-charcoal-700 hover:bg-white'
+                                ? 'bg-[#FF5B37] text-white font-bold shadow-sm'
+                                : 'text-gray-700 hover:bg-gray-100'
                             }`}
                           >
                             {formatNumber(pageNum)}

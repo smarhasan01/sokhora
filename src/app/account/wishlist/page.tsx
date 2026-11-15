@@ -123,7 +123,7 @@ export default function AccountWishlistPage() {
                         type="button"
                         onClick={() => handleMoveToBag(product)}
                         disabled={product.stock <= 0}
-                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-charcoal-900 text-white text-xs font-semibold hover:bg-charcoal-800 disabled:opacity-50"
+                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#FF5B37] text-white text-xs font-bold hover:bg-[#FA4A23] disabled:opacity-50"
                       >
                         <ShoppingBag className="w-3.5 h-3.5" />
                         <span>{t('moveToCart')}</span>

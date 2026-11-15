@@ -9,6 +9,25 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        coral: {
+          50: "#FFF6F4",
+          100: "#FFEBE5",
+          200: "#FFD7CC",
+          300: "#FFB5A3",
+          400: "#FF876B",
+          500: "#FF5B37", // Primary reference color
+          600: "#F04824",
+          700: "#D33513",
+          800: "#A8260B",
+          900: "#851F0B",
+        },
+        brand: {
+          primary: "#FF5B37",
+          dark: "#191C1F",
+          light: "#F8F9FA",
+          gray: "#F2F4F7",
+          border: "#E5E7EB",
+        },
         ivory: {
           50: "#FDFCF9",
           100: "#FAF8F5",

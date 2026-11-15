@@ -261,7 +261,7 @@ export default function CartDrawer() {
                 <Link
                   href="/checkout"
                   onClick={() => setIsCartOpen(false)}
-                  className="w-full py-3.5 rounded-full bg-[#191817] text-white hover:bg-stone-800 text-xs uppercase tracking-widest font-semibold flex items-center justify-center gap-2 transition-all shadow-md"
+                  className="w-full py-3.5 rounded-xl bg-[#FF5B37] text-white hover:bg-[#FA4A23] text-xs uppercase tracking-widest font-bold flex items-center justify-center gap-2 transition-all shadow-md active:scale-98"
                 >
                   <span>{isBn ? 'অর্ডার সম্পন্ন করুন' : 'Proceed to Checkout'}</span>
                   <ArrowRight className="w-4 h-4" />
