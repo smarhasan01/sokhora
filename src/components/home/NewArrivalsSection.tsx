@@ -5,57 +5,40 @@ import Link from 'next/link';
 import { getProducts } from '@/lib/db/store';
 import ProductCard from '@/components/product/ProductCard';
 import { useLanguage } from '@/lib/context/LanguageContext';
-import { ArrowUpRight, Sparkles } from 'lucide-react';
+import { ChevronRight } from 'lucide-react';
 
 export default function NewArrivalsSection() {
-  const { isBn, t } = useLanguage();
+  const { isBn } = useLanguage();
   const allProducts = getProducts().filter((p) => p.isPublished);
-  const newArrivals = allProducts
-    .filter((p) => p.isNewArrival)
-    .slice(0, 4);
-
-  const displayProducts =
-    newArrivals.length >= 4
-      ? newArrivals
-      : allProducts.slice(4, 8);
+  const displayProducts = allProducts.slice(0, 8);
 
   return (
-    <section className="py-20 lg:py-28 bg-[#FAF7F2] border-b border-stone-200/80">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        {/* Section Header */}
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-12 gap-6">
-          <div className="max-w-xl">
-            <span className="text-xs uppercase tracking-widest font-mono text-emerald-800 font-semibold flex items-center gap-1.5">
-              <Sparkles className="w-3.5 h-3.5 text-emerald-700" />
-              {isBn ? 'নতুন সিজন কালেকশন' : 'Fresh Season'}
-            </span>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-serif font-medium text-[#191817] mt-2">
-              {isBn ? 'নতুন আগমন' : 'New In Store'}
-            </h2>
-            <p className="text-xs sm:text-sm text-stone-600 mt-2">
-              {isBn
-                ? 'আপনার প্রতিদিনের সাজ এবং উৎসবের জন্য নতুন সংযোজন — আধুনিক ফ্যাশন ও এক্সেসরিজ।'
-                : 'Explore freshly added lifestyle staples to elevate your daily routine and celebrations.'}
-            </p>
-          </div>
-
-          <Link
-            href="/shop?sort=newest"
-            className="group inline-flex items-center gap-2 text-xs uppercase tracking-widest font-bold text-stone-900 pb-1 border-b border-stone-900 hover:text-stone-600 hover:border-stone-400 transition-all"
-          >
-            <span>{isBn ? 'সবগুলো দেখুন' : 'Explore All'}</span>
-            <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-          </Link>
+    <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      {/* Section Header matching Reference 1 "For You" */}
+      <div className="flex items-center justify-between pb-3 mb-6 border-b border-[#EADFCF]">
+        <div>
+          <h2 className="text-xl sm:text-2xl font-bold text-[#10252B] tracking-tight">
+            {isBn ? 'আপনার জন্য বাছাইকৃত' : 'For You'}
+          </h2>
+          <p className="text-xs text-stone-500 mt-0.5">
+            {isBn ? 'নতুন আগমন ও জনপ্রিয় ট্রেন্ডিং লাইফস্টাইল পণ্য' : 'New arrivals and handpicked lifestyle essentials'}
+          </p>
         </div>
 
-        {/* 4-column Luxury Product Grid */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
-          {displayProducts.map((product) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
-        </div>
+        <Link
+          href="/shop?sort=newest"
+          className="text-xs font-bold text-[#477765] hover:text-[#10252B] flex items-center gap-0.5 transition-colors"
+        >
+          <span>{isBn ? 'সকল পণ্য দেখুন' : 'See All Product'}</span>
+          <ChevronRight className="w-4 h-4" />
+        </Link>
+      </div>
 
+      {/* 4-column Product Grid (2 cols mobile, 4 cols desktop - exactly 8 items matching Reference 1) */}
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-5">
+        {displayProducts.map((product) => (
+          <ProductCard key={product.id} product={product} />
+        ))}
       </div>
     </section>
   );

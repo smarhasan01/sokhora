@@ -19,7 +19,7 @@
 }
 
 body {
-  color: #191C1F;
+  color: #252525;
   background-color: #FFFFFF;
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
@@ -36,14 +36,14 @@ body.font-bengali {
   height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #F3EFEA;
+  background: #F8EEE2;
 }
 ::-webkit-scrollbar-thumb {
-  background: #C7BFB1;
+  background: #C99A45;
   border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #A89E8D;
+  background: #B08335;
 }
 
 /* Print Styles for Invoices and Receipts */

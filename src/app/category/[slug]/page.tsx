@@ -67,12 +67,12 @@ export default function CategoryPage() {
   const secondaryName = isBn ? category.name : category.nameBn;
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#F8F9FA] text-[#191C1F]">
+    <div className="min-h-screen flex flex-col bg-white text-[#252525]">
       <Header />
 
       <main className="flex-1">
-        {/* Luxury Category Hero Banner */}
-        <div className="relative bg-[#191817] text-white py-16 sm:py-24 px-4 sm:px-6 lg:px-8 overflow-hidden">
+        {/* Luxury Category Hero Banner (Deep Navy #10252B) */}
+        <div className="relative bg-[#10252B] text-white py-16 sm:py-24 px-4 sm:px-6 lg:px-8 overflow-hidden border-b border-[#C99A45]/30">
           <div className="absolute inset-0 opacity-25">
             <Image
               src={category.image}
@@ -82,35 +82,35 @@ export default function CategoryPage() {
               priority
             />
           </div>
-          <div className="absolute inset-0 bg-gradient-to-t from-[#191817] via-[#191817]/70 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#10252B] via-[#10252B]/75 to-transparent" />
 
           <div className="relative max-w-7xl mx-auto space-y-4">
             {/* Breadcrumb */}
-            <div className="flex items-center gap-2 text-xs text-stone-400 font-mono">
+            <div className="flex items-center gap-2 text-xs text-[#F8EEE2]/70 font-mono">
               <Link href="/" className="hover:text-white transition-colors">
                 {t('navHome')}
               </Link>
-              <ChevronRight className="w-3.5 h-3.5 text-stone-600" />
+              <ChevronRight className="w-3.5 h-3.5 text-[#C99A45]" />
               <Link href="/shop" className="hover:text-white transition-colors">
                 {t('allProducts')}
               </Link>
-              <ChevronRight className="w-3.5 h-3.5 text-stone-600" />
-              <span className="text-amber-300 font-semibold">{displayName}</span>
+              <ChevronRight className="w-3.5 h-3.5 text-[#C99A45]" />
+              <span className="text-[#C99A45] font-semibold">{displayName}</span>
             </div>
 
             <div className="space-y-1">
-              <span className="text-[10px] uppercase font-mono tracking-widest text-emerald-400">
+              <span className="text-[10px] uppercase font-mono tracking-widest text-[#C99A45]">
                 {isBn ? 'শখোরা কালেকশন' : 'SHOKHORA Collection'}
               </span>
               <h1 className="text-3xl sm:text-5xl font-serif font-medium text-white tracking-tight">
                 {displayName}
               </h1>
               {secondaryName && (
-                <p className="text-sm font-sans text-stone-400">{secondaryName}</p>
+                <p className="text-sm font-sans text-[#F8EEE2]/70">{secondaryName}</p>
               )}
             </div>
 
-            <p className="text-xs sm:text-sm text-stone-300 max-w-2xl leading-relaxed">
+            <p className="text-xs sm:text-sm text-[#F8EEE2]/85 max-w-2xl leading-relaxed">
               {category.description ||
                 (isBn
                   ? 'শখোরার বাছাইকৃত কোয়ালিটি লাইফস্টাইল পণ্য, যা আপনার দৈনন্দিন সাজ এবং উৎসবের আয়োজনে এনে দেবে পূর্ণতা।'
@@ -132,8 +132,8 @@ export default function CategoryPage() {
                 onClick={() => setSelectedBrand('all')}
                 className={`px-3.5 py-1.5 rounded-full text-xs font-medium transition-all shrink-0 font-mono ${
                   selectedBrand === 'all'
-                    ? 'bg-[#191817] text-white shadow-sm'
-                    : 'bg-white border border-stone-200 text-stone-600 hover:bg-stone-50'
+                    ? 'bg-[#10252B] text-[#F8EEE2] shadow-xs'
+                    : 'bg-white border border-[#EADFCF] text-stone-600 hover:bg-[#FAF5EE]'
                 }`}
               >
                 {isBn ? 'সকল' : 'All'} ({categoryProducts.length})
@@ -144,8 +144,8 @@ export default function CategoryPage() {
                   onClick={() => setSelectedBrand(b)}
                   className={`px-3.5 py-1.5 rounded-full text-xs font-medium transition-all shrink-0 font-mono ${
                     selectedBrand === b
-                      ? 'bg-[#191817] text-white shadow-sm'
-                      : 'bg-white border border-stone-200 text-stone-600 hover:bg-stone-50'
+                      ? 'bg-[#10252B] text-[#F8EEE2] shadow-xs'
+                      : 'bg-white border border-[#EADFCF] text-stone-600 hover:bg-[#FAF5EE]'
                   }`}
                 >
                   {b}

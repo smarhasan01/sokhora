@@ -1,45 +1,82 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import { getProducts } from '@/lib/db/store';
 import ProductCard from '@/components/product/ProductCard';
 import { useLanguage } from '@/lib/context/LanguageContext';
-import { ArrowRight, Sparkles } from 'lucide-react';
+import { ChevronRight, Sparkles } from 'lucide-react';
+
+const RECOM_TABS = [
+  { slug: 'all', label: 'All Product', labelBn: 'সকল পণ্য' },
+  { slug: 'cosmetics-beauty', label: 'Health & Beauty', labelBn: 'বিউটি ও কেয়ার' },
+  { slug: 'scrunchies-hair-accessories', label: 'Silk Scrunchies', labelBn: 'সিল্ক স্ক্রাঞ্চি' },
+  { slug: 'jewellery-fashion-accessories', label: 'Jewellery', labelBn: 'জুয়েলারি' },
+  { slug: 'kids-hairbands-clips', label: 'Kids & Baby', labelBn: 'কিডস ক্লিপ' },
+];
 
 export default function RecommendedProducts() {
   const { isBn } = useLanguage();
+  const [activeTab, setActiveTab] = useState('all');
+
   const allProducts = getProducts().filter((p) => p.isPublished);
-  const recommended = allProducts.slice(4, 9).length === 5 ? allProducts.slice(4, 9) : allProducts.slice(0, 5);
+  const filtered =
+    activeTab === 'all'
+      ? allProducts
+      : allProducts.filter((p) => p.category === activeTab);
+
+  const displayProducts = filtered.slice(0, 4);
 
   return (
     <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <div className="flex items-center justify-between pb-4 mb-6 border-b border-gray-200">
+      {/* Header with Title and Category Filter Tabs (Reference 1 Most Popular) */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-3 mb-6 border-b border-[#EADFCF]">
         <div className="flex items-center gap-2.5">
-          <div className="w-8 h-8 rounded-lg bg-[#FFF0ED] text-[#FF5B37] flex items-center justify-center">
-            <Sparkles className="w-4 h-4 text-[#FF5B37]" />
+          <div className="w-8 h-8 rounded-full bg-[#FAF5EE] text-[#477765] border border-[#EADFCF] flex items-center justify-center">
+            <Sparkles className="w-4 h-4 text-[#C99A45]" />
           </div>
           <div>
-            <h2 className="text-xl sm:text-2xl font-bold text-gray-900 tracking-tight">
-              {isBn ? 'আপনার জন্য সুপারিশকৃত পণ্য' : 'Recommended Products'}
+            <h2 className="text-xl sm:text-2xl font-bold text-[#10252B] tracking-tight">
+              {isBn ? 'সবচেয়ে জনপ্রিয় / সুপারিশকৃত' : 'Most Popular'}
             </h2>
-            <p className="text-xs text-gray-500 mt-0.5">
-              {isBn ? 'আপনার রুচির সাথে মানানসই চমৎকার পণ্যের সমাহার' : 'Thoughtfully recommended based on popular customer choices'}
+            <p className="text-xs text-stone-500 mt-0.5">
+              {isBn ? 'গ্রাহকদের পছন্দের শীর্ষে থাকা পণ্যসমূহ' : 'Handpicked lifestyle recommendations for you'}
             </p>
           </div>
         </div>
 
-        <Link
-          href="/shop"
-          className="text-xs font-bold text-[#FF5B37] hover:underline flex items-center gap-1"
-        >
-          <span>{isBn ? 'সবগুলো দেখুন' : 'View All'}</span>
-          <ArrowRight className="w-3.5 h-3.5" />
-        </Link>
+        {/* Category Tabs */}
+        <div className="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0 scrollbar-none">
+          {RECOM_TABS.map((tab) => {
+            const isActive = activeTab === tab.slug;
+            return (
+              <button
+                key={tab.slug}
+                onClick={() => setActiveTab(tab.slug)}
+                className={`px-3 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all ${
+                  isActive
+                    ? 'bg-[#477765] text-white shadow-xs'
+                    : 'bg-[#FAF5EE] text-stone-700 hover:bg-[#F8EEE2] hover:text-[#10252B] border border-[#EADFCF]'
+                }`}
+              >
+                {isBn ? tab.labelBn : tab.label}
+              </button>
+            );
+          })}
+
+          <Link
+            href="/shop"
+            className="text-xs font-bold text-[#477765] hover:text-[#10252B] flex items-center gap-0.5 ml-2 whitespace-nowrap"
+          >
+            <span>{isBn ? 'সব দেখুন' : 'See All Product'}</span>
+            <ChevronRight className="w-4 h-4" />
+          </Link>
+        </div>
       </div>
 
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-        {recommended.map((product) => (
+      {/* 4-column Product Grid */}
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-5">
+        {displayProducts.map((product) => (
           <ProductCard key={product.id} product={product} />
         ))}
       </div>

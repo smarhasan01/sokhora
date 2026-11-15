@@ -2,67 +2,67 @@ import React from 'react';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import HeroSlider from '@/components/home/HeroSlider';
-import BrandShowcase from '@/components/home/BrandShowcase';
-import PromoBannerGrid from '@/components/home/PromoBannerGrid';
 import CategorySection from '@/components/home/CategorySection';
-import NewProductsSection from '@/components/home/NewProductsSection';
+import FeaturedCategoriesSection from '@/components/home/FeaturedCategoriesSection';
+import NewArrivalsSection from '@/components/home/NewArrivalsSection';
 import BestSellersSection from '@/components/home/BestSellersSection';
-import RecommendedProducts from '@/components/home/RecommendedProducts';
-import TrendingSection from '@/components/home/TrendingSection';
 import CampaignBanner from '@/components/home/CampaignBanner';
-import FaqAccordion from '@/components/home/FaqAccordion';
+import TrendingSection from '@/components/home/TrendingSection';
+import RecommendedProducts from '@/components/home/RecommendedProducts';
+import SpecialOffersSection from '@/components/home/SpecialOffersSection';
 import LifestyleBlogSection from '@/components/home/LifestyleBlogSection';
+import FaqAccordion from '@/components/home/FaqAccordion';
 import ServiceBenefits from '@/components/home/ServiceBenefits';
 import NewsletterSection from '@/components/home/NewsletterSection';
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen flex flex-col bg-white text-[#191C1F]">
-      {/* 1, 2, 3: Top Announcement Bar, Main Navigation & Search, Category Navigation */}
+    <div className="min-h-screen flex flex-col bg-white text-[#252525]">
+      {/* 1, 2, 3: Slim Announcement Bar, Main Navigation Header & Main Category Navigation */}
       <Header />
 
       <main className="flex-1">
         {/* 4. Large Promotional Hero Slider */}
         <HeroSlider />
 
-        {/* 5. Brand/Partner Showcase */}
-        <BrandShowcase />
-
-        {/* 6. Promotional Banner Grid (1 Large Left + 2 Stacked Right) */}
-        <PromoBannerGrid />
-
-        {/* 7. Shop by Categories */}
+        {/* 5. Shop by Categories */}
         <CategorySection />
 
-        {/* 8. New Arrivals Product Section (with Sort By & Pagination) */}
-        <NewProductsSection />
+        {/* 6. Featured / Best Categories */}
+        <FeaturedCategoriesSection />
 
-        {/* 9. Best Sellers Product Section */}
+        {/* 7. New Arrivals */}
+        <NewArrivalsSection />
+
+        {/* 8. Best Sellers */}
         <BestSellersSection />
 
-        {/* 10. Recommended Products */}
-        <RecommendedProducts />
-
-        {/* 11. Special Offers / Trending Products (Split Card + Ranking Items) */}
-        <TrendingSection />
-
-        {/* 12. Promotional Campaign Banner ("Save Big on Selected Items") */}
+        {/* 9. Promotional Campaign Banner */}
         <CampaignBanner />
 
-        {/* 13. FAQ Accordion */}
-        <FaqAccordion />
+        {/* 10. Trending Products with Category Filters */}
+        <TrendingSection />
 
-        {/* 14. Lifestyle / Blog Section */}
+        {/* 11. Recommended Products */}
+        <RecommendedProducts />
+
+        {/* 12. Special Offers */}
+        <SpecialOffersSection />
+
+        {/* 13. Lifestyle / Brand Stories Section */}
         <LifestyleBlogSection />
 
-        {/* 15. Service Benefits Section (4 Value Pillars) */}
+        {/* 14. FAQ Accordion */}
+        <FaqAccordion />
+
+        {/* 15. Service Benefits */}
         <ServiceBenefits />
 
         {/* 16. Newsletter Subscription */}
         <NewsletterSection />
       </main>
 
-      {/* 17. Complete Professional Footer */}
+      {/* 17. Premium Footer */}
       <Footer />
     </div>
   );

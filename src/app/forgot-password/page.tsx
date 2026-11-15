@@ -96,7 +96,7 @@ export default function ForgotPasswordPage() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full py-3.5 px-4 rounded-xl bg-[#FF5B37] hover:bg-[#FA4A23] text-white text-xs sm:text-sm font-bold uppercase tracking-wider transition-all shadow-md flex items-center justify-center gap-2 disabled:opacity-50 active:scale-98"
+                className="w-full py-3.5 px-4 rounded-full bg-[#10252B] hover:bg-[#477765] text-white text-xs sm:text-sm font-bold uppercase tracking-wider transition-all shadow-md flex items-center justify-center gap-2 disabled:opacity-50 active:scale-98"
               >
                 <span>{loading ? (isBn ? 'পাঠানো হচ্ছে...' : 'Sending...') : (isBn ? 'রিসেট লিংক পাঠান' : 'Send Reset Link')}</span>
                 <ArrowRight className="w-4 h-4" />
