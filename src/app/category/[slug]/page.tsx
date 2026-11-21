@@ -71,8 +71,8 @@ export default function CategoryPage() {
       <Header />
 
       <main className="flex-1">
-        {/* Luxury Category Hero Banner (Deep Navy #10252B) */}
-        <div className="relative bg-[#10252B] text-white py-16 sm:py-24 px-4 sm:px-6 lg:px-8 overflow-hidden border-b border-[#C99A45]/30">
+        {/* Luxury Category Hero Banner (Deep Navy #012D51) */}
+        <div className="relative bg-[#012D51] text-white py-16 sm:py-24 px-4 sm:px-6 lg:px-8 overflow-hidden border-b border-[#C78703]/30">
           <div className="absolute inset-0 opacity-25">
             <Image
               src={category.image}
@@ -82,7 +82,7 @@ export default function CategoryPage() {
               priority
             />
           </div>
-          <div className="absolute inset-0 bg-gradient-to-t from-[#10252B] via-[#10252B]/75 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#012D51] via-[#012D51]/75 to-transparent" />
 
           <div className="relative max-w-7xl mx-auto space-y-4">
             {/* Breadcrumb */}
@@ -90,16 +90,16 @@ export default function CategoryPage() {
               <Link href="/" className="hover:text-white transition-colors">
                 {t('navHome')}
               </Link>
-              <ChevronRight className="w-3.5 h-3.5 text-[#C99A45]" />
+              <ChevronRight className="w-3.5 h-3.5 text-[#C78703]" />
               <Link href="/shop" className="hover:text-white transition-colors">
                 {t('allProducts')}
               </Link>
-              <ChevronRight className="w-3.5 h-3.5 text-[#C99A45]" />
-              <span className="text-[#C99A45] font-semibold">{displayName}</span>
+              <ChevronRight className="w-3.5 h-3.5 text-[#C78703]" />
+              <span className="text-[#C78703] font-semibold">{displayName}</span>
             </div>
 
             <div className="space-y-1">
-              <span className="text-[10px] uppercase font-mono tracking-widest text-[#C99A45]">
+              <span className="text-[10px] uppercase font-mono tracking-widest text-[#C78703]">
                 {isBn ? 'শখোরা কালেকশন' : 'SHOKHORA Collection'}
               </span>
               <h1 className="text-3xl sm:text-5xl font-serif font-medium text-white tracking-tight">
@@ -132,7 +132,7 @@ export default function CategoryPage() {
                 onClick={() => setSelectedBrand('all')}
                 className={`px-3.5 py-1.5 rounded-full text-xs font-medium transition-all shrink-0 font-mono ${
                   selectedBrand === 'all'
-                    ? 'bg-[#10252B] text-[#F8EEE2] shadow-xs'
+                    ? 'bg-[#012D51] text-[#F8EEE2] shadow-xs'
                     : 'bg-white border border-[#EADFCF] text-stone-600 hover:bg-[#FAF5EE]'
                 }`}
               >
@@ -144,7 +144,7 @@ export default function CategoryPage() {
                   onClick={() => setSelectedBrand(b)}
                   className={`px-3.5 py-1.5 rounded-full text-xs font-medium transition-all shrink-0 font-mono ${
                     selectedBrand === b
-                      ? 'bg-[#10252B] text-[#F8EEE2] shadow-xs'
+                      ? 'bg-[#012D51] text-[#F8EEE2] shadow-xs'
                       : 'bg-white border border-[#EADFCF] text-stone-600 hover:bg-[#FAF5EE]'
                   }`}
                 >

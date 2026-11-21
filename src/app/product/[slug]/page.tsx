@@ -229,7 +229,7 @@ export default function ProductDetailPage() {
 
               {/* Price Panel */}
               <div className="p-5 rounded-2xl bg-white border border-[#EADFCF] shadow-xs flex items-baseline gap-3">
-                <span className="text-2xl sm:text-3xl font-mono font-bold text-[#10252B]">
+                <span className="text-2xl sm:text-3xl font-mono font-bold text-[#012D51]">
                   {formatPrice(price)}
                 </span>
                 {hasDiscount && (
@@ -237,7 +237,7 @@ export default function ProductDetailPage() {
                     <span className="text-sm font-mono text-stone-400 line-through">
                       {formatPrice(product.regularPrice)}
                     </span>
-                    <span className="text-xs font-mono font-semibold text-[#477765] bg-[#F1F7F4] px-2 py-0.5 rounded border border-[#C1DDCF]">
+                    <span className="text-xs font-mono font-semibold text-[#012D51] bg-[#F1F7F4] px-2 py-0.5 rounded border border-[#C1DDCF]">
                       {isBn ? 'সাশ্রয়' : 'Save'} {formatPrice(product.regularPrice - price)}
                     </span>
                   </>
@@ -338,7 +338,7 @@ export default function ProductDetailPage() {
                     className={`flex-1 py-3.5 px-6 rounded-full text-xs uppercase tracking-widest font-bold flex items-center justify-center gap-2 transition-all shadow-md ${
                       addedAnimation
                         ? 'bg-emerald-600 text-white'
-                        : 'bg-[#477765] text-white hover:bg-[#10252B]'
+                        : 'bg-[#012D51] text-white hover:bg-[#012D51]'
                     }`}
                   >
                     {addedAnimation ? (
@@ -360,9 +360,9 @@ export default function ProductDetailPage() {
                   type="button"
                   onClick={handleBuyNow}
                   disabled={product.stock <= 0}
-                  className="w-full py-3.5 px-6 rounded-full bg-[#10252B] text-[#F8EEE2] hover:bg-[#18363F] border border-[#C99A45]/40 text-xs uppercase tracking-widest font-bold flex items-center justify-center gap-2 transition-all shadow-sm"
+                  className="w-full py-3.5 px-6 rounded-full bg-[#012D51] text-[#F8EEE2] hover:bg-[#18363F] border border-[#C78703]/40 text-xs uppercase tracking-widest font-bold flex items-center justify-center gap-2 transition-all shadow-sm"
                 >
-                  <Zap className="w-4 h-4 text-[#C99A45] fill-[#C99A45]" />
+                  <Zap className="w-4 h-4 text-[#C78703] fill-[#C78703]" />
                   <span>{t('buyNow')}</span>
                 </button>
               </div>

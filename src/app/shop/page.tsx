@@ -125,7 +125,7 @@ function ShopContent() {
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
         {/* Page Title & Breadcrumb */}
         <div className="mb-8">
-          <h1 className="text-2xl sm:text-3xl font-serif font-bold text-[#10252B]">
+          <h1 className="text-2xl sm:text-3xl font-serif font-bold text-[#012D51]">
             {t('shopTitle')}
           </h1>
           <p className="text-xs text-stone-500 mt-1">
@@ -221,7 +221,7 @@ function ShopContent() {
                   }}
                   className={`w-full text-left px-2.5 py-1.5 rounded-lg text-xs transition-colors flex justify-between items-center ${
                     selectedCategory === 'all'
-                      ? 'bg-[#477765] text-white font-bold shadow-xs'
+                      ? 'bg-[#012D51] text-white font-bold shadow-xs'
                       : 'text-stone-700 hover:bg-[#FAF5EE]'
                   }`}
                 >
@@ -241,7 +241,7 @@ function ShopContent() {
                       }}
                       className={`w-full text-left px-2.5 py-1.5 rounded-lg text-xs transition-colors flex justify-between items-center ${
                         selectedCategory === cat.slug
-                          ? 'bg-[#477765] text-white font-bold shadow-xs'
+                          ? 'bg-[#012D51] text-white font-bold shadow-xs'
                           : 'text-stone-700 hover:bg-[#FAF5EE]'
                       }`}
                     >
@@ -267,7 +267,7 @@ function ShopContent() {
                   }}
                   className={`w-full text-left px-2.5 py-1.5 rounded-lg text-xs transition-colors flex justify-between items-center ${
                     selectedBrand === 'all'
-                      ? 'bg-[#477765] text-white font-bold shadow-xs'
+                      ? 'bg-[#012D51] text-white font-bold shadow-xs'
                       : 'text-stone-700 hover:bg-[#FAF5EE]'
                   }`}
                 >
@@ -287,7 +287,7 @@ function ShopContent() {
                       }}
                       className={`w-full text-left px-2.5 py-1.5 rounded-lg text-xs transition-colors flex justify-between items-center ${
                         selectedBrand === b.name
-                          ? 'bg-[#477765] text-white font-bold shadow-xs'
+                          ? 'bg-[#012D51] text-white font-bold shadow-xs'
                           : 'text-stone-700 hover:bg-[#FAF5EE]'
                       }`}
                     >
@@ -405,7 +405,7 @@ function ShopContent() {
                             onClick={() => setCurrentPage(pageNum)}
                             className={`w-8 h-8 rounded-lg transition-colors ${
                               currentPage === pageNum
-                                ? 'bg-[#477765] text-white font-bold shadow-xs'
+                                ? 'bg-[#012D51] text-white font-bold shadow-xs'
                                 : 'text-stone-700 hover:bg-[#FAF5EE]'
                             }`}
                           >

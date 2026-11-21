@@ -43,7 +43,7 @@ const DEALS = [
 ];
 
 export default function SpecialOffersSection() {
-  const { isBn, formatNumber } = useLanguage();
+  const { isBn } = useLanguage();
 
   // Live countdown timer matching Reference 1
   const [timeLeft, setTimeLeft] = useState({
@@ -76,14 +76,14 @@ export default function SpecialOffersSection() {
   return (
     <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
       {/* 1. Featured Best Deal Banner with Live Countdown Timer (Reference 1) */}
-      <div className="relative rounded-3xl bg-[#FAF5EE] border border-[#EADFCF] p-6 sm:p-10 flex flex-col md:flex-row items-center justify-between gap-6 overflow-hidden shadow-xs">
+      <div className="relative rounded-3xl bg-[#F6F7F8] border border-[#EAECEF] p-6 sm:p-10 flex flex-col md:flex-row items-center justify-between gap-6 overflow-hidden shadow-xs">
         <div className="space-y-3 max-w-lg text-center md:text-left z-10">
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white text-[#477765] font-mono text-[11px] font-bold border border-[#EADFCF]">
-            <Sparkles className="w-3.5 h-3.5 text-[#C99A45]" />
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white text-[#012D51] font-mono text-[11px] font-bold border border-[#EAECEF]">
+            <Sparkles className="w-3.5 h-3.5 text-[#C78703]" />
             <span>{isBn ? 'দিনের সেরা ডিল' : 'Best Deal'}</span>
           </span>
 
-          <h3 className="text-2xl sm:text-3xl font-extrabold text-[#10252B] tracking-tight">
+          <h3 className="text-2xl sm:text-3xl font-extrabold text-[#012D51] tracking-tight">
             {isBn ? 'শখোরা ফেস্টিভ সিল্ক ও ব্রাস লাক্সারি সেট' : 'SHOKHORA FESTIVE SILK & JEWELLERY SET'}
           </h3>
 
@@ -95,23 +95,23 @@ export default function SpecialOffersSection() {
 
           {/* Countdown timer pills matching Reference 1 */}
           <div className="flex items-center justify-center md:justify-start gap-2 pt-1 font-mono">
-            <div className="flex flex-col items-center justify-center w-12 h-12 rounded-xl bg-white border border-[#EADFCF] text-[#10252B] shadow-xs">
+            <div className="flex flex-col items-center justify-center w-12 h-12 rounded-xl bg-white border border-[#EAECEF] text-[#012D51] shadow-xs">
               <span className="text-sm font-bold">{formatDigit(timeLeft.days)}</span>
               <span className="text-[9px] text-stone-400 uppercase">{isBn ? 'দিন' : 'Days'}</span>
             </div>
             <span className="text-stone-400 font-bold">:</span>
-            <div className="flex flex-col items-center justify-center w-12 h-12 rounded-xl bg-white border border-[#EADFCF] text-[#10252B] shadow-xs">
+            <div className="flex flex-col items-center justify-center w-12 h-12 rounded-xl bg-white border border-[#EAECEF] text-[#012D51] shadow-xs">
               <span className="text-sm font-bold">{formatDigit(timeLeft.hours)}</span>
               <span className="text-[9px] text-stone-400 uppercase">{isBn ? 'ঘণ্টা' : 'Hours'}</span>
             </div>
             <span className="text-stone-400 font-bold">:</span>
-            <div className="flex flex-col items-center justify-center w-12 h-12 rounded-xl bg-white border border-[#EADFCF] text-[#10252B] shadow-xs">
+            <div className="flex flex-col items-center justify-center w-12 h-12 rounded-xl bg-white border border-[#EAECEF] text-[#012D51] shadow-xs">
               <span className="text-sm font-bold">{formatDigit(timeLeft.minutes)}</span>
               <span className="text-[9px] text-stone-400 uppercase">{isBn ? 'মিনিট' : 'Mins'}</span>
             </div>
             <span className="text-stone-400 font-bold">:</span>
-            <div className="flex flex-col items-center justify-center w-12 h-12 rounded-xl bg-white border border-[#EADFCF] text-[#10252B] shadow-xs">
-              <span className="text-sm font-bold text-[#477765]">{formatDigit(timeLeft.seconds)}</span>
+            <div className="flex flex-col items-center justify-center w-12 h-12 rounded-xl bg-white border border-[#EAECEF] text-[#C78703] shadow-xs">
+              <span className="text-sm font-bold">{formatDigit(timeLeft.seconds)}</span>
               <span className="text-[9px] text-stone-400 uppercase">{isBn ? 'সেকেন্ড' : 'Secs'}</span>
             </div>
           </div>
@@ -119,7 +119,7 @@ export default function SpecialOffersSection() {
           <div className="pt-2">
             <Link
               href="/shop"
-              className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-[#477765] hover:bg-[#10252B] text-white text-xs font-bold uppercase tracking-wider transition-all shadow-xs group"
+              className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-[#012D51] hover:bg-[#C78703] text-white text-xs font-bold uppercase tracking-wider transition-all duration-300 shadow-xs btn-press group"
             >
               <span>{isBn ? 'শপ নাও' : 'Shop Now'}</span>
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -128,21 +128,21 @@ export default function SpecialOffersSection() {
         </div>
 
         {/* Right Deal Image */}
-        <div className="relative w-64 h-56 sm:w-80 sm:h-64 rounded-2xl overflow-hidden shadow-sm bg-white border-4 border-white shrink-0">
+        <div className="relative w-64 h-56 sm:w-80 sm:h-64 rounded-2xl overflow-hidden shadow-sm bg-white border-4 border-white shrink-0 group">
           <Image
             src="/images/categories/jewellery.jpg"
             alt="Best Deal"
             fill
-            className="object-cover transition-transform duration-700 hover:scale-105"
+            className="object-cover transition-transform duration-700 group-hover:scale-105"
           />
         </div>
       </div>
 
       {/* 2. Deals Of The Day (3 Cards matching Reference 1 layout) */}
       <div>
-        <div className="flex items-center justify-between pb-3 mb-6 border-b border-[#EADFCF]">
+        <div className="flex items-center justify-between pb-3 mb-6 border-b border-[#EAECEF]">
           <div>
-            <h2 className="text-xl sm:text-2xl font-bold text-[#10252B] tracking-tight">
+            <h2 className="text-xl sm:text-2xl font-bold text-[#012D51] tracking-tight">
               {isBn ? 'দিনের বিশেষ অফার' : 'Deals Of The Day'}
             </h2>
             <p className="text-xs text-stone-500 mt-0.5">
@@ -152,7 +152,7 @@ export default function SpecialOffersSection() {
 
           <Link
             href="/shop"
-            className="text-xs font-bold text-[#477765] hover:text-[#10252B] flex items-center gap-1"
+            className="text-xs font-bold text-[#012D51] hover:text-[#C78703] flex items-center gap-1 transition-colors"
           >
             <span>{isBn ? 'সবগুলো ডিল' : 'See All Deals'}</span>
             <ArrowRight className="w-3.5 h-3.5" />
@@ -163,17 +163,17 @@ export default function SpecialOffersSection() {
           {DEALS.map((deal) => (
             <div
               key={deal.id}
-              className="group bg-white rounded-2xl border border-[#EADFCF] p-5 flex flex-col justify-between hover:border-[#C99A45] hover:shadow-md transition-all duration-300 relative"
+              className="group bg-white rounded-2xl border border-[#EAECEF] p-5 flex flex-col justify-between card-lift relative"
             >
-              {/* Circular Discount Badge (Reference 1 style) */}
+              {/* Circular Discount Badge (Golden Accent #C78703) */}
               <div className="flex justify-end mb-2">
-                <span className="w-12 h-12 rounded-full bg-[#477765] text-white text-[11px] font-bold flex items-center justify-center shadow-xs">
+                <span className="w-12 h-12 rounded-full bg-[#C78703] text-white text-[11px] font-bold flex items-center justify-center shadow-xs">
                   {isBn ? deal.discountBn : deal.discount}
                 </span>
               </div>
 
-              {/* Product preview */}
-              <div className="relative w-full h-44 rounded-xl overflow-hidden bg-[#FAF5EE] mb-4">
+              {/* Product preview with subtle hover zoom */}
+              <div className="relative w-full h-44 rounded-xl overflow-hidden bg-[#F6F7F8] mb-4">
                 <Image
                   src={deal.image}
                   alt={deal.title}
@@ -184,7 +184,7 @@ export default function SpecialOffersSection() {
 
               {/* Info */}
               <div className="space-y-2">
-                <h3 className="font-bold text-sm sm:text-base text-[#10252B] group-hover:text-[#477765] transition-colors leading-snug">
+                <h3 className="font-bold text-sm sm:text-base text-[#012D51] group-hover:text-[#C78703] transition-colors leading-snug">
                   {isBn ? deal.titleBn : deal.title}
                 </h3>
                 <p className="text-xs text-stone-600 line-clamp-2 leading-relaxed">
@@ -193,10 +193,10 @@ export default function SpecialOffersSection() {
               </div>
 
               {/* CTA button */}
-              <div className="mt-4 pt-3 border-t border-[#EADFCF]/60">
+              <div className="mt-4 pt-3 border-t border-[#EAECEF]">
                 <Link
                   href={deal.link}
-                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-[#477765] hover:bg-[#10252B] text-white text-xs font-bold transition-all shadow-xs"
+                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-[#012D51] hover:bg-[#C78703] text-white text-xs font-bold transition-all duration-200 shadow-xs btn-press"
                 >
                   <span>{isBn ? 'শপ নাও' : 'Shop Now'}</span>
                   <ArrowRight className="w-3.5 h-3.5" />

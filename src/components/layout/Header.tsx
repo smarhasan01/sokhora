@@ -111,23 +111,23 @@ export default function Header() {
   };
 
   return (
-    <header className="sticky top-0 z-40 w-full shadow-sm bg-white">
-      {/* 1. Slim Announcement Bar (Deep Navy #10252B with Champagne Gold accents) */}
-      <div className="bg-[#10252B] text-[#F8EEE2] text-[11px] py-1.5 px-4 border-b border-[#C99A45]/30">
+    <header className="sticky top-0 z-40 w-full shadow-xs bg-white">
+      {/* 1. Slim Announcement Bar (Deep Navy #012D51 with Gold #C78703 accents) */}
+      <div className="bg-[#012D51] text-white text-[11px] py-1.5 px-4 border-b border-[#C78703]/30">
         <div className="max-w-7xl mx-auto flex justify-between items-center gap-4">
           <div className="flex items-center gap-4 truncate">
-            <span className="flex items-center gap-1.5 text-[#F8EEE2]/90">
-              <MapPin className="w-3 h-3 text-[#C99A45] shrink-0" />
+            <span className="flex items-center gap-1.5 text-white/90">
+              <MapPin className="w-3 h-3 text-[#C78703] shrink-0" />
               <span className="hidden sm:inline">Police Plaza Concord, Gulshan 1, Dhaka</span>
               <span className="sm:hidden">Dhaka, Bangladesh</span>
             </span>
-            <span className="hidden md:flex items-center gap-1 text-[#F8EEE2]/80">
-              <Clock className="w-3 h-3 text-[#C99A45] shrink-0" />
+            <span className="hidden md:flex items-center gap-1 text-white/80">
+              <Clock className="w-3 h-3 text-[#C78703] shrink-0" />
               <span>{isBn ? 'সকাল ৯টা - রাত ১০টা' : 'Sat - Thu: 9:00 AM - 10:00 PM'}</span>
             </span>
           </div>
 
-          <div className="hidden lg:flex items-center gap-2 text-[#C99A45] font-medium text-[11px]">
+          <div className="hidden lg:flex items-center gap-2 text-[#C78703] font-medium text-[11px]">
             <Sparkles className="w-3 h-3" />
             <span>{isBn ? 'সারাদেশে ১,৫০০ টাকার অর্ডারে ফ্রি ডেলিভারি!' : 'Free Nationwide Delivery on orders over ৳1,500!'}</span>
           </div>
@@ -135,27 +135,27 @@ export default function Header() {
           <div className="flex items-center gap-4 sm:gap-6 shrink-0">
             <a
               href="tel:01568923850"
-              className="hidden sm:flex items-center gap-1 text-[#F8EEE2] hover:text-[#C99A45] transition-colors"
+              className="hidden sm:flex items-center gap-1 text-white hover:text-[#C78703] transition-colors"
             >
-              <Phone className="w-3 h-3 text-[#C99A45]" />
+              <Phone className="w-3 h-3 text-[#C78703]" />
               <span className="font-mono">01568923850</span>
             </a>
 
             <Link
               href="/track-order"
-              className="hover:text-[#C99A45] transition-colors text-[#F8EEE2]/90"
+              className="hover:text-[#C78703] transition-colors text-white/90"
             >
               {t('footerTrackOrder')}
             </Link>
 
             {/* Language Switcher */}
-            <div className="flex items-center gap-1 bg-[#18363F] rounded-full px-2 py-0.5 border border-[#C99A45]/40">
-              <Globe className="w-3 h-3 text-[#C99A45]" />
+            <div className="flex items-center gap-1 bg-[#01223D] rounded-full px-2 py-0.5 border border-[#C78703]/40">
+              <Globe className="w-3 h-3 text-[#C78703]" />
               <button
                 type="button"
                 onClick={() => setLanguage('en')}
                 className={`px-1.5 py-0.2 rounded font-bold transition-all text-[10px] ${
-                  language === 'en' ? 'bg-[#C99A45] text-[#10252B]' : 'text-[#F8EEE2]/80 hover:text-white'
+                  language === 'en' ? 'bg-[#C78703] text-white shadow-xs' : 'text-white/80 hover:text-white'
                 }`}
               >
                 EN
@@ -164,7 +164,7 @@ export default function Header() {
                 type="button"
                 onClick={() => setLanguage('bn')}
                 className={`px-1.5 py-0.2 rounded font-bengali font-bold transition-all text-[10px] ${
-                  language === 'bn' ? 'bg-[#C99A45] text-[#10252B]' : 'text-[#F8EEE2]/80 hover:text-white'
+                  language === 'bn' ? 'bg-[#C78703] text-white shadow-xs' : 'text-white/80 hover:text-white'
                 }`}
               >
                 বাংলা
@@ -174,43 +174,43 @@ export default function Header() {
         </div>
       </div>
 
-      {/* 2. Main Navigation Header (Clean White with Logo, Search, Actions) */}
-      <div className="bg-white text-[#252525] py-3 px-4 sm:px-6 lg:px-8 border-b border-[#EADFCF]/70">
+      {/* 2. Main Navigation Header (Clean White with Original Transparent Logo, Search, Actions) */}
+      <div className="bg-white text-[#252525] py-3 px-4 sm:px-6 lg:px-8 border-b border-[#EAECEF]">
         <div className="max-w-7xl mx-auto flex items-center justify-between gap-4 lg:gap-8">
           
           {/* Mobile hamburger */}
           <button
             type="button"
             onClick={() => setMobileMenuOpen(true)}
-            className="lg:hidden p-2 -ml-2 rounded-xl text-[#10252B] hover:bg-[#F8EEE2] transition-colors"
+            className="lg:hidden p-2 -ml-2 rounded-xl text-[#012D51] hover:bg-[#F6F7F8] transition-colors btn-press"
             aria-label="Open menu"
           >
             <Menu className="w-6 h-6" />
           </button>
 
-          {/* Original SHOKHORA Logo */}
+          {/* Original SHOKHORA Logo (Transparent, Exact Colors, No Black Box) */}
           <Link href="/" className="shrink-0 flex items-center group">
-            <div className="relative w-36 sm:w-48 h-10 sm:h-12 rounded-xl overflow-hidden bg-[#10252B] p-1 border border-[#C99A45]/40 shadow-xs group-hover:border-[#C99A45] transition-all">
+            <div className="relative w-36 sm:w-48 h-10 sm:h-12 transition-transform duration-300 group-hover:scale-[1.02]">
               <Image
-                src="/images/shokhora-brand-logo.jpg"
+                src="/images/shokhora-official-logo.png"
                 alt="SHOKHORA শখোরা"
                 fill
                 priority
-                className="object-contain object-center"
+                className="object-contain object-left"
               />
             </div>
           </Link>
 
-          {/* Search Bar with Category Dropdown (ELITE COMMERCE Layout) */}
+          {/* Search Bar with Category Dropdown (Reference 1 Layout) */}
           <div ref={searchContainerRef} className="hidden md:flex flex-1 max-w-2xl relative">
-            <form onSubmit={handleSearchSubmit} className="w-full flex items-center bg-[#FAF8F5] rounded-full overflow-hidden border border-[#EADFCF] focus-within:border-[#C99A45] focus-within:shadow-[0_0_0_2px_rgba(201,154,69,0.15)] transition-all">
+            <form onSubmit={handleSearchSubmit} className="w-full flex items-center bg-[#F6F7F8] rounded-full overflow-hidden border border-[#EAECEF] focus-within:border-[#012D51] focus-within:bg-white focus-within:shadow-[0_0_0_2px_rgba(1,45,81,0.1)] transition-all">
               
               {/* Category Dropdown inside search */}
               <div className="relative shrink-0">
                 <select
                   value={selectedCategory}
                   onChange={(e) => setSelectedCategory(e.target.value)}
-                  className="bg-transparent text-[#10252B] text-xs font-semibold pl-4 pr-7 py-2.5 outline-none cursor-pointer hover:text-[#477765] transition-colors appearance-none"
+                  className="bg-transparent text-[#012D51] text-xs font-semibold pl-4 pr-7 py-2.5 outline-none cursor-pointer hover:text-[#C78703] transition-colors appearance-none"
                 >
                   <option value="all">{isBn ? 'সকল ক্যাটাগরি' : 'All Category'}</option>
                   {CATEGORIES.map((c) => (
@@ -223,7 +223,7 @@ export default function Header() {
               </div>
 
               {/* Vertical divider */}
-              <div className="w-[1px] h-5 bg-[#EADFCF]" />
+              <div className="w-[1px] h-5 bg-[#DDE0E3]" />
 
               {/* Input */}
               <input
@@ -235,10 +235,10 @@ export default function Header() {
                 className="flex-1 px-4 py-2.5 text-xs text-[#252525] bg-transparent placeholder:text-stone-400 outline-none"
               />
 
-              {/* Reference Search Button (Muted Green #477765 circular/pill button) */}
+              {/* Reference Search Button (Deep Navy #012D51 circular button) */}
               <button
                 type="submit"
-                className="m-1 w-9 h-9 rounded-full bg-[#477765] hover:bg-[#10252B] text-white flex items-center justify-center transition-all shadow-xs shrink-0"
+                className="m-1 w-9 h-9 rounded-full bg-[#012D51] hover:bg-[#C78703] text-white flex items-center justify-center transition-all shadow-xs shrink-0 btn-press"
                 aria-label="Search"
               >
                 <Search className="w-4 h-4" />
@@ -247,27 +247,27 @@ export default function Header() {
 
             {/* Suggestions dropdown */}
             {showSuggestions && suggestions.length > 0 && (
-              <div className="absolute left-0 right-0 top-full mt-2 bg-white rounded-2xl shadow-2xl border border-[#EADFCF] overflow-hidden z-50 p-2 text-[#252525] space-y-1 animate-fadeIn">
+              <div className="absolute left-0 right-0 top-full mt-2 bg-white rounded-2xl shadow-xl border border-[#EAECEF] overflow-hidden z-50 p-2 text-[#252525] space-y-1 animate-scale-in">
                 {suggestions.map((item) => (
                   <Link
                     key={item.id}
                     href={`/product/${item.slug}`}
                     onClick={() => setShowSuggestions(false)}
-                    className="flex items-center gap-3 p-2 rounded-xl hover:bg-[#F8EEE2]/60 transition-colors"
+                    className="flex items-center gap-3 p-2 rounded-xl hover:bg-[#F6F7F8] transition-colors"
                   >
-                    <div className="relative w-11 h-11 rounded-lg overflow-hidden bg-[#FAF5EE] border border-[#EADFCF]/60 shrink-0">
+                    <div className="relative w-11 h-11 rounded-lg overflow-hidden bg-[#F6F7F8] border border-[#EAECEF] shrink-0">
                       <Image
-                        src={item.images[0] || '/images/Logo-01.png'}
+                        src={item.images[0] || '/images/shokhora-official-logo.png'}
                         alt={item.name}
                         fill
                         className="object-contain p-1"
                       />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-xs font-semibold truncate text-[#10252B]">
+                      <p className="text-xs font-semibold truncate text-[#012D51]">
                         {isBn && item.nameBn ? item.nameBn : item.name}
                       </p>
-                      <p className="text-[11px] font-mono text-[#477765] font-bold">
+                      <p className="text-[11px] font-mono text-[#C78703] font-bold">
                         {formatPrice(item.discountPrice ?? item.regularPrice)}
                       </p>
                     </div>
@@ -282,12 +282,12 @@ export default function Header() {
             {/* Wishlist */}
             <Link
               href="/wishlist"
-              className="relative p-2.5 rounded-full text-[#10252B] hover:text-[#C99A45] hover:bg-[#F8EEE2] transition-colors flex items-center justify-center"
+              className="relative p-2.5 rounded-full text-[#012D51] hover:text-[#C78703] hover:bg-[#F6F7F8] transition-colors flex items-center justify-center btn-press"
               title={t('wishlist')}
             >
               <Heart className="w-5 h-5" />
               {wishlistCount > 0 && (
-                <span className="absolute 0 top-0 right-0 w-4 h-4 rounded-full bg-[#C99A45] text-white text-[10px] font-bold flex items-center justify-center shadow-xs">
+                <span className="absolute 0 top-0 right-0 w-4 h-4 rounded-full bg-[#C78703] text-white text-[10px] font-bold flex items-center justify-center shadow-xs">
                   {wishlistCount}
                 </span>
               )}
@@ -297,11 +297,11 @@ export default function Header() {
             <button
               type="button"
               onClick={() => setIsCartOpen(true)}
-              className="flex items-center gap-2.5 bg-[#FAF8F5] text-[#10252B] px-3.5 py-2 rounded-full border border-[#EADFCF] hover:border-[#C99A45] hover:bg-[#F8EEE2]/50 transition-all font-mono"
+              className="flex items-center gap-2.5 bg-[#F6F7F8] text-[#012D51] px-3.5 py-2 rounded-full border border-[#EAECEF] hover:border-[#012D51] hover:bg-white transition-all font-mono btn-press shadow-xs"
             >
               <div className="relative">
-                <ShoppingBag className="w-5 h-5 text-[#477765]" />
-                <span className="absolute -top-2 -right-2.5 w-4 h-4 rounded-full bg-[#10252B] text-[#F8EEE2] text-[10px] font-bold flex items-center justify-center">
+                <ShoppingBag className="w-5 h-5 text-[#012D51]" />
+                <span className="absolute -top-2 -right-2.5 w-4 h-4 rounded-full bg-[#012D51] text-white text-[10px] font-bold flex items-center justify-center">
                   {itemCount}
                 </span>
               </div>
@@ -309,19 +309,19 @@ export default function Header() {
                 <span className="text-[9px] uppercase tracking-wider text-stone-500 font-sans font-semibold">
                   {isBn ? 'কার্ট' : 'Cart'}
                 </span>
-                <span className="text-xs font-bold text-[#10252B]">
+                <span className="text-xs font-bold text-[#012D51]">
                   {formatPrice(subtotal)}
                 </span>
               </div>
             </button>
 
-            {/* User Account / Sign In Pill (Reference-style) */}
+            {/* User Account / Sign In Pill (Reference 1 style) */}
             <Link
               href={user ? '/account' : '/login'}
-              className="flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-[#C99A45] text-[#10252B] hover:bg-[#F8EEE2] transition-all text-xs font-semibold"
+              className="flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-[#C78703] text-[#012D51] hover:bg-[#FDF8ED] transition-all text-xs font-semibold btn-press"
               title={user ? t('myAccount') : t('signIn')}
             >
-              <User className="w-4 h-4 text-[#C99A45]" />
+              <User className="w-4 h-4 text-[#C78703]" />
               <span className="hidden sm:inline">
                 {user ? (user.displayName || 'Account').split(' ')[0] : (isBn ? 'লগইন' : 'Sign in')}
               </span>
@@ -338,7 +338,7 @@ export default function Header() {
               placeholder={isBn ? 'পণ্য বা ক্যাটাগরি অনুসন্ধান করুন...' : 'Search products or category...'}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-[#FAF8F5] text-[#252525] pl-10 pr-4 py-2.5 rounded-full text-xs outline-none border border-[#EADFCF] placeholder:text-stone-400 focus:border-[#C99A45]"
+              className="w-full bg-[#F6F7F8] text-[#252525] pl-10 pr-4 py-2.5 rounded-full text-xs outline-none border border-[#EAECEF] placeholder:text-stone-400 focus:border-[#012D51] focus:bg-white"
             />
             <Search className="w-4 h-4 text-stone-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
           </form>
@@ -346,29 +346,29 @@ export default function Header() {
       </div>
 
       {/* 3. Main Category Navigation Bar */}
-      <div className="bg-white border-b border-[#EADFCF]/70">
+      <div className="bg-white border-b border-[#EAECEF]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-4 h-12">
           
-          {/* Left: "All Category ▾" Button */}
+          {/* Left: "All Category ▾" Button (Deep Navy #012D51) */}
           <div ref={categoryMenuRef} className="relative shrink-0">
             <button
               onClick={() => setCategoryDropdownOpen(!categoryDropdownOpen)}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-[#477765] hover:bg-[#10252B] text-white text-xs font-bold uppercase tracking-wider transition-colors shadow-xs"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-[#012D51] hover:bg-[#023E6E] text-white text-xs font-bold uppercase tracking-wider transition-colors shadow-xs btn-press"
             >
-              <Menu className="w-4 h-4 text-[#C99A45]" />
+              <Menu className="w-4 h-4 text-[#C78703]" />
               <span>{isBn ? 'সকল ক্যাটাগরি' : 'All Category'}</span>
               <ChevronDown className="w-3.5 h-3.5 text-white/80" />
             </button>
 
             {/* Floating Category Menu */}
             {categoryDropdownOpen && (
-              <div className="absolute top-full left-0 mt-2 w-64 bg-white rounded-2xl shadow-2xl border border-[#EADFCF] py-2 z-50 animate-fadeIn">
+              <div className="absolute top-full left-0 mt-2 w-64 bg-white rounded-2xl shadow-xl border border-[#EAECEF] py-2 z-50 animate-scale-in">
                 {CATEGORIES.map((cat) => (
                   <Link
                     key={cat.slug}
                     href={`/category/${cat.slug}`}
                     onClick={() => setCategoryDropdownOpen(false)}
-                    className="block px-4 py-2.5 text-xs font-semibold text-[#10252B] hover:bg-[#F8EEE2] hover:text-[#477765] transition-colors"
+                    className="block px-4 py-2.5 text-xs font-semibold text-[#012D51] hover:bg-[#F6F7F8] hover:text-[#C78703] transition-colors"
                   >
                     {isBn ? cat.nameBn : cat.name}
                   </Link>
@@ -381,84 +381,84 @@ export default function Header() {
           <nav className="hidden lg:flex items-center gap-6 text-xs font-semibold text-stone-700">
             <Link
               href="/"
-              className={`hover:text-[#477765] transition-colors py-1 ${
-                pathname === '/' ? 'text-[#477765] font-bold border-b-2 border-[#477765]' : ''
+              className={`hover:text-[#012D51] transition-colors py-1 ${
+                pathname === '/' ? 'text-[#012D51] font-bold border-b-2 border-[#012D51]' : ''
               }`}
             >
               {isBn ? 'হোম' : 'Home'}
             </Link>
             <Link
               href="/shop"
-              className={`hover:text-[#477765] transition-colors py-1 ${
-                pathname === '/shop' ? 'text-[#477765] font-bold' : ''
+              className={`hover:text-[#012D51] transition-colors py-1 ${
+                pathname === '/shop' ? 'text-[#012D51] font-bold border-b-2 border-[#012D51]' : ''
               }`}
             >
               {isBn ? 'সকল পণ্য' : 'Products'}
             </Link>
             <Link
               href="/category/fashion-clothing"
-              className="hover:text-[#477765] transition-colors py-1"
+              className="hover:text-[#012D51] transition-colors py-1"
             >
               {isBn ? 'পোশাক' : 'Fashion'}
             </Link>
             <Link
               href="/category/cosmetics-beauty"
-              className="hover:text-[#477765] transition-colors py-1"
+              className="hover:text-[#012D51] transition-colors py-1"
             >
               {isBn ? 'বিউটি' : 'Beauty'}
             </Link>
             <Link
               href="/category/kids-hairbands-clips"
-              className="hover:text-[#477765] transition-colors py-1"
+              className="hover:text-[#012D51] transition-colors py-1"
             >
               {isBn ? 'কিডস ক্লিপ' : 'Kids Clips'}
             </Link>
             <Link
               href="/category/scrunchies-hair-accessories"
-              className="hover:text-[#477765] transition-colors py-1"
+              className="hover:text-[#012D51] transition-colors py-1"
             >
               {isBn ? 'স্ক্রাঞ্চি' : 'Scrunchies'}
             </Link>
             <Link
               href="/category/jewellery-fashion-accessories"
-              className="hover:text-[#477765] transition-colors py-1"
+              className="hover:text-[#012D51] transition-colors py-1"
             >
               {isBn ? 'জুয়েলারি' : 'Jewellery'}
             </Link>
             <Link
               href="/about"
-              className="hover:text-[#477765] transition-colors py-1"
+              className="hover:text-[#012D51] transition-colors py-1"
             >
               {isBn ? 'আমাদের কথা' : 'About'}
             </Link>
             <Link
               href="/contact"
-              className="hover:text-[#477765] transition-colors py-1"
+              className="hover:text-[#012D51] transition-colors py-1"
             >
               {isBn ? 'যোগাযোগ' : 'Contact'}
             </Link>
           </nav>
 
-          {/* Right Highlights: LIMITED SALE, Best Seller, New Arrival */}
+          {/* Right Highlights: LIMITED SALE with Gold Accent */}
           <div className="hidden sm:flex items-center gap-4 text-xs font-semibold shrink-0">
             <Link
               href="/shop"
-              className="inline-flex items-center gap-1 text-[#C99A45] hover:underline"
+              className="inline-flex items-center gap-1 text-[#C78703] hover:underline"
             >
-              <Flame className="w-3.5 h-3.5 fill-[#C99A45]" />
+              <Flame className="w-3.5 h-3.5 fill-[#C78703]" />
               <span className="uppercase tracking-wider font-bold">
                 {isBn ? 'সীমিত অফার' : 'LIMITED SALE'}
               </span>
             </Link>
             <Link
               href="/shop?sort=popularity"
-              className="text-stone-600 hover:text-[#477765] transition-colors"
+              className="text-stone-600 hover:text-[#012D51] transition-colors"
             >
               {isBn ? 'বেস্ট সেলার' : 'Best Seller'}
             </Link>
             <Link
               href="/shop?sort=newest"
-              className="text-stone-600 hover:text-[#477765] transition-colors"
+              className="text-stone-600 hover:text-[#012D51] transition-colors"
             >
               {isBn ? 'নিউ অ্যারাইভাল' : 'New Arrival'}
             </Link>
@@ -471,26 +471,24 @@ export default function Header() {
       {mobileMenuOpen && (
         <div className="fixed inset-0 z-50 lg:hidden">
           <div
-            className="fixed inset-0 bg-[#10252B]/70 backdrop-blur-sm"
+            className="fixed inset-0 bg-[#012D51]/70 backdrop-blur-xs transition-opacity duration-300"
             onClick={() => setMobileMenuOpen(false)}
           />
-          <div className="fixed inset-y-0 left-0 max-w-xs w-full bg-white shadow-2xl z-50 flex flex-col justify-between overflow-y-auto">
+          <div className="fixed inset-y-0 left-0 max-w-xs w-full bg-white shadow-2xl z-50 flex flex-col justify-between overflow-y-auto animate-slide-up">
             <div>
-              <div className="p-4 bg-[#10252B] text-[#F8EEE2] flex items-center justify-between border-b border-[#C99A45]/30">
-                <div className="flex items-center gap-2">
-                  <div className="relative w-28 h-8 rounded-lg overflow-hidden bg-[#10252B] border border-[#C99A45]/40">
-                    <Image
-                      src="/images/shokhora-brand-logo.jpg"
-                      alt="SHOKHORA"
-                      fill
-                      className="object-contain"
-                    />
-                  </div>
+              <div className="p-4 bg-white text-[#012D51] flex items-center justify-between border-b border-[#EAECEF]">
+                <div className="relative w-32 h-9">
+                  <Image
+                    src="/images/shokhora-official-logo.png"
+                    alt="SHOKHORA"
+                    fill
+                    className="object-contain object-left"
+                  />
                 </div>
                 <button
                   type="button"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="p-1 rounded-lg hover:bg-white/10 text-[#F8EEE2]"
+                  className="p-1 rounded-lg hover:bg-stone-100 text-[#012D51]"
                 >
                   <X className="w-5 h-5" />
                 </button>
@@ -500,7 +498,7 @@ export default function Header() {
                 <Link
                   href="/shop"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="block p-2.5 rounded-xl font-bold text-xs text-[#10252B] hover:bg-[#F8EEE2]"
+                  className="block p-2.5 rounded-xl font-bold text-xs text-[#012D51] hover:bg-[#F6F7F8]"
                 >
                   {isBn ? 'সকল পণ্য' : 'All Products'}
                 </Link>
@@ -509,7 +507,7 @@ export default function Header() {
                     key={c.slug}
                     href={`/category/${c.slug}`}
                     onClick={() => setMobileMenuOpen(false)}
-                    className="block p-2.5 rounded-xl text-xs font-semibold text-stone-700 hover:bg-[#F8EEE2] hover:text-[#477765]"
+                    className="block p-2.5 rounded-xl text-xs font-semibold text-stone-700 hover:bg-[#F6F7F8] hover:text-[#012D51]"
                   >
                     {isBn ? c.nameBn : c.name}
                   </Link>
@@ -517,11 +515,11 @@ export default function Header() {
               </div>
             </div>
 
-            <div className="p-4 border-t border-[#EADFCF] bg-[#FAF8F5] space-y-2">
+            <div className="p-4 border-t border-[#EAECEF] bg-[#F6F7F8] space-y-2">
               <Link
                 href={user ? '/account' : '/login'}
                 onClick={() => setMobileMenuOpen(false)}
-                className="w-full py-2.5 rounded-xl bg-[#10252B] text-[#F8EEE2] text-xs font-bold text-center block hover:bg-[#477765] transition-colors"
+                className="w-full py-2.5 rounded-full bg-[#012D51] text-white text-xs font-bold text-center block hover:bg-[#C78703] transition-colors"
               >
                 {user ? t('myAccount') : t('signIn')}
               </Link>

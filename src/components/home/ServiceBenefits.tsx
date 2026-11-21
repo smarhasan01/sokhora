@@ -31,17 +31,17 @@ export default function ServiceBenefits() {
   ];
 
   return (
-    <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 border-t border-[#EADFCF]">
+    <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 border-t border-[#EAECEF]">
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 py-4">
         {benefits.map((b, idx) => {
           const Icon = b.icon;
           return (
-            <div key={idx} className="flex items-center gap-3.5">
-              <div className="w-11 h-11 rounded-full bg-[#FAF5EE] text-[#477765] flex items-center justify-center shrink-0 border border-[#EADFCF]">
-                <Icon className="w-5 h-5" />
+            <div key={idx} className="flex items-center gap-3.5 group">
+              <div className="w-11 h-11 rounded-full bg-[#F6F7F8] text-[#012D51] group-hover:bg-[#012D51] group-hover:text-[#C78703] transition-all duration-300 flex items-center justify-center shrink-0 border border-[#EAECEF] shadow-xs">
+                <Icon className="w-5 h-5 transition-transform duration-300 group-hover:scale-110" />
               </div>
               <div>
-                <h4 className="font-bold text-xs sm:text-sm text-[#10252B] leading-snug">
+                <h4 className="font-bold text-xs sm:text-sm text-[#012D51] leading-snug">
                   {b.title}
                 </h4>
                 <p className="text-[11px] text-stone-500 font-mono mt-0.5">

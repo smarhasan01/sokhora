@@ -48,11 +48,11 @@ export default function FaqAccordion() {
   return (
     <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
       <div className="text-center space-y-2 mb-8">
-        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#FAF5EE] text-[#477765] font-mono text-[11px] font-bold border border-[#EADFCF]">
-          <HelpCircle className="w-3.5 h-3.5 text-[#C99A45]" />
+        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#F6F7F8] text-[#012D51] font-mono text-[11px] font-bold border border-[#EAECEF]">
+          <HelpCircle className="w-3.5 h-3.5 text-[#C78703]" />
           <span>+ FAQ</span>
         </span>
-        <h2 className="text-2xl sm:text-3xl font-extrabold text-[#10252B] tracking-tight">
+        <h2 className="text-2xl sm:text-3xl font-extrabold text-[#012D51] tracking-tight">
           {isBn ? 'সাধারণ জিজ্ঞাসা (FAQ)' : 'Frequently Asked Questions'}
         </h2>
         <p className="text-xs sm:text-sm text-stone-500">
@@ -70,28 +70,28 @@ export default function FaqAccordion() {
               key={idx}
               className={`rounded-2xl border transition-all duration-300 overflow-hidden ${
                 isOpen
-                  ? 'bg-[#477765] text-white border-[#3B6555] shadow-md'
-                  : 'bg-white text-[#10252B] border-[#EADFCF] hover:border-[#C99A45]'
+                  ? 'bg-[#012D51] text-white border-[#012D51] shadow-md'
+                  : 'bg-white text-[#252525] border-[#EAECEF] hover:border-[#012D51]/40'
               }`}
             >
               <button
                 type="button"
                 onClick={() => toggle(idx)}
-                className="w-full p-4 sm:p-5 flex items-center justify-between text-left gap-4"
+                className="w-full p-4 sm:p-5 flex items-center justify-between text-left gap-4 btn-press"
               >
-                <span className={`font-semibold text-xs sm:text-sm ${isOpen ? 'text-white' : 'text-[#10252B]'}`}>
+                <span className={`font-semibold text-xs sm:text-sm ${isOpen ? 'text-white' : 'text-[#252525]'}`}>
                   {isBn ? faq.qBn : faq.q}
                 </span>
 
                 <div className={`w-7 h-7 rounded-full flex items-center justify-center shrink-0 transition-colors ${
-                  isOpen ? 'bg-white/20 text-white' : 'bg-[#FAF5EE] text-stone-500'
+                  isOpen ? 'bg-white/20 text-white' : 'bg-[#F6F7F8] text-stone-500'
                 }`}>
-                  {isOpen ? <Minus className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
+                  {isOpen ? <Minus className="w-4 h-4 text-[#C78703]" /> : <Plus className="w-4 h-4" />}
                 </div>
               </button>
 
               {isOpen && (
-                <div className="px-5 pb-5 pt-1 text-xs sm:text-sm text-white/90 leading-relaxed font-sans border-t border-white/15">
+                <div className="px-5 pb-5 pt-1 text-xs sm:text-sm text-white/90 leading-relaxed font-sans border-t border-white/15 animate-fade-in">
                   {isBn ? faq.aBn : faq.a}
                 </div>
               )}

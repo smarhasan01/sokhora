@@ -19,6 +19,7 @@ export default function ProductCard({ product, showCategory = true }: ProductCar
   const { addItem } = useCart();
   const { isInWishlist, toggleWishlist } = useWishlist();
   const [added, setAdded] = useState(false);
+  const [wishlistAnimate, setWishlistAnimate] = useState(false);
 
   const price = product.discountPrice ?? product.regularPrice;
   const hasDiscount = product.discountPrice && product.discountPrice < product.regularPrice;
@@ -47,23 +48,25 @@ export default function ProductCard({ product, showCategory = true }: ProductCar
   const handleWishlistToggle = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
+    setWishlistAnimate(true);
     toggleWishlist(product);
+    setTimeout(() => setWishlistAnimate(false), 300);
   };
 
   const displayName = isBn && product.nameBn ? product.nameBn : product.name;
   const reviewCountValue = product.reviewCount || 120;
 
   return (
-    <div className="group relative bg-white rounded-2xl border border-[#EADFCF]/80 p-3 sm:p-4 hover:border-[#C99A45] hover:shadow-[0_12px_28px_rgba(16,37,43,0.08)] transition-all duration-300 flex flex-col justify-between">
+    <div className="group relative bg-white rounded-2xl border border-[#EAECEF] p-3 sm:p-4 card-lift flex flex-col justify-between">
       {/* Top badges & Quick actions */}
       <div>
         <div className="flex items-center justify-between z-10 mb-2">
           {hasDiscount ? (
-            <span className="px-2 py-0.5 rounded-full text-[10px] font-bold font-mono tracking-tight bg-[#E53E3E] text-white shadow-xs">
+            <span className="px-2 py-0.5 rounded-full text-[10px] font-bold font-mono tracking-tight bg-[#C78703] text-white shadow-xs">
               -{formatNumber(discountPercent)}%
             </span>
           ) : product.isNewArrival ? (
-            <span className="px-2 py-0.5 rounded-full text-[10px] font-semibold tracking-wider bg-[#10252B] text-[#F8EEE2]">
+            <span className="px-2 py-0.5 rounded-full text-[10px] font-semibold tracking-wider bg-[#012D51] text-white">
               {isBn ? 'নতুন' : 'NEW'}
             </span>
           ) : (
@@ -74,23 +77,25 @@ export default function ProductCard({ product, showCategory = true }: ProductCar
           <div className="flex items-center gap-1.5">
             <button
               onClick={handleWishlistToggle}
-              className={`w-7 h-7 rounded-full flex items-center justify-center transition-all ${
+              className={`w-7 h-7 rounded-full flex items-center justify-center transition-all btn-press ${
+                wishlistAnimate ? 'scale-125' : ''
+              } ${
                 inWishlist
-                  ? 'bg-[#F8EEE2] text-[#C99A45] scale-105'
-                  : 'bg-white/90 text-stone-400 hover:text-[#C99A45] hover:bg-[#F8EEE2] shadow-xs'
+                  ? 'bg-[#FDF8ED] text-[#C78703] shadow-xs'
+                  : 'bg-white text-stone-400 hover:text-[#C78703] hover:bg-[#F6F7F8] border border-stone-200/60'
               }`}
               title={inWishlist ? t('removeFromWishlist') : t('wishlist')}
               aria-label="Wishlist"
             >
               <Heart
                 className={`w-3.5 h-3.5 transition-colors ${
-                  inWishlist ? 'fill-[#C99A45] text-[#C99A45]' : ''
+                  inWishlist ? 'fill-[#C78703] text-[#C78703]' : ''
                 }`}
               />
             </button>
             <Link
               href={`/product/${product.slug}`}
-              className="w-7 h-7 rounded-full bg-white/90 text-stone-400 hover:text-[#10252B] hover:bg-[#F8EEE2] flex items-center justify-center transition-all shadow-xs"
+              className="w-7 h-7 rounded-full bg-white text-stone-400 hover:text-[#012D51] hover:bg-[#F6F7F8] border border-stone-200/60 flex items-center justify-center transition-all btn-press"
               title={isBn ? 'বিস্তারিত দেখুন' : 'Quick View'}
               aria-label="Quick View"
             >
@@ -102,10 +107,10 @@ export default function ProductCard({ product, showCategory = true }: ProductCar
         {/* Product Image Container */}
         <Link
           href={`/product/${product.slug}`}
-          className="relative block aspect-square w-full rounded-xl overflow-hidden bg-[#FAF5EE] mb-3"
+          className="relative block aspect-square w-full rounded-xl overflow-hidden bg-[#F6F7F8] mb-3"
         >
           <Image
-            src={product.images[0] || '/images/Logo-01.png'}
+            src={product.images[0] || '/images/shokhora-official-logo.png'}
             alt={displayName}
             fill
             sizes="(max-width: 640px) 50vw, (max-width: 1024px) 25vw, 20vw"
@@ -113,8 +118,8 @@ export default function ProductCard({ product, showCategory = true }: ProductCar
           />
 
           {product.stock <= 0 && (
-            <div className="absolute inset-0 bg-[#10252B]/75 backdrop-blur-[2px] flex items-center justify-center">
-              <span className="px-2.5 py-1 rounded-md bg-[#C99A45] text-white text-[10px] font-bold uppercase tracking-wider">
+            <div className="absolute inset-0 bg-[#012D51]/75 backdrop-blur-[2px] flex items-center justify-center">
+              <span className="px-2.5 py-1 rounded-md bg-[#C78703] text-white text-[10px] font-bold uppercase tracking-wider">
                 {isBn ? 'স্টক শেষ' : 'Sold Out'}
               </span>
             </div>
@@ -132,16 +137,16 @@ export default function ProductCard({ product, showCategory = true }: ProductCar
 
           {/* Title */}
           <Link href={`/product/${product.slug}`} className="block">
-            <h3 className="font-semibold text-xs sm:text-sm text-[#10252B] leading-snug line-clamp-2 group-hover:text-[#477765] transition-colors">
+            <h3 className="font-semibold text-xs sm:text-sm text-[#252525] leading-snug line-clamp-2 group-hover:text-[#012D51] transition-colors">
               {displayName}
             </h3>
           </Link>
 
           {/* Rating */}
           <div className="flex items-center gap-1.5 mt-1.5 text-[11px]">
-            <div className="flex items-center text-[#C99A45]">
+            <div className="flex items-center text-[#C78703]">
               {[...Array(5)].map((_, i) => (
-                <Star key={i} className="w-3 h-3 fill-[#C99A45] text-[#C99A45]" />
+                <Star key={i} className="w-3 h-3 fill-[#C78703] text-[#C78703]" />
               ))}
             </div>
             <span className="text-[10px] text-stone-400 font-mono">
@@ -151,17 +156,17 @@ export default function ProductCard({ product, showCategory = true }: ProductCar
 
           {/* Stock hint if low */}
           {product.stock > 0 && product.stock <= 5 && (
-            <p className="text-[10px] text-amber-700 font-medium mt-1">
+            <p className="text-[10px] text-[#C78703] font-medium mt-1">
               {isBn ? `মাত্র ${formatNumber(product.stock)}টি বাকি!` : `Only ${product.stock} left in stock!`}
             </p>
           )}
         </div>
       </div>
 
-      {/* Price & Reference-style Circular Add-to-Cart Action */}
-      <div className="mt-3 pt-2.5 border-t border-[#EADFCF]/60 flex items-center justify-between gap-2">
+      {/* Price & Reference Circular Add-to-Cart Action */}
+      <div className="mt-3 pt-2.5 border-t border-[#EAECEF] flex items-center justify-between gap-2">
         <div className="flex flex-col">
-          <span className="text-sm sm:text-base font-bold font-mono text-[#10252B]">
+          <span className="text-sm sm:text-base font-bold font-mono text-[#012D51]">
             {formatPrice(price)}
           </span>
           {hasDiscount && (
@@ -171,16 +176,16 @@ export default function ProductCard({ product, showCategory = true }: ProductCar
           )}
         </div>
 
-        {/* Reference-style Circular / Pill Add to Cart Button */}
+        {/* Reference-style Circular Add to Cart Button */}
         <button
           onClick={handleQuickAdd}
           disabled={product.stock <= 0 || added}
-          className={`w-9 h-9 rounded-full flex items-center justify-center transition-all shadow-sm ${
+          className={`w-9 h-9 rounded-full flex items-center justify-center transition-all shadow-sm btn-press ${
             product.stock <= 0
               ? 'bg-stone-200 text-stone-400 cursor-not-allowed'
               : added
               ? 'bg-emerald-600 text-white scale-105'
-              : 'bg-[#477765] text-white hover:bg-[#10252B] active:scale-95'
+              : 'bg-[#012D51] text-white hover:bg-[#C78703] active:scale-90'
           }`}
           title={added ? (isBn ? 'যোগ হয়েছে' : 'Added') : (isBn ? 'ব্যাগে যোগ করুন' : 'Add to Cart')}
           aria-label="Add to Cart"

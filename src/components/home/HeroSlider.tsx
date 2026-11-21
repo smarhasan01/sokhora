@@ -10,8 +10,8 @@ const SLIDES = [
   {
     tag: '— Today Best Deal',
     tagBn: '— আজকের সেরা অফার',
-    title: 'NEW ARRIVALS / WINTER LIFESTYLE',
-    titleBn: 'নতুন আগমন / উইন্টার লাইফস্টাইল',
+    title: 'NEW ARRIVALS / FESTIVE LIFESTYLE',
+    titleBn: 'নতুন আগমন / ফেস্টিভ লাইফস্টাইল',
     subtitle: 'Handcrafted mulberry silk scrunchies, traditional brass jewellery, and pure botanicals for your daily elegance.',
     subtitleBn: 'খাঁটি মালবেরি সিল্কের স্ক্রাঞ্চি, ঐতিহ্যবাহী ব্রাস গহনা এবং ত্বকের যত্নে ১০০% নির্ভেজাল প্রসাধনী।',
     ctaText: 'Shop Now',
@@ -66,18 +66,18 @@ export default function HeroSlider() {
 
   return (
     <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-5 pb-3">
-      <div className="relative rounded-3xl bg-gradient-to-r from-[#F8EEE2] via-[#F4ECE1] to-[#EAE3D6] overflow-hidden border border-[#EADFCF] shadow-xs">
+      <div className="relative rounded-3xl bg-gradient-to-r from-[#F6F7F8] via-[#FAF9F5] to-[#F1F4F7] overflow-hidden border border-[#EAECEF] shadow-xs">
         
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center p-6 sm:p-12 lg:p-16 min-h-[400px] sm:min-h-[460px]">
           
-          {/* Left Text */}
-          <div className="lg:col-span-7 space-y-4 sm:space-y-6 text-center lg:text-left z-10">
-            <div className="inline-flex items-center gap-2 text-[#477765] text-xs font-bold tracking-widest uppercase font-mono">
-              <Sparkles className="w-3.5 h-3.5 text-[#C99A45]" />
+          {/* Left Text with smooth fade-in and slide-up */}
+          <div key={`text-${current}`} className="lg:col-span-7 space-y-4 sm:space-y-6 text-center lg:text-left z-10 animate-fade-in">
+            <div className="inline-flex items-center gap-2 text-[#C78703] text-xs font-bold tracking-widest uppercase font-mono">
+              <Sparkles className="w-3.5 h-3.5 text-[#C78703]" />
               <span>{isBn ? slide.tagBn : slide.tag}</span>
             </div>
 
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#10252B] tracking-tight leading-tight">
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#012D51] tracking-tight leading-tight">
               {isBn ? slide.titleBn : slide.title}
             </h1>
 
@@ -85,23 +85,23 @@ export default function HeroSlider() {
               {isBn ? slide.subtitleBn : slide.subtitle}
             </p>
 
-            <div className="pt-2">
+            <div className="pt-2 animate-slide-up">
               <Link
                 href={slide.link}
-                className="inline-flex items-center gap-2.5 px-7 py-3 rounded-full bg-[#477765] hover:bg-[#10252B] text-white text-xs font-bold uppercase tracking-wider transition-all shadow-md hover:shadow-lg active:scale-95 group"
+                className="inline-flex items-center gap-2.5 px-7 py-3 rounded-full bg-[#012D51] hover:bg-[#C78703] text-white text-xs font-bold uppercase tracking-wider transition-all duration-300 shadow-md hover:shadow-lg btn-press group"
               >
                 <span>{isBn ? slide.ctaTextBn : slide.ctaText}</span>
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
               </Link>
             </div>
           </div>
 
-          {/* Right Product Cutout Showcase on elevated podium */}
-          <div className="lg:col-span-5 flex items-center justify-center relative">
+          {/* Right Product Cutout Showcase with smooth entrance animation */}
+          <div key={`img-${current}`} className="lg:col-span-5 flex items-center justify-center relative animate-scale-in">
             {/* Soft decorative background circles */}
-            <div className="absolute w-72 h-72 rounded-full bg-[#C99A45]/15 blur-2xl pointer-events-none" />
+            <div className="absolute w-72 h-72 rounded-full bg-[#C78703]/10 blur-2xl pointer-events-none" />
 
-            <div className="relative w-64 h-64 sm:w-80 sm:h-80 lg:w-96 lg:h-96 rounded-3xl overflow-hidden shadow-xl bg-white border-4 border-white">
+            <div className="relative w-64 h-64 sm:w-80 sm:h-80 lg:w-96 lg:h-96 rounded-3xl overflow-hidden shadow-lg bg-white border-4 border-white transition-transform duration-500 hover:scale-[1.02]">
               <Image
                 src={slide.image}
                 alt={slide.title}
@@ -109,8 +109,8 @@ export default function HeroSlider() {
                 priority
                 className="object-cover transition-transform duration-700 hover:scale-105"
               />
-              <div className="absolute bottom-3 left-3 right-3 bg-white/95 backdrop-blur-md px-3 py-2 rounded-xl border border-[#EADFCF] text-center shadow-xs">
-                <span className="text-xs font-bold text-[#10252B] font-mono">
+              <div className="absolute bottom-3 left-3 right-3 bg-white/95 backdrop-blur-xs px-3 py-2 rounded-xl border border-[#EAECEF] text-center shadow-xs">
+                <span className="text-xs font-bold text-[#012D51] font-mono">
                   {isBn ? slide.badgeBn : slide.badge}
                 </span>
               </div>
@@ -122,7 +122,7 @@ export default function HeroSlider() {
         {/* Prev / Next Buttons */}
         <button
           onClick={() => setCurrent((prev) => (prev - 1 + SLIDES.length) % SLIDES.length)}
-          className="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-white/90 hover:bg-white text-[#10252B] flex items-center justify-center shadow-md border border-[#EADFCF] transition-all hover:scale-105"
+          className="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-white/90 hover:bg-white text-[#012D51] flex items-center justify-center shadow-md border border-[#EAECEF] transition-all duration-200 hover:scale-105 btn-press"
           aria-label="Previous slide"
         >
           <ChevronLeft className="w-5 h-5" />
@@ -130,7 +130,7 @@ export default function HeroSlider() {
 
         <button
           onClick={() => setCurrent((prev) => (prev + 1) % SLIDES.length)}
-          className="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-white/90 hover:bg-white text-[#10252B] flex items-center justify-center shadow-md border border-[#EADFCF] transition-all hover:scale-105"
+          className="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-white/90 hover:bg-white text-[#012D51] flex items-center justify-center shadow-md border border-[#EAECEF] transition-all duration-200 hover:scale-105 btn-press"
           aria-label="Next slide"
         >
           <ChevronRight className="w-5 h-5" />
@@ -142,8 +142,8 @@ export default function HeroSlider() {
             <button
               key={idx}
               onClick={() => setCurrent(idx)}
-              className={`h-2 rounded-full transition-all ${
-                current === idx ? 'w-6 bg-[#477765]' : 'w-2 bg-[#10252B]/30 hover:bg-[#10252B]/50'
+              className={`h-2 rounded-full transition-all duration-300 ${
+                current === idx ? 'w-6 bg-[#012D51]' : 'w-2 bg-[#012D51]/25 hover:bg-[#012D51]/50'
               }`}
               aria-label={`Slide ${idx + 1}`}
             />

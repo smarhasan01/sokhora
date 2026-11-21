@@ -16,8 +16,8 @@ const FEATURED = [
     link: '/category/scrunchies-hair-accessories',
     badge: 'Best Seller',
     badgeBn: 'বেস্ট সেলার',
-    bg: 'bg-[#F2EDFB]',
-    border: 'border-[#D9CEF2]',
+    bg: 'bg-[#F6F5FA]',
+    border: 'border-[#E4E0F0]',
   },
   {
     title: 'Heritage Brass Jewellery',
@@ -28,8 +28,8 @@ const FEATURED = [
     link: '/category/jewellery-fashion-accessories',
     badge: 'Artisan Crafted',
     badgeBn: 'কারুশিল্প',
-    bg: 'bg-[#FBF6EC]',
-    border: 'border-[#EADFCF]',
+    bg: 'bg-[#FBF8F0]',
+    border: 'border-[#F2E7CA]',
   },
   {
     title: 'Gentle Kids Hair Accessories',
@@ -40,8 +40,8 @@ const FEATURED = [
     link: '/category/kids-hairbands-clips',
     badge: '100% Gentle',
     badgeBn: 'কোমল ও নিরাপদ',
-    bg: 'bg-[#FEF6E8]',
-    border: 'border-[#F9E4B7]',
+    bg: 'bg-[#FDF9F0]',
+    border: 'border-[#F8ECCB]',
   },
 ];
 
@@ -55,15 +55,15 @@ export default function FeaturedCategoriesSection() {
           <Link
             key={idx}
             href={item.link}
-            className={`group rounded-2xl ${item.bg} border ${item.border} p-5 flex items-center justify-between gap-4 hover:shadow-md transition-all duration-300 relative overflow-hidden`}
+            className={`group rounded-2xl ${item.bg} border ${item.border} p-5 flex items-center justify-between gap-4 card-lift relative overflow-hidden`}
           >
             <div className="space-y-2 z-10 flex-1">
-              <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-white/90 text-[#10252B] text-[10px] font-bold font-mono tracking-wider uppercase border border-white">
-                <Sparkles className="w-3 h-3 text-[#C99A45]" />
+              <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-white text-[#012D51] text-[10px] font-bold font-mono tracking-wider uppercase border border-white shadow-xs">
+                <Sparkles className="w-3 h-3 text-[#C78703]" />
                 <span>{isBn ? item.badgeBn : item.badge}</span>
               </span>
 
-              <h3 className="font-bold text-sm sm:text-base text-[#10252B] group-hover:text-[#477765] transition-colors leading-snug">
+              <h3 className="font-bold text-sm sm:text-base text-[#012D51] group-hover:text-[#C78703] transition-colors leading-snug">
                 {isBn ? item.titleBn : item.title}
               </h3>
 
@@ -71,7 +71,7 @@ export default function FeaturedCategoriesSection() {
                 {isBn ? item.subtitleBn : item.subtitle}
               </p>
 
-              <span className="inline-flex items-center gap-1.5 text-xs font-bold text-[#477765] group-hover:text-[#10252B] transition-colors pt-1">
+              <span className="inline-flex items-center gap-1.5 text-xs font-bold text-[#012D51] group-hover:text-[#C78703] transition-colors pt-1">
                 <span>{isBn ? 'কালেকশন দেখুন' : 'Explore Now'}</span>
                 <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
               </span>

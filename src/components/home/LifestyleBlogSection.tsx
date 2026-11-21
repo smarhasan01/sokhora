@@ -53,10 +53,10 @@ export default function LifestyleBlogSection() {
 
   return (
     <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      {/* Header matching Reference 1 (Castle Chronicles) */}
-      <div className="flex items-center justify-between pb-3 mb-6 border-b border-[#EADFCF]">
+      {/* Header matching Reference 1 */}
+      <div className="flex items-center justify-between pb-3 mb-6 border-b border-[#EAECEF]">
         <div>
-          <h2 className="text-xl sm:text-2xl font-bold text-[#10252B] tracking-tight">
+          <h2 className="text-xl sm:text-2xl font-bold text-[#012D51] tracking-tight">
             {isBn ? 'লাইফস্টাইল ও রূপচর্চা জার্নাল' : 'Lifestyle & Brand Stories'}
           </h2>
           <p className="text-xs text-stone-500 mt-0.5">
@@ -66,30 +66,30 @@ export default function LifestyleBlogSection() {
 
         <Link
           href="/about"
-          className="text-xs font-bold text-[#477765] hover:text-[#10252B] flex items-center gap-0.5 transition-colors"
+          className="text-xs font-bold text-[#012D51] hover:text-[#C78703] flex items-center gap-0.5 transition-colors"
         >
           <span>{isBn ? 'সবগুলো পড়ুন' : 'See All'}</span>
           <ChevronRight className="w-4 h-4" />
         </Link>
       </div>
 
-      {/* 3 Editorial Cards Grid (Reference 1 style) */}
+      {/* 3 Editorial Cards Grid */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {ARTICLES.map((article, idx) => (
           <article
             key={idx}
-            className="group bg-white rounded-2xl border border-[#EADFCF] overflow-hidden flex flex-col justify-between hover:border-[#C99A45] hover:shadow-md transition-all duration-300"
+            className="group bg-white rounded-2xl border border-[#EAECEF] overflow-hidden flex flex-col justify-between card-lift"
           >
             <div>
               {/* Image */}
-              <div className="relative aspect-[16/10] w-full overflow-hidden bg-[#FAF5EE]">
+              <div className="relative aspect-[16/10] w-full overflow-hidden bg-[#F6F7F8]">
                 <Image
                   src={article.image}
                   alt={article.title}
                   fill
                   className="object-cover group-hover:scale-105 transition-transform duration-500"
                 />
-                <div className="absolute top-3 left-3 bg-[#10252B] text-[#C99A45] text-[10px] font-mono font-bold px-2.5 py-1 rounded-full shadow-xs border border-[#C99A45]/30">
+                <div className="absolute top-3 left-3 bg-[#012D51] text-white text-[10px] font-mono font-bold px-2.5 py-1 rounded-full shadow-xs border border-[#C78703]/40">
                   {isBn ? article.tagBn : article.tag}
                 </div>
               </div>
@@ -98,17 +98,17 @@ export default function LifestyleBlogSection() {
               <div className="p-5 space-y-2.5">
                 <div className="flex items-center gap-3 text-[11px] text-stone-400 font-mono">
                   <span className="flex items-center gap-1">
-                    <Calendar className="w-3 h-3 text-[#C99A45]" />
+                    <Calendar className="w-3 h-3 text-[#C78703]" />
                     <span>{isBn ? article.dateBn : article.date}</span>
                   </span>
                   <span>&bull;</span>
                   <span className="flex items-center gap-1">
-                    <Clock className="w-3 h-3 text-[#C99A45]" />
+                    <Clock className="w-3 h-3 text-[#C78703]" />
                     <span>{isBn ? article.readTimeBn : article.readTime}</span>
                   </span>
                 </div>
 
-                <h3 className="font-bold text-sm sm:text-base text-[#10252B] group-hover:text-[#477765] transition-colors leading-snug line-clamp-2">
+                <h3 className="font-bold text-sm sm:text-base text-[#252525] group-hover:text-[#012D51] transition-colors leading-snug line-clamp-2">
                   {isBn ? article.titleBn : article.title}
                 </h3>
 
@@ -120,7 +120,7 @@ export default function LifestyleBlogSection() {
 
             {/* Read More */}
             <div className="p-5 pt-0">
-              <span className="inline-flex items-center gap-1.5 text-xs font-bold text-[#477765] group-hover:text-[#10252B] transition-colors">
+              <span className="inline-flex items-center gap-1.5 text-xs font-bold text-[#012D51] group-hover:text-[#C78703] transition-colors">
                 <span>{isBn ? 'বিস্তারিত পড়ুন' : 'Read Article'}</span>
                 <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
               </span>

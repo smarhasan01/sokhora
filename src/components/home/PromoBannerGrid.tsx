@@ -31,7 +31,7 @@ export default function PromoBannerGrid() {
             <div className="pt-2">
               <Link
                 href="/shop"
-                className="inline-flex items-center gap-2 px-6 py-2.5 rounded-lg bg-[#FF5B37] text-white hover:bg-[#FA4A23] text-xs font-bold uppercase tracking-wider transition-all shadow-sm"
+                className="inline-flex items-center gap-2 px-6 py-2.5 rounded-lg bg-[#012D51] text-white hover:bg-[#C78703] text-xs font-bold uppercase tracking-wider transition-all shadow-sm"
               >
                 <span>{isBn ? 'অর্ডার করুন' : 'Shop Now'}</span>
                 <ArrowRight className="w-4 h-4" />
@@ -56,7 +56,7 @@ export default function PromoBannerGrid() {
           {/* Top Right Card */}
           <div className="flex-1 rounded-3xl bg-[#F6F7F9] border border-gray-200/90 p-6 sm:p-7 flex items-center justify-between relative overflow-hidden min-h-[150px]">
             <div className="space-y-1.5 z-10 max-w-[60%]">
-              <span className="text-[10px] uppercase font-mono font-bold tracking-wider text-[#FF5B37]">
+              <span className="text-[10px] uppercase font-mono font-bold tracking-wider text-[#012D51]">
                 {isBn ? 'সিজনাল ছাড়' : 'Festive Clearance'}
               </span>
               <h4 className="text-base sm:text-lg font-bold text-gray-900 leading-snug">
@@ -64,7 +64,7 @@ export default function PromoBannerGrid() {
               </h4>
               <Link
                 href="/shop"
-                className="inline-flex items-center gap-1.5 mt-2 px-4 py-1.5 rounded-md bg-[#FF5B37] text-white hover:bg-[#FA4A23] text-xs font-bold transition-all shadow-sm"
+                className="inline-flex items-center gap-1.5 mt-2 px-4 py-1.5 rounded-md bg-[#012D51] text-white hover:bg-[#C78703] text-xs font-bold transition-all shadow-sm"
               >
                 <span>{isBn ? 'শপ নাও' : 'Shop Now'}</span>
                 <ArrowRight className="w-3.5 h-3.5" />
@@ -92,7 +92,7 @@ export default function PromoBannerGrid() {
               </h4>
               <Link
                 href="/shop"
-                className="inline-flex items-center gap-1.5 mt-2 px-4 py-1.5 rounded-md bg-[#FF5B37] text-white hover:bg-[#FA4A23] text-xs font-bold transition-all shadow-sm"
+                className="inline-flex items-center gap-1.5 mt-2 px-4 py-1.5 rounded-md bg-[#012D51] text-white hover:bg-[#C78703] text-xs font-bold transition-all shadow-sm"
               >
                 <span>{isBn ? 'শপ নাও' : 'Shop Now'}</span>
                 <ArrowRight className="w-3.5 h-3.5" />

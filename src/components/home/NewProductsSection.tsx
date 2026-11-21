@@ -52,7 +52,7 @@ export default function NewProductsSection() {
               setSelectedCat(e.target.value);
               setCurrentPage(1);
             }}
-            className="bg-white border border-gray-200 rounded-lg px-3 py-1.5 text-xs font-semibold text-gray-800 outline-none cursor-pointer hover:border-[#FF5B37] transition-colors"
+            className="bg-white border border-gray-200 rounded-lg px-3 py-1.5 text-xs font-semibold text-gray-800 outline-none cursor-pointer hover:border-[#012D51] transition-colors"
           >
             <option value="all">{isBn ? 'সকল ক্যাটাগরি' : 'All Categories'}</option>
             {categories.map((c) => (
@@ -77,7 +77,7 @@ export default function NewProductsSection() {
           <button
             onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
             disabled={currentPage === 1}
-            className="w-8 h-8 rounded-lg border border-gray-200 bg-white flex items-center justify-center text-gray-600 hover:border-[#FF5B37] hover:text-[#FF5B37] disabled:opacity-40 transition-colors"
+            className="w-8 h-8 rounded-lg border border-gray-200 bg-white flex items-center justify-center text-gray-600 hover:border-[#012D51] hover:text-[#012D51] disabled:opacity-40 transition-colors"
           >
             <ChevronLeft className="w-4 h-4" />
           </button>
@@ -91,8 +91,8 @@ export default function NewProductsSection() {
                 onClick={() => setCurrentPage(pageNum)}
                 className={`w-8 h-8 rounded-lg text-xs font-mono font-bold transition-all ${
                   isActive
-                    ? 'bg-[#FF5B37] text-white shadow-sm'
-                    : 'bg-white border border-gray-200 text-gray-700 hover:border-[#FF5B37] hover:text-[#FF5B37]'
+                    ? 'bg-[#012D51] text-white shadow-sm'
+                    : 'bg-white border border-gray-200 text-gray-700 hover:border-[#012D51] hover:text-[#012D51]'
                 }`}
               >
                 {pageNum}
@@ -103,7 +103,7 @@ export default function NewProductsSection() {
           <button
             onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
             disabled={currentPage === totalPages}
-            className="w-8 h-8 rounded-lg border border-gray-200 bg-white flex items-center justify-center text-gray-600 hover:border-[#FF5B37] hover:text-[#FF5B37] disabled:opacity-40 transition-colors"
+            className="w-8 h-8 rounded-lg border border-gray-200 bg-white flex items-center justify-center text-gray-600 hover:border-[#012D51] hover:text-[#012D51] disabled:opacity-40 transition-colors"
           >
             <ChevronRight className="w-4 h-4" />
           </button>

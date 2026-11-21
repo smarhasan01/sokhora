@@ -8,13 +8,13 @@ import { useLanguage } from '@/lib/context/LanguageContext';
 import { ChevronLeft, ChevronRight, ArrowRight } from 'lucide-react';
 
 const CATEGORY_STYLES: Record<string, { bg: string; border: string }> = {
-  'fashion-clothing': { bg: 'bg-[#E8F3EF]', border: 'border-[#C1DDCF]' },
-  'cosmetics-beauty': { bg: 'bg-[#FDF2F0]', border: 'border-[#F8D5D0]' },
-  'kids-hairbands-clips': { bg: 'bg-[#FEF6E8]', border: 'border-[#F9E4B7]' },
-  'scrunchies-hair-accessories': { bg: 'bg-[#F2EDFB]', border: 'border-[#D9CEF2]' },
-  'jewellery-fashion-accessories': { bg: 'bg-[#FBF6EC]', border: 'border-[#EADFCF]' },
-  'gifts-lifestyle': { bg: 'bg-[#EAF4F7]', border: 'border-[#C8E1EA]' },
-  'other-everyday': { bg: 'bg-[#F5F2EB]', border: 'border-[#E0D8CB]' },
+  'fashion-clothing': { bg: 'bg-[#F2F6FA]', border: 'border-[#D9E5F2]' },
+  'cosmetics-beauty': { bg: 'bg-[#FBF6F7]', border: 'border-[#F4DFE4]' },
+  'kids-hairbands-clips': { bg: 'bg-[#FDF9F0]', border: 'border-[#F8ECCB]' },
+  'scrunchies-hair-accessories': { bg: 'bg-[#F6F5FA]', border: 'border-[#E4E0F0]' },
+  'jewellery-fashion-accessories': { bg: 'bg-[#FBF8F0]', border: 'border-[#F2E7CA]' },
+  'gifts-lifestyle': { bg: 'bg-[#F2F7F8]', border: 'border-[#DAEAEF]' },
+  'other-everyday': { bg: 'bg-[#F6F7F8]', border: 'border-[#EAECEF]' },
 };
 
 export default function CategorySection() {
@@ -23,9 +23,9 @@ export default function CategorySection() {
 
   return (
     <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <div className="flex items-center justify-between pb-3 mb-6 border-b border-[#EADFCF]">
+      <div className="flex items-center justify-between pb-3 mb-6 border-b border-[#EAECEF]">
         <div>
-          <h2 className="text-xl sm:text-2xl font-bold text-[#10252B] tracking-tight">
+          <h2 className="text-xl sm:text-2xl font-bold text-[#012D51] tracking-tight">
             {isBn ? 'সেরা ক্যাটাগরি' : 'Best Categories'}
           </h2>
           <p className="text-xs text-stone-500 mt-0.5">
@@ -33,11 +33,11 @@ export default function CategorySection() {
           </p>
         </div>
 
-        {/* Navigation arrows (matching Reference 1) */}
+        {/* Navigation arrows (Reference 1 style) */}
         <div className="flex items-center gap-2">
           <Link
             href="/shop"
-            className="hidden sm:flex items-center gap-1 text-xs font-bold text-[#477765] hover:text-[#10252B] mr-2"
+            className="hidden sm:flex items-center gap-1 text-xs font-bold text-[#012D51] hover:text-[#C78703] transition-colors mr-2"
           >
             <span>{isBn ? 'সকল ক্যাটাগরি' : 'View All'}</span>
             <ArrowRight className="w-3.5 h-3.5" />
@@ -45,14 +45,14 @@ export default function CategorySection() {
           <div className="flex items-center gap-1">
             <button
               type="button"
-              className="w-8 h-8 rounded-full border border-[#EADFCF] bg-white flex items-center justify-center text-stone-600 hover:text-[#10252B] hover:border-[#C99A45] transition-all"
+              className="w-8 h-8 rounded-full border border-[#EAECEF] bg-white flex items-center justify-center text-stone-600 hover:text-[#012D51] hover:border-[#012D51] transition-all btn-press shadow-xs"
               aria-label="Previous"
             >
               <ChevronLeft className="w-4 h-4" />
             </button>
             <button
               type="button"
-              className="w-8 h-8 rounded-full border border-[#477765] bg-[#477765] flex items-center justify-center text-white hover:bg-[#10252B] transition-all"
+              className="w-8 h-8 rounded-full border border-[#012D51] bg-[#012D51] flex items-center justify-center text-white hover:bg-[#C78703] hover:border-[#C78703] transition-all btn-press shadow-xs"
               aria-label="Next"
             >
               <ChevronRight className="w-4 h-4" />
@@ -61,10 +61,10 @@ export default function CategorySection() {
         </div>
       </div>
 
-      {/* Grid of 7 Category Cards (Reference 1 style with pastel backgrounds) */}
+      {/* Grid of 7 Category Cards with smooth zoom and subtle lift */}
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-4">
         {categories.map((cat) => {
-          const style = CATEGORY_STYLES[cat.slug] || { bg: 'bg-[#FAF5EE]', border: 'border-[#EADFCF]' };
+          const style = CATEGORY_STYLES[cat.slug] || { bg: 'bg-[#F6F7F8]', border: 'border-[#EAECEF]' };
           const displayName = isBn && cat.nameBn ? cat.nameBn : cat.name;
 
           return (
@@ -74,23 +74,23 @@ export default function CategorySection() {
               className="group flex flex-col items-center text-center transition-all"
             >
               <div
-                className={`w-full aspect-square rounded-2xl ${style.bg} border ${style.border} p-3 flex items-center justify-center shadow-xs group-hover:scale-105 group-hover:shadow-md transition-all duration-300 relative overflow-hidden`}
+                className={`w-full aspect-square rounded-2xl ${style.bg} border ${style.border} p-3 flex items-center justify-center shadow-xs card-lift relative overflow-hidden`}
               >
                 <div className="relative w-full h-full rounded-xl overflow-hidden">
                   <Image
                     src={cat.image}
                     alt={displayName}
                     fill
-                    className="object-cover group-hover:scale-110 transition-transform duration-500"
+                    className="object-cover transition-transform duration-500 group-hover:scale-110"
                   />
                 </div>
               </div>
 
               <div className="mt-2.5">
-                <h3 className="font-semibold text-xs sm:text-sm text-[#10252B] group-hover:text-[#477765] transition-colors line-clamp-1">
+                <h3 className="font-semibold text-xs sm:text-sm text-[#252525] group-hover:text-[#012D51] transition-colors line-clamp-1">
                   {displayName}
                 </h3>
-                <p className="text-[10px] text-stone-500 font-mono mt-0.5">
+                <p className="text-[10px] text-stone-400 font-mono mt-0.5">
                   {formatNumber(cat.itemCount || 12)}+ {isBn ? 'পণ্য' : 'Items'}
                 </p>
               </div>
