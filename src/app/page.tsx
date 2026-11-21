@@ -3,13 +3,13 @@ import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import HeroSlider from '@/components/home/HeroSlider';
 import CategorySection from '@/components/home/CategorySection';
-import FeaturedCategoriesSection from '@/components/home/FeaturedCategoriesSection';
 import NewArrivalsSection from '@/components/home/NewArrivalsSection';
-import BestSellersSection from '@/components/home/BestSellersSection';
 import CampaignBanner from '@/components/home/CampaignBanner';
 import TrendingSection from '@/components/home/TrendingSection';
+import BestSellersSection from '@/components/home/BestSellersSection';
+import CountdownBanner from '@/components/home/CountdownBanner';
 import RecommendedProducts from '@/components/home/RecommendedProducts';
-import SpecialOffersSection from '@/components/home/SpecialOffersSection';
+import DealsOfTheDay from '@/components/home/DealsOfTheDay';
 import LifestyleBlogSection from '@/components/home/LifestyleBlogSection';
 import FaqAccordion from '@/components/home/FaqAccordion';
 import ServiceBenefits from '@/components/home/ServiceBenefits';
@@ -25,44 +25,44 @@ export default function HomePage() {
         {/* 4. Large Promotional Hero Slider */}
         <HeroSlider />
 
-        {/* 5. Shop by Categories */}
+        {/* 5. Best Categories (7 Squircle Cards with Navigation Arrows) */}
         <CategorySection />
 
-        {/* 6. Featured / Best Categories */}
-        <FeaturedCategoriesSection />
-
-        {/* 7. New Arrivals */}
+        {/* 6. For You (8 Product Cards in 4-column x 2-row Grid) */}
         <NewArrivalsSection />
 
-        {/* 8. Best Sellers */}
-        <BestSellersSection />
-
-        {/* 9. Promotional Campaign Banner */}
+        {/* 7. Promotional Campaign Banner (Up to 50% OFF on your favorite items) */}
         <CampaignBanner />
 
-        {/* 10. Trending Products with Category Filters */}
+        {/* 8. Trending Products with Category Filter Tabs */}
         <TrendingSection />
 
-        {/* 11. Recommended Products */}
+        {/* 9. Best Sellers / Customer Favorites */}
+        <BestSellersSection />
+
+        {/* 10. Featured Deal Banner with Live Countdown Timer Boxes */}
+        <CountdownBanner />
+
+        {/* 11. Most Popular / Recommended Products (8 Cards with Category Tabs) */}
         <RecommendedProducts />
 
-        {/* 12. Special Offers */}
-        <SpecialOffersSection />
+        {/* 12. Deals Of The Day (3 Cards with Circular Gold Discount Badges) */}
+        <DealsOfTheDay />
 
-        {/* 13. Lifestyle / Brand Stories Section */}
+        {/* 13. Castle Chronicles / Lifestyle Brand Stories (3 Editorial Cards) */}
         <LifestyleBlogSection />
 
-        {/* 14. FAQ Accordion */}
+        {/* 14. Frequently Asked Questions (Interactive Accordion) */}
         <FaqAccordion />
 
-        {/* 15. Service Benefits */}
+        {/* 15. Service Value Pillars (4 Horizontal Pillars) */}
         <ServiceBenefits />
 
-        {/* 16. Newsletter Subscription */}
+        {/* 16. Newsletter Subscription Strip */}
         <NewsletterSection />
       </main>
 
-      {/* 17. Premium Footer */}
+      {/* 17. Deep Navy Premium Multi-column Footer */}
       <Footer />
     </div>
   );

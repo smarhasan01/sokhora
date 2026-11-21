@@ -25,7 +25,7 @@ export default function RecommendedProducts() {
       ? allProducts
       : allProducts.filter((p) => p.category === activeTab);
 
-  const displayProducts = filtered.slice(0, 4);
+  const displayProducts = filtered.slice(0, 8);
 
   return (
     <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
