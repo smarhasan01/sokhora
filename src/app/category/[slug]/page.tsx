@@ -189,7 +189,7 @@ export default function CategoryPage() {
               </p>
               <Link
                 href="/shop"
-                className="inline-flex items-center gap-2 mt-5 px-6 py-3 rounded-full bg-[#191817] text-white text-xs uppercase tracking-widest font-semibold hover:bg-stone-800 transition-colors shadow-sm"
+                className="inline-flex items-center gap-2 mt-5 px-6 py-3 rounded-full bg-[#012D51] text-white text-xs uppercase tracking-wider font-bold hover:bg-[#C78703] transition-colors shadow-xs btn-press"
               >
                 <ArrowLeft className="w-3.5 h-3.5" />
                 <span>{isBn ? 'সকল পণ্য দেখুন' : 'Explore All Products'}</span>

@@ -68,31 +68,31 @@ function TrackOrderContent() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-ivory-100">
+    <div className="min-h-screen flex flex-col bg-white text-[#252525]">
       <Header />
 
       <main className="flex-1 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full">
         {/* Breadcrumb */}
-        <nav className="flex items-center gap-1.5 text-xs text-charcoal-500 mb-6">
-          <Link href="/" className="hover:text-charcoal-900">Home</Link>
-          <ChevronRight className="w-3.5 h-3.5 text-taupe-400" />
-          <span className="text-charcoal-900 font-medium">Track Order</span>
+        <nav className="flex items-center gap-1.5 text-xs text-stone-500 mb-6 font-mono">
+          <Link href="/" className="hover:text-[#012D51]">Home</Link>
+          <ChevronRight className="w-3.5 h-3.5 text-stone-400" />
+          <span className="text-[#012D51] font-medium">Track Order</span>
         </nav>
 
         <div className="text-center max-w-xl mx-auto mb-8">
-          <span className="text-xs font-bold uppercase tracking-wider text-sage-600 block mb-1">
+          <span className="text-xs font-bold uppercase tracking-wider text-[#C78703] block mb-1 font-mono">
             Real-Time Tracking • অর্ডার ট্র্যাকিং
           </span>
-          <h1 className="text-2xl sm:text-3xl font-serif font-bold text-charcoal-950">
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-[#012D51] tracking-tight">
             Track Your Shokhora Order
           </h1>
-          <p className="text-xs sm:text-sm text-charcoal-600 mt-1">
+          <p className="text-xs sm:text-sm text-stone-600 mt-1">
             Enter your Order ID (e.g. SHK-2026-XXXXXX) and registered phone number to check live delivery progress.
           </p>
         </div>
 
         {/* Tracking Input Card */}
-        <div className="bg-white rounded-3xl p-6 sm:p-8 border border-taupe-200 shadow-sm mb-8">
+        <div className="bg-[#F6F7F8] rounded-3xl p-6 sm:p-8 border border-[#EAECEF] shadow-xs mb-8">
           <form
             onSubmit={(e) => {
               e.preventDefault();
@@ -101,7 +101,7 @@ function TrackOrderContent() {
             className="grid grid-cols-1 sm:grid-cols-12 gap-3"
           >
             <div className="sm:col-span-6">
-              <label className="block text-[11px] font-semibold text-charcoal-700 uppercase tracking-wider mb-1">
+              <label className="block text-[11px] font-bold text-[#012D51] uppercase tracking-wider mb-1 font-mono">
                 Order ID or Invoice No *
               </label>
               <input
@@ -110,12 +110,12 @@ function TrackOrderContent() {
                 placeholder="e.g. SHK-2026-842109"
                 value={orderId}
                 onChange={(e) => setOrderId(e.target.value)}
-                className="w-full px-3.5 py-2.5 rounded-xl border border-taupe-300 text-xs font-mono uppercase focus:ring-1 focus:ring-charcoal-800 focus:outline-none"
+                className="w-full px-3.5 py-2.5 rounded-xl border border-[#EAECEF] bg-white text-xs font-mono uppercase focus:border-[#012D51] focus:outline-none"
               />
             </div>
 
             <div className="sm:col-span-4">
-              <label className="block text-[11px] font-semibold text-charcoal-700 uppercase tracking-wider mb-1">
+              <label className="block text-[11px] font-bold text-[#012D51] uppercase tracking-wider mb-1 font-mono">
                 Phone Number (optional)
               </label>
               <input
@@ -123,14 +123,14 @@ function TrackOrderContent() {
                 placeholder="01XXXXXXXXX"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
-                className="w-full px-3.5 py-2.5 rounded-xl border border-taupe-300 text-xs font-mono focus:ring-1 focus:ring-charcoal-800 focus:outline-none"
+                className="w-full px-3.5 py-2.5 rounded-xl border border-[#EAECEF] bg-white text-xs font-mono focus:border-[#012D51] focus:outline-none"
               />
             </div>
 
             <div className="sm:col-span-2 flex items-end">
               <button
                 type="submit"
-                className="w-full py-2.5 px-4 bg-charcoal-950 text-white rounded-xl text-xs font-semibold hover:bg-charcoal-800 transition-colors flex items-center justify-center gap-1.5 shadow-sm"
+                className="w-full py-2.5 px-4 bg-[#012D51] text-white rounded-xl text-xs font-bold uppercase tracking-wider hover:bg-[#C78703] transition-colors flex items-center justify-center gap-1.5 shadow-xs btn-press"
               >
                 <Search className="w-3.5 h-3.5" /> Track
               </button>

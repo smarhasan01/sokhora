@@ -12,31 +12,31 @@ export default function AboutPage() {
   const { isBn, t } = useLanguage();
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#FAF7F2] text-[#191817]">
+    <div className="min-h-screen flex flex-col bg-white text-[#252525]">
       <Header />
 
       <main className="flex-1 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 w-full space-y-12">
         {/* Breadcrumb */}
-        <nav className="flex items-center gap-1.5 text-xs text-charcoal-500">
-          <Link href="/" className="hover:text-charcoal-900">{t('navHome')}</Link>
-          <ChevronRight className="w-3.5 h-3.5 text-taupe-400" />
-          <span className="text-charcoal-900 font-medium">{t('aboutUsTitle')}</span>
+        <nav className="flex items-center gap-1.5 text-xs text-stone-500 font-mono">
+          <Link href="/" className="hover:text-[#012D51]">{t('navHome')}</Link>
+          <ChevronRight className="w-3.5 h-3.5 text-stone-400" />
+          <span className="text-[#012D51] font-medium">{t('aboutUsTitle')}</span>
         </nav>
 
         <div className="text-center space-y-3">
-          <span className="text-xs font-bold uppercase tracking-wider text-sage-600 block">
+          <span className="text-xs font-bold uppercase tracking-wider text-[#C78703] block font-mono">
             {isBn ? 'ঐতিহ্য ও লক্ষ্য' : 'Our Heritage & Vision'}
           </span>
-          <h1 className="text-3xl sm:text-4xl font-serif font-bold text-charcoal-950">
+          <h1 className="text-3xl sm:text-4xl font-extrabold text-[#012D51] tracking-tight">
             {isBn ? 'শখোরা (SHOKHORA) সম্পর্কে' : 'About SHOKHORA (শখোরা)'}
           </h1>
-          <p className="text-sm text-taupe-700">
+          <p className="text-sm text-stone-600 font-serif italic">
             {t('brandTagline')}
           </p>
         </div>
 
         {/* Hero image with original brand */}
-        <div className="relative aspect-[21/9] rounded-3xl overflow-hidden shadow-lg border border-taupe-200 bg-white">
+        <div className="relative aspect-[21/9] rounded-3xl overflow-hidden shadow-md border border-[#EAECEF] bg-[#F6F7F8]">
           <Image
             src="/images/Shokhora Facebook Cover Photo.jpg"
             alt="SHOKHORA Bangladesh"
@@ -47,9 +47,9 @@ export default function AboutPage() {
         </div>
 
         {/* Brand Story Body */}
-        <div className="bg-white rounded-3xl p-8 sm:p-12 border border-taupe-200 shadow-sm space-y-8 text-charcoal-800 leading-relaxed text-sm">
+        <div className="bg-[#F6F7F8] rounded-3xl p-8 sm:p-12 border border-[#EAECEF] shadow-xs space-y-8 text-stone-700 leading-relaxed text-sm">
           <div className="space-y-4">
-            <h2 className="text-xl sm:text-2xl font-serif font-bold text-charcoal-950">
+            <h2 className="text-xl sm:text-2xl font-bold text-[#012D51]">
               {isBn ? 'শখোরার পেছনের গল্প' : 'The Story of SHOKHORA'}
             </h2>
             <p>
@@ -76,53 +76,54 @@ export default function AboutPage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-6 border-t border-taupe-200">
-            <div className="p-6 rounded-2xl bg-taupe-50/70 space-y-2 border border-taupe-200">
-              <Sparkles className="w-6 h-6 text-sage-600" />
-              <h3 className="font-bold text-charcoal-950 text-sm">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-6 border-t border-[#EAECEF]">
+            <div className="p-6 rounded-2xl bg-white space-y-2 border border-[#EAECEF] shadow-xs">
+              <Sparkles className="w-6 h-6 text-[#C78703]" />
+              <h3 className="font-bold text-[#012D51] text-sm">
                 {isBn ? 'বিশুদ্ধ গুণমান' : 'Pure Quality'}
               </h3>
-              <p className="text-xs text-charcoal-600">
+              <p className="text-xs text-stone-600">
                 {isBn
                   ? 'আমরা খাঁটি প্রাকৃতিক উপাদান এবং দীর্ঘস্থায়ী উপকরণ ব্যবহার করি।'
                   : 'We select premium natural fabrics, non-toxic organic skincare botanicals, and long-lasting materials.'}
               </p>
             </div>
 
-            <div className="p-6 rounded-2xl bg-taupe-50/70 space-y-2 border border-taupe-200">
-              <Heart className="w-6 h-6 text-sage-600" />
-              <h3 className="font-bold text-charcoal-950 text-sm">
+            <div className="p-6 rounded-2xl bg-white space-y-2 border border-[#EAECEF] shadow-xs">
+              <Heart className="w-6 h-6 text-[#C78703]" />
+              <h3 className="font-bold text-[#012D51] text-sm">
                 {isBn ? 'কারিগরদের ভালোবাসা' : 'Handcrafted Passion'}
               </h3>
-              <p className="text-xs text-charcoal-600">
+              <p className="text-xs text-stone-600">
                 {isBn
                   ? 'আমাদের প্রতিটি পণ্য স্থানীয় দক্ষ কারিগরদের ভালোবাসা ও মেধার প্রতীক।'
                   : 'Every piece tells a story of local craftsmanship, ethical sourcing, and artistic dedication.'}
               </p>
             </div>
 
-            <div className="p-6 rounded-2xl bg-taupe-50/70 space-y-2 border border-taupe-200">
-              <Users className="w-6 h-6 text-sage-600" />
-              <h3 className="font-bold text-charcoal-950 text-sm">
-                {isBn ? 'গ্রাহক সন্তুষ্টি' : 'Customer First'}
+            <div className="p-6 rounded-2xl bg-white space-y-2 border border-[#EAECEF] shadow-xs">
+              <Award className="w-6 h-6 text-[#C78703]" />
+              <h3 className="font-bold text-[#012D51] text-sm">
+                {isBn ? 'গ্রাহক সন্তুষ্টি' : 'Customer Happiness'}
               </h3>
-              <p className="text-xs text-charcoal-600">
+              <p className="text-xs text-stone-600">
                 {isBn
-                  ? 'সারা বাংলাদেশে ক্যাশ অন ডেলিভারি, ৭ দিনের এক্সচেঞ্জ এবং সার্বক্ষণিক গ্রাহক সেবা।'
-                  : 'Delivering transparency through nationwide cash on delivery, 7-day exchange, and genuine customer care.'}
+                  ? '৭ দিনের সহজ এক্সচেঞ্জ ও সার্বক্ষণিক কাস্টমার কেয়ার সহায়তা।'
+                  : '7-day hassle-free exchange and responsive support across all 64 districts.'}
               </p>
             </div>
           </div>
+        </div>
 
-          <div className="pt-4 text-center">
-            <Link
-              href="/shop"
-              className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-charcoal-950 text-white text-xs font-semibold hover:bg-charcoal-800 transition-colors shadow-md"
-            >
-              <span>{t('shopNow')}</span>
-              <ArrowRight className="w-4 h-4" />
-            </Link>
-          </div>
+        {/* CTA to Shop */}
+        <div className="text-center pt-4">
+          <Link
+            href="/shop"
+            className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full bg-[#012D51] hover:bg-[#C78703] text-white text-xs font-bold uppercase tracking-wider transition-all shadow-md btn-press"
+          >
+            <span>{isBn ? 'কালেকশন ঘুরে দেখুন' : 'Explore Our Collections'}</span>
+            <ArrowRight className="w-4 h-4" />
+          </Link>
         </div>
       </main>
 

@@ -54,19 +54,25 @@ const SLIDES = [
 export default function HeroSlider() {
   const { isBn } = useLanguage();
   const [current, setCurrent] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
 
   useEffect(() => {
+    if (isPaused) return;
     const timer = setInterval(() => {
       setCurrent((prev) => (prev + 1) % SLIDES.length);
     }, 6000);
     return () => clearInterval(timer);
-  }, []);
+  }, [isPaused]);
 
   const slide = SLIDES[current];
 
   return (
     <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-5 pb-3">
-      <div className="relative rounded-3xl bg-gradient-to-r from-[#F6F7F8] via-[#FAF9F5] to-[#F1F4F7] overflow-hidden border border-[#EAECEF] shadow-xs">
+      <div
+        onMouseEnter={() => setIsPaused(true)}
+        onMouseLeave={() => setIsPaused(false)}
+        className="relative rounded-3xl bg-gradient-to-r from-[#F6F7F8] via-[#FAF9F5] to-[#F1F4F7] overflow-hidden border border-[#EAECEF] shadow-xs"
+      >
         
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center p-6 sm:p-12 lg:p-16 min-h-[400px] sm:min-h-[460px]">
           

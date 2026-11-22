@@ -43,7 +43,7 @@ export default function ProductDetailPage() {
 
   const inWishlist = isInWishlist(product.id);
 
-  const [selectedImage, setSelectedImage] = useState<string>(product.images[0] || '/images/Logo-01.png');
+  const [selectedImage, setSelectedImage] = useState<string>(product.images[0] || '/images/shokhora-official-logo.png');
   const [selectedColor, setSelectedColor] = useState<string | undefined>(
     product.variations?.colors?.[0]?.name
   );
@@ -163,7 +163,7 @@ export default function ProductDetailPage() {
                 {/* Badges on Gallery */}
                 <div className="absolute top-4 left-4 flex flex-col gap-2 z-10">
                   {hasDiscount && (
-                    <span className="px-3 py-1 rounded-full text-xs font-mono font-bold bg-[#191817] text-amber-300 shadow">
+                    <span className="px-3 py-1 rounded-full text-xs font-mono font-bold bg-[#C78703] text-white shadow-xs">
                       -{formatNumber(discountPercent)}%
                     </span>
                   )}
@@ -202,7 +202,7 @@ export default function ProductDetailPage() {
                   <span>SKU: {product.sku}</span>
                 </div>
 
-                <h1 className="text-2xl sm:text-3xl lg:text-4xl font-serif font-medium text-[#191817] leading-tight">
+                <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#012D51] tracking-tight leading-tight">
                   {displayName}
                 </h1>
 
@@ -291,9 +291,9 @@ export default function ProductDetailPage() {
                         key={s}
                         type="button"
                         onClick={() => setSelectedSize(s)}
-                        className={`min-w-[48px] px-3.5 py-2 rounded-xl text-xs font-mono font-semibold border transition-all ${
+                        className={`min-w-[48px] px-3.5 py-2 rounded-xl text-xs font-mono font-semibold border transition-all btn-press ${
                           selectedSize === s
-                            ? 'bg-[#191817] text-white border-[#191817] shadow-sm'
+                            ? 'bg-[#012D51] text-white border-[#012D51] shadow-xs'
                             : 'bg-white text-stone-700 border-stone-300 hover:border-stone-400'
                         }`}
                       >

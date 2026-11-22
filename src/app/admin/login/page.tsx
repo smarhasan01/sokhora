@@ -49,7 +49,7 @@ export default function AdminLoginPage() {
         <div className="text-center space-y-3">
           <div className="relative w-44 h-14 mx-auto bg-white/5 rounded-2xl p-2 border border-white/10 backdrop-blur-md">
             <Image
-              src="/images/Logo-01.png"
+              src="/images/shokhora-official-logo.png"
               alt="SHOKHORA"
               fill
               priority

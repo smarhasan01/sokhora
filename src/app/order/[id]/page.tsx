@@ -48,14 +48,14 @@ export default function OrderSuccessPage() {
 
   if (!order) {
     return (
-      <div className="min-h-screen flex flex-col bg-ivory-100">
+      <div className="min-h-screen flex flex-col bg-white text-[#252525]">
         <Header />
         <main className="flex-1 flex flex-col items-center justify-center p-8 text-center space-y-4">
-          <h2 className="text-xl font-bold text-charcoal-900">Order Not Found</h2>
-          <p className="text-xs text-charcoal-500">
+          <h2 className="text-xl font-bold text-[#012D51]">Order Not Found</h2>
+          <p className="text-xs text-stone-500">
             We could not locate an order with ID: <span className="font-mono">{orderId}</span>
           </p>
-          <Link href="/shop" className="px-6 py-2.5 bg-charcoal-950 text-white rounded-full text-xs font-semibold">
+          <Link href="/shop" className="px-6 py-2.5 bg-[#012D51] text-white rounded-full text-xs font-bold uppercase tracking-wider hover:bg-[#C78703] transition-colors shadow-xs btn-press">
             Return to Shop
           </Link>
         </main>
@@ -65,25 +65,25 @@ export default function OrderSuccessPage() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-ivory-100">
+    <div className="min-h-screen flex flex-col bg-white text-[#252525]">
       <Header />
 
       <main className="flex-1 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full">
         {/* Success Banner */}
-        <div className="bg-white rounded-3xl p-6 sm:p-10 border border-taupe-200 shadow-sm text-center space-y-4 mb-8">
+        <div className="bg-[#F6F7F8] rounded-3xl p-6 sm:p-10 border border-[#EAECEF] shadow-xs text-center space-y-4 mb-8">
           <div className="w-16 h-16 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center mx-auto shadow-inner">
             <CheckCircle2 className="w-10 h-10" />
           </div>
 
-          <span className="text-xs font-bold uppercase tracking-wider text-sage-600 block">
+          <span className="text-xs font-bold uppercase tracking-wider text-[#C78703] block font-mono">
             Order Confirmed • অর্ডার কনফার্ম হয়েছে
           </span>
 
-          <h1 className="text-2xl sm:text-3xl font-serif font-bold text-charcoal-950">
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-[#012D51] tracking-tight">
             Thank you, {order.customer.fullName}!
           </h1>
 
-          <p className="text-xs sm:text-sm text-charcoal-600 max-w-md mx-auto leading-relaxed">
+          <p className="text-xs sm:text-sm text-stone-600 max-w-md mx-auto leading-relaxed">
             Your order has been recorded in our system. We are preparing your parcel with love and care.
           </p>
 

@@ -49,31 +49,31 @@ export default function AccountPage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#FAF7F2] text-[#191817]">
+    <div className="min-h-screen flex flex-col bg-white text-[#252525]">
       <Header />
 
       <main className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-16 w-full">
         {/* Breadcrumb */}
-        <nav className="flex items-center gap-1.5 text-xs text-charcoal-500 mb-6">
-          <Link href="/" className="hover:text-charcoal-900">{t('navHome')}</Link>
-          <ChevronRight className="w-3.5 h-3.5 text-taupe-400" />
-          <span className="text-charcoal-900 font-medium">{t('myAccount')}</span>
+        <nav className="flex items-center gap-1.5 text-xs text-stone-500 mb-6 font-mono">
+          <Link href="/" className="hover:text-[#012D51]">{t('navHome')}</Link>
+          <ChevronRight className="w-3.5 h-3.5 text-stone-400" />
+          <span className="text-[#012D51] font-semibold">{t('myAccount')}</span>
         </nav>
 
         {/* Profile Card Header */}
-        <div className="bg-white rounded-3xl p-6 sm:p-8 border border-taupe-200 shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 mb-6">
+        <div className="bg-[#F6F7F8] rounded-3xl p-6 sm:p-8 border border-[#EAECEF] shadow-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 mb-6">
           <div className="flex items-center gap-4">
-            <div className="w-16 h-16 rounded-2xl bg-charcoal-900 text-white flex items-center justify-center text-xl font-bold font-serif shadow-md">
+            <div className="w-16 h-16 rounded-2xl bg-[#012D51] text-white flex items-center justify-center text-xl font-bold font-mono shadow-xs">
               {user?.displayName ? user.displayName.charAt(0).toUpperCase() : 'C'}
             </div>
             <div>
-              <h1 className="text-xl sm:text-2xl font-serif font-bold text-charcoal-950">
+              <h1 className="text-xl sm:text-2xl font-extrabold text-[#012D51] tracking-tight">
                 {user?.displayName || (isBn ? 'সম্মানিত গ্রাহক' : 'Valued Customer')}
               </h1>
-              <p className="text-xs text-charcoal-500 mt-0.5">
+              <p className="text-xs text-stone-500 mt-0.5 font-mono">
                 {user?.email || (isBn ? 'লগইন করুন আপনার প্রোফাইল অ্যাক্সেস করতে' : 'customer@shokhora.com')}
               </p>
-              {user?.phone && <p className="text-xs text-taupe-600 font-mono mt-0.5">{user.phone}</p>}
+              {user?.phone && <p className="text-xs text-stone-600 font-mono mt-0.5">{user.phone}</p>}
             </div>
           </div>
 
@@ -81,14 +81,14 @@ export default function AccountPage() {
             {user ? (
               <button
                 onClick={handleLogout}
-                className="inline-flex items-center gap-1.5 px-4 py-2 bg-taupe-100 hover:bg-taupe-200 text-charcoal-800 rounded-xl text-xs font-semibold transition-colors"
+                className="inline-flex items-center gap-1.5 px-4 py-2 bg-white hover:bg-rose-50 text-stone-700 hover:text-rose-600 border border-[#EAECEF] rounded-xl text-xs font-semibold transition-colors btn-press shadow-xs"
               >
                 <LogOut className="w-3.5 h-3.5" /> {t('logout')}
               </button>
             ) : (
               <Link
                 href="/login"
-                className="inline-flex items-center gap-1.5 px-5 py-2.5 bg-charcoal-900 hover:bg-charcoal-800 text-white rounded-xl text-xs font-semibold transition-colors shadow-sm"
+                className="inline-flex items-center gap-1.5 px-5 py-2.5 bg-[#012D51] hover:bg-[#C78703] text-white rounded-xl text-xs font-bold uppercase tracking-wider transition-colors shadow-xs btn-press"
               >
                 <span>{t('signIn')}</span>
                 <ArrowRight className="w-3.5 h-3.5" />

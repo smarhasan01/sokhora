@@ -135,7 +135,7 @@ export default function AdminOrderDetailPage() {
                   <div className="flex items-center gap-3">
                     <div className="relative w-12 h-12 rounded-xl overflow-hidden bg-taupe-100 border border-taupe-200 flex-shrink-0">
                       <Image
-                        src={item.image || '/images/Logo-01.png'}
+                        src={item.image || '/images/shokhora-official-logo.png'}
                         alt={item.name}
                         fill
                         className="object-cover"

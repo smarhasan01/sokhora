@@ -442,7 +442,7 @@ export default function Header() {
           {/* Right Highlights: LIMITED SALE with Gold Accent */}
           <div className="hidden sm:flex items-center gap-4 text-xs font-semibold shrink-0">
             <Link
-              href="/shop"
+              href="/shop?filter=sale"
               className="inline-flex items-center gap-1 text-[#C78703] hover:underline"
             >
               <Flame className="w-3.5 h-3.5 fill-[#C78703]" />

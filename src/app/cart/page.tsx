@@ -55,25 +55,25 @@ export default function CartPage() {
   const progressPercent = Math.min(100, Math.round((subtotal / freeDeliveryThreshold) * 100));
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#FAF7F2] text-[#191817]">
+    <div className="min-h-screen flex flex-col bg-white text-[#252525]">
       <Header />
 
       <main className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-16 w-full">
         {/* Breadcrumb */}
         <div className="flex items-center gap-2 text-xs text-stone-500 font-mono mb-8">
-          <Link href="/" className="hover:text-stone-900 transition-colors">
+          <Link href="/" className="hover:text-[#012D51] transition-colors">
             {t('navHome')}
           </Link>
           <ChevronRight className="w-3.5 h-3.5 text-stone-400" />
-          <span className="text-stone-900 font-semibold">{t('cartTitle')}</span>
+          <span className="text-[#012D51] font-semibold">{t('cartTitle')}</span>
         </div>
 
-        <div className="flex items-center justify-between pb-6 mb-8 border-b border-stone-200">
+        <div className="flex items-center justify-between pb-6 mb-8 border-b border-[#EAECEF]">
           <div>
-            <span className="text-xs uppercase font-mono tracking-widest text-stone-400 font-semibold">
+            <span className="text-xs uppercase font-mono tracking-widest text-[#C78703] font-semibold">
               {isBn ? 'আপনার নির্বাচন' : 'Review & Checkout'}
             </span>
-            <h1 className="text-3xl sm:text-4xl font-serif font-medium text-[#191817] mt-1">
+            <h1 className="text-3xl sm:text-4xl font-extrabold text-[#012D51] tracking-tight mt-1">
               {isBn ? 'শপিং ব্যাগ' : 'Your Shopping Bag'}
             </h1>
           </div>
@@ -88,21 +88,21 @@ export default function CartPage() {
         </div>
 
         {items.length === 0 ? (
-          <div className="text-center py-24 bg-white rounded-3xl border border-stone-200 p-8 shadow-sm">
-            <div className="w-20 h-20 rounded-full bg-stone-100 text-stone-400 flex items-center justify-center mx-auto mb-4">
+          <div className="text-center py-24 bg-[#F6F7F8] rounded-3xl border border-[#EAECEF] p-8 shadow-xs">
+            <div className="w-20 h-20 rounded-full bg-white text-[#012D51] flex items-center justify-center mx-auto mb-4 border border-[#EAECEF]">
               <ShoppingBag className="w-10 h-10" />
             </div>
-            <h2 className="text-2xl font-serif font-medium text-stone-900">
+            <h2 className="text-2xl font-bold text-[#012D51]">
               {t('emptyCart')}
             </h2>
-            <p className="text-xs text-stone-500 mt-2 max-w-sm mx-auto">
+            <p className="text-xs text-stone-500 mt-2 max-w-sm mx-auto leading-relaxed">
               {isBn
                 ? 'আপনার ব্যাগটি বর্তমানে খালি। আমাদের কালেকশনগুলো ঘুরে পছন্দের পণ্য বেছে নিন।'
                 : 'Explore our latest collections to discover handcrafted luxury and lifestyle staples.'}
             </p>
             <Link
               href="/shop"
-              className="inline-flex items-center gap-2 mt-6 px-8 py-4 rounded-full bg-[#191817] text-white text-xs uppercase tracking-widest font-semibold hover:bg-stone-800 transition-colors shadow-md"
+              className="inline-flex items-center gap-2 mt-6 px-8 py-3.5 rounded-full bg-[#012D51] text-white text-xs uppercase tracking-wider font-bold hover:bg-[#C78703] transition-colors shadow-xs btn-press"
             >
               <ArrowLeft className="w-4 h-4" />
               <span>{isBn ? 'কালেকশন দেখুন' : 'Explore Collections'}</span>
@@ -113,33 +113,33 @@ export default function CartPage() {
             {/* Items Column (8 cols) */}
             <div className="lg:col-span-8 space-y-4">
               {/* Free delivery bar */}
-              <div className="p-4 rounded-2xl bg-emerald-50/70 border border-emerald-200 text-xs">
+              <div className="p-4 rounded-2xl bg-[#FDF8ED] border border-[#F8ECCB] text-xs">
                 {amountNeededForFreeDelivery > 0 ? (
                   <div className="space-y-1.5">
-                    <p className="text-emerald-950 font-mono text-xs">
+                    <p className="text-[#012D51] font-mono text-xs">
                       {isBn ? 'আর মাত্র ' : 'Add '}
-                      <strong className="font-bold">{formatPrice(amountNeededForFreeDelivery)}</strong>
+                      <strong className="font-bold text-[#C78703]">{formatPrice(amountNeededForFreeDelivery)}</strong>
                       {isBn
                         ? ' টাকার পণ্য যোগ করলেই ঢাকা সিটিতে ফ্রি হোম ডেলিভারি!'
                         : ' more to unlock FREE delivery in Dhaka City!'}
                     </p>
-                    <div className="w-full h-2 rounded-full bg-emerald-200/60 overflow-hidden">
+                    <div className="w-full h-2 rounded-full bg-stone-200 overflow-hidden">
                       <div
-                        className="h-full bg-emerald-600 transition-all duration-500"
+                        className="h-full bg-[#C78703] transition-all duration-500"
                         style={{ width: `${progressPercent}%` }}
                       />
                     </div>
                   </div>
                 ) : (
                   <p className="text-emerald-900 font-mono font-bold flex items-center gap-2">
-                    <CheckCircle2 className="w-4 h-4 text-emerald-700" />
+                    <CheckCircle2 className="w-4 h-4 text-emerald-600" />
                     <span>{isBn ? 'অভিনন্দন! আপনি ঢাকা সিটিতে ফ্রি ডেলিভারি পাচ্ছেন।' : 'Congratulations! You unlocked FREE Delivery in Dhaka City.'}</span>
                   </p>
                 )}
               </div>
 
               {/* Items Card List */}
-              <div className="bg-white rounded-3xl border border-stone-200/90 divide-y divide-stone-100 overflow-hidden shadow-sm">
+              <div className="bg-white rounded-3xl border border-[#EAECEF] divide-y divide-[#EAECEF] overflow-hidden shadow-xs">
                 {items.map((item) => {
                   const itemPrice = item.price;
                   const displayName = item.name;
@@ -151,7 +151,7 @@ export default function CartPage() {
                       <div className="flex items-center gap-4 min-w-0">
                         <div className="relative w-20 h-24 rounded-2xl overflow-hidden bg-stone-100 shrink-0 border border-stone-200">
                           <Image
-                            src={item.image || '/images/Logo-01.png'}
+                            src={item.image || '/images/shokhora-official-logo.png'}
                             alt={displayName}
                             fill
                             className="object-cover"
@@ -232,8 +232,8 @@ export default function CartPage() {
 
             {/* Summary Column (4 cols) */}
             <div className="lg:col-span-4 space-y-6">
-              <div className="bg-white rounded-3xl border border-stone-200/90 p-6 sm:p-7 shadow-sm space-y-6">
-                <h2 className="font-serif font-medium text-lg text-stone-900 pb-3 border-b border-stone-200">
+              <div className="bg-[#F6F7F8] rounded-3xl border border-[#EAECEF] p-6 sm:p-7 shadow-xs space-y-6">
+                <h2 className="font-bold text-lg text-[#012D51] pb-3 border-b border-[#EAECEF]">
                   {t('orderSummary')}
                 </h2>
 
@@ -246,26 +246,26 @@ export default function CartPage() {
                     <button
                       type="button"
                       onClick={() => setDeliveryZone('inside-dhaka')}
-                      className={`p-3 rounded-2xl border text-center transition-all ${
+                      className={`p-3 rounded-2xl border text-center transition-all btn-press ${
                         deliveryZone === 'inside-dhaka'
-                          ? 'border-stone-900 bg-[#191817] text-white shadow-sm'
-                          : 'border-stone-200 bg-stone-50 text-stone-700 hover:bg-stone-100'
+                          ? 'border-[#012D51] bg-[#012D51] text-white shadow-xs'
+                          : 'border-[#EAECEF] bg-white text-stone-700 hover:bg-stone-50'
                       }`}
                     >
                       <span className="block font-bold">{t('insideDhaka')}</span>
-                      <span className="text-[10px] opacity-80">৳৬০ (২৪-৪৮ ঘণ্টা)</span>
+                      <span className="text-[10px] opacity-80">৳৭০ (২৪-৪৮ ঘণ্টা)</span>
                     </button>
                     <button
                       type="button"
                       onClick={() => setDeliveryZone('outside-dhaka')}
-                      className={`p-3 rounded-2xl border text-center transition-all ${
+                      className={`p-3 rounded-2xl border text-center transition-all btn-press ${
                         deliveryZone === 'outside-dhaka'
-                          ? 'border-stone-900 bg-[#191817] text-white shadow-sm'
-                          : 'border-stone-200 bg-stone-50 text-stone-700 hover:bg-stone-100'
+                          ? 'border-[#012D51] bg-[#012D51] text-white shadow-xs'
+                          : 'border-[#EAECEF] bg-white text-stone-700 hover:bg-stone-50'
                       }`}
                     >
                       <span className="block font-bold">{t('outsideDhaka')}</span>
-                      <span className="text-[10px] opacity-80">৳১২০ (২-৪ দিন)</span>
+                      <span className="text-[10px] opacity-80">৳১৩০ (২-৪ দিন)</span>
                     </button>
                   </div>
                 </div>
@@ -276,10 +276,10 @@ export default function CartPage() {
                     {t('promoCode')}
                   </span>
                   {coupon ? (
-                    <div className="flex items-center justify-between p-3 rounded-2xl bg-emerald-50 border border-emerald-200 text-xs font-mono text-emerald-900">
+                    <div className="flex items-center justify-between p-3 rounded-2xl bg-white border border-[#F8ECCB] text-xs font-mono text-[#012D51]">
                       <div>
                         <span className="font-bold">{coupon.code}</span>
-                        <span className="text-emerald-700 ml-1.5">(-{formatPrice(couponDiscount)})</span>
+                        <span className="text-[#C78703] ml-1.5">(-{formatPrice(couponDiscount)})</span>
                       </div>
                       <button
                         onClick={removeCoupon}
@@ -295,11 +295,11 @@ export default function CartPage() {
                         placeholder="SHOKHORA10"
                         value={couponInput}
                         onChange={(e) => setCouponInput(e.target.value)}
-                        className="flex-1 px-4 py-2.5 rounded-xl bg-stone-50 border border-stone-200 text-xs font-mono uppercase focus:bg-white focus:outline-none focus:border-stone-900"
+                        className="flex-1 px-4 py-2.5 rounded-xl bg-white border border-[#EAECEF] text-xs font-mono uppercase focus:outline-none focus:border-[#012D51]"
                       />
                       <button
                         type="submit"
-                        className="px-4 py-2.5 rounded-xl bg-[#191817] text-white text-xs font-mono font-semibold uppercase hover:bg-stone-800 transition-colors"
+                        className="px-4 py-2.5 rounded-xl bg-[#012D51] text-white text-xs font-mono font-bold uppercase hover:bg-[#C78703] transition-colors shadow-xs btn-press"
                       >
                         {t('apply')}
                       </button>
@@ -311,13 +311,13 @@ export default function CartPage() {
                 </div>
 
                 {/* Totals Breakdown */}
-                <div className="space-y-2.5 pt-4 border-t border-stone-200 text-xs font-mono">
+                <div className="space-y-2.5 pt-4 border-t border-[#EAECEF] text-xs font-mono">
                   <div className="flex justify-between text-stone-600">
                     <span>{t('subtotal')}:</span>
-                    <span className="font-bold text-stone-900">{formatPrice(subtotal)}</span>
+                    <span className="font-bold text-[#012D51]">{formatPrice(subtotal)}</span>
                   </div>
                   {coupon && (
-                    <div className="flex justify-between text-emerald-700">
+                    <div className="flex justify-between text-[#C78703] font-bold">
                       <span>{t('discount')}:</span>
                       <span>-{formatPrice(couponDiscount)}</span>
                     </div>
@@ -326,7 +326,7 @@ export default function CartPage() {
                     <span>{t('deliveryFee')}:</span>
                     <span>{deliveryCharge === 0 ? 'FREE' : formatPrice(deliveryCharge)}</span>
                   </div>
-                  <div className="flex justify-between text-base font-bold text-stone-900 pt-3 border-t border-stone-200">
+                  <div className="flex justify-between text-base font-bold text-[#012D51] pt-3 border-t border-[#EAECEF]">
                     <span>{t('total')}:</span>
                     <span>{formatPrice(total)}</span>
                   </div>
@@ -335,7 +335,7 @@ export default function CartPage() {
                 {/* Checkout Button */}
                 <Link
                   href="/checkout"
-                  className="w-full py-3.5 rounded-full bg-[#012D51] text-white hover:bg-[#012D51] text-xs uppercase tracking-widest font-bold flex items-center justify-center gap-2 transition-all shadow-md active:scale-98"
+                  className="w-full py-3.5 rounded-full bg-[#012D51] hover:bg-[#C78703] text-white text-xs uppercase tracking-wider font-bold flex items-center justify-center gap-2 transition-all shadow-md btn-press"
                 >
                   <span>{isBn ? 'চেকআউট করুন' : 'Proceed to Checkout'}</span>
                   <ArrowRight className="w-4 h-4" />

@@ -165,7 +165,7 @@ export default function AdminProductsPage() {
                     <div className="flex items-center gap-3">
                       <div className="relative w-12 h-12 rounded-xl overflow-hidden bg-taupe-100 border border-taupe-200 flex-shrink-0">
                         <Image
-                          src={prod.images[0] || '/images/Logo-01.png'}
+                          src={prod.images[0] || '/images/shokhora-official-logo.png'}
                           alt={prod.name}
                           fill
                           className="object-cover"

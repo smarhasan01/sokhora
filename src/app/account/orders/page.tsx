@@ -37,20 +37,20 @@ export default function OrdersPage() {
     : allOrders.slice(0, 3);
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#FAF7F2] text-[#191817]">
+    <div className="min-h-screen flex flex-col bg-white text-[#252525]">
       <Header />
 
       <main className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-16 w-full">
         {/* Breadcrumb */}
-        <nav className="flex items-center gap-1.5 text-xs text-charcoal-500 mb-6">
-          <Link href="/" className="hover:text-charcoal-900">{t('navHome')}</Link>
-          <ChevronRight className="w-3.5 h-3.5 text-taupe-400" />
-          <Link href="/account" className="hover:text-charcoal-900">{t('myAccount')}</Link>
-          <ChevronRight className="w-3.5 h-3.5 text-taupe-400" />
-          <span className="text-charcoal-900 font-medium">{t('orderHistory')}</span>
+        <nav className="flex items-center gap-1.5 text-xs text-stone-500 mb-6 font-mono">
+          <Link href="/" className="hover:text-[#012D51]">{t('navHome')}</Link>
+          <ChevronRight className="w-3.5 h-3.5 text-stone-400" />
+          <Link href="/account" className="hover:text-[#012D51]">{t('myAccount')}</Link>
+          <ChevronRight className="w-3.5 h-3.5 text-stone-400" />
+          <span className="text-[#012D51] font-semibold">{t('orderHistory')}</span>
         </nav>
 
-        <h1 className="text-2xl sm:text-3xl font-serif font-bold text-charcoal-950 mb-6">
+        <h1 className="text-2xl sm:text-3xl font-extrabold text-[#012D51] tracking-tight mb-6">
           {t('orderHistory')}
         </h1>
 

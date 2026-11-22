@@ -52,7 +52,7 @@ export default function AccountNav() {
   ];
 
   return (
-    <nav className="flex items-center gap-2 overflow-x-auto no-scrollbar pb-3 mb-8 border-b border-stone-200">
+    <nav className="flex items-center gap-2 overflow-x-auto no-scrollbar pb-3 mb-8 border-b border-[#EAECEF]">
       {links.map((link) => {
         const Icon = link.icon;
         const isActive = link.exact
@@ -63,10 +63,10 @@ export default function AccountNav() {
           <Link
             key={link.href}
             href={link.href}
-            className={`inline-flex items-center gap-2 px-4 py-2.5 rounded-full text-xs font-mono font-medium whitespace-nowrap transition-all ${
+            className={`inline-flex items-center gap-2 px-4 py-2.5 rounded-full text-xs font-mono font-medium whitespace-nowrap transition-all btn-press ${
               isActive
-                ? 'bg-[#191817] text-white shadow-sm'
-                : 'bg-white border border-stone-200 text-stone-600 hover:bg-stone-50 hover:text-stone-900'
+                ? 'bg-[#012D51] text-white shadow-xs'
+                : 'bg-white border border-[#EAECEF] text-stone-600 hover:bg-[#F6F7F8] hover:text-[#012D51]'
             }`}
           >
             <Icon className="w-3.5 h-3.5" />

@@ -47,7 +47,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth">
       <head>
-        <link rel="icon" href="/images/Logo-01.png" type="image/png" />
+        <link rel="icon" href="/images/shokhora-official-logo.png" type="image/png" />
       </head>
       <body className="min-h-screen flex flex-col bg-ivory-100 text-charcoal-900 selection:bg-taupe-200 selection:text-charcoal-950">
         <LanguageProvider>

@@ -26,22 +26,22 @@ export default function ForgotPasswordPage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#FAF7F2] text-[#191817]">
+    <div className="min-h-screen flex flex-col bg-white text-[#252525]">
       <Header />
 
       <main className="flex-1 flex items-center justify-center p-4 sm:p-10">
-        <div className="w-full max-w-md bg-white rounded-3xl p-8 sm:p-10 border border-stone-200/90 shadow-[0_8px_30px_rgba(0,0,0,0.04)] space-y-6">
+        <div className="w-full max-w-md bg-[#F6F7F8] rounded-3xl p-8 sm:p-10 border border-[#EAECEF] shadow-xs space-y-6">
           <div className="text-center space-y-2">
             <div className="relative w-44 h-12 mx-auto mb-2">
               <Image
-                src="/images/Logo-01.png"
+                src="/images/shokhora-official-logo.png"
                 alt="SHOKHORA"
                 fill
                 priority
                 className="object-contain"
               />
             </div>
-            <h1 className="text-2xl sm:text-3xl font-serif font-medium text-stone-900">
+            <h1 className="text-2xl sm:text-3xl font-extrabold text-[#012D51] tracking-tight">
               {isBn ? 'পাসওয়ার্ড পুনরুদ্ধার' : 'Reset Your Password'}
             </h1>
             <p className="text-xs text-stone-500 max-w-xs mx-auto font-mono">
@@ -56,7 +56,7 @@ export default function ForgotPasswordPage() {
               <div className="w-12 h-12 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center mx-auto">
                 <CheckCircle2 className="w-6 h-6" />
               </div>
-              <h2 className="text-sm font-semibold text-emerald-950">
+              <h2 className="text-sm font-bold text-emerald-950">
                 {isBn ? 'রিসেট লিংক পাঠানো হয়েছে!' : 'Reset Link Sent!'}
               </h2>
               <p className="text-xs text-emerald-800 leading-relaxed">
@@ -67,7 +67,7 @@ export default function ForgotPasswordPage() {
               <div className="pt-2">
                 <Link
                   href="/login"
-                  className="inline-flex items-center gap-1.5 text-xs font-semibold text-emerald-900 underline"
+                  className="inline-flex items-center gap-1.5 text-xs font-bold text-[#012D51] hover:text-[#C78703] underline"
                 >
                   <ArrowLeft className="w-3.5 h-3.5" />
                   <span>{isBn ? 'লগইন পেজে ফিরে যান' : 'Back to Sign In'}</span>
@@ -77,7 +77,7 @@ export default function ForgotPasswordPage() {
           ) : (
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label className="block text-xs font-semibold text-charcoal-700 uppercase tracking-wider mb-1.5">
+                <label className="block text-xs font-bold text-[#012D51] uppercase tracking-wider mb-1.5 font-mono">
                   {isBn ? 'ইমেইল অ্যাড্রেস' : 'Email Address'}
                 </label>
                 <div className="relative">
@@ -87,16 +87,16 @@ export default function ForgotPasswordPage() {
                     placeholder="name@example.com"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="w-full pl-9 pr-3.5 py-2.5 rounded-xl border border-taupe-300 text-xs sm:text-sm focus:ring-2 focus:ring-charcoal-900 focus:outline-none transition-all"
+                    className="w-full pl-9 pr-3.5 py-2.5 rounded-xl border border-[#EAECEF] bg-white text-xs sm:text-sm focus:border-[#012D51] focus:outline-none transition-all"
                   />
-                  <Mail className="w-4 h-4 text-charcoal-400 absolute left-3 top-1/2 -translate-y-1/2" />
+                  <Mail className="w-4 h-4 text-stone-400 absolute left-3 top-1/2 -translate-y-1/2" />
                 </div>
               </div>
 
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full py-3.5 px-4 rounded-full bg-[#012D51] hover:bg-[#012D51] text-white text-xs sm:text-sm font-bold uppercase tracking-wider transition-all shadow-md flex items-center justify-center gap-2 disabled:opacity-50 active:scale-98"
+                className="w-full py-3.5 px-4 rounded-full bg-[#012D51] hover:bg-[#C78703] text-white text-xs sm:text-sm font-bold uppercase tracking-wider transition-all shadow-md flex items-center justify-center gap-2 disabled:opacity-50 btn-press"
               >
                 <span>{loading ? (isBn ? 'পাঠানো হচ্ছে...' : 'Sending...') : (isBn ? 'রিসেট লিংক পাঠান' : 'Send Reset Link')}</span>
                 <ArrowRight className="w-4 h-4" />
@@ -104,13 +104,13 @@ export default function ForgotPasswordPage() {
             </form>
           )}
 
-          <div className="pt-4 border-t border-taupe-200 text-center">
+          <div className="pt-4 border-t border-[#EAECEF] text-center">
             <Link
               href="/login"
-              className="inline-flex items-center gap-1 text-xs font-medium text-charcoal-700 hover:text-charcoal-950"
+              className="text-xs font-bold text-[#012D51] hover:text-[#C78703] transition-colors inline-flex items-center gap-1"
             >
               <ArrowLeft className="w-3.5 h-3.5" />
-              <span>{isBn ? 'লগইন পেজে ফিরে যান' : 'Return to Customer Sign In'}</span>
+              <span>{isBn ? 'লগইন পেজে ফিরে যান' : 'Back to Customer Sign In'}</span>
             </Link>
           </div>
         </div>

@@ -50,16 +50,16 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#FAF7F2] text-[#191817]">
+    <div className="min-h-screen flex flex-col bg-white text-[#252525]">
       <Header />
 
       <main className="flex-1 flex items-center justify-center p-4 sm:p-10">
-        <div className="w-full max-w-md bg-white rounded-3xl p-8 sm:p-10 border border-stone-200/90 shadow-[0_8px_30px_rgba(0,0,0,0.04)] space-y-6">
+        <div className="w-full max-w-md bg-[#F6F7F8] rounded-3xl p-8 sm:p-10 border border-[#EAECEF] shadow-xs space-y-6">
           <div className="text-center space-y-2">
             <div className="relative w-44 h-12 mx-auto">
-              <Image src="/images/Logo-01.png" alt="SHOKHORA" fill priority className="object-contain" />
+              <Image src="/images/shokhora-official-logo.png" alt="SHOKHORA" fill priority className="object-contain" />
             </div>
-            <h1 className="text-2xl sm:text-3xl font-serif font-medium text-stone-900">
+            <h1 className="text-2xl sm:text-3xl font-extrabold text-[#012D51] tracking-tight">
               {isBn ? 'নতুন কাস্টমার অ্যাকাউন্ট' : 'Create Customer Account'}
             </h1>
             <p className="text-xs text-stone-500 font-mono">
@@ -77,7 +77,7 @@ export default function RegisterPage() {
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block text-xs font-semibold text-charcoal-700 uppercase tracking-wider mb-1">
+              <label className="block text-xs font-bold text-[#012D51] uppercase tracking-wider mb-1 font-mono">
                 {t('fullName')} *
               </label>
               <div className="relative">
@@ -87,14 +87,14 @@ export default function RegisterPage() {
                   placeholder="e.g. Nusrat Jahan"
                   value={fullName}
                   onChange={(e) => setFullName(e.target.value)}
-                  className="w-full pl-9 pr-3.5 py-2.5 rounded-xl border border-taupe-300 text-xs focus:ring-1 focus:ring-charcoal-800 focus:outline-none"
+                  className="w-full pl-9 pr-3.5 py-2.5 rounded-xl border border-[#EAECEF] bg-white text-xs focus:border-[#012D51] focus:outline-none"
                 />
-                <User className="w-4 h-4 text-charcoal-400 absolute left-3 top-1/2 -translate-y-1/2" />
+                <User className="w-4 h-4 text-stone-400 absolute left-3 top-1/2 -translate-y-1/2" />
               </div>
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-charcoal-700 uppercase tracking-wider mb-1">
+              <label className="block text-xs font-bold text-[#012D51] uppercase tracking-wider mb-1 font-mono">
                 {t('phoneNumber')} *
               </label>
               <div className="relative">
@@ -104,14 +104,14 @@ export default function RegisterPage() {
                   placeholder="01XXXXXXXXX"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
-                  className="w-full pl-9 pr-3.5 py-2.5 rounded-xl border border-taupe-300 text-xs font-mono focus:ring-1 focus:ring-charcoal-800 focus:outline-none"
+                  className="w-full pl-9 pr-3.5 py-2.5 rounded-xl border border-[#EAECEF] bg-white text-xs font-mono focus:border-[#012D51] focus:outline-none"
                 />
-                <Phone className="w-4 h-4 text-charcoal-400 absolute left-3 top-1/2 -translate-y-1/2" />
+                <Phone className="w-4 h-4 text-stone-400 absolute left-3 top-1/2 -translate-y-1/2" />
               </div>
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-charcoal-700 uppercase tracking-wider mb-1">
+              <label className="block text-xs font-bold text-[#012D51] uppercase tracking-wider mb-1 font-mono">
                 {isBn ? 'ইমেইল অ্যাড্রেস *' : 'Email Address *'}
               </label>
               <div className="relative">
@@ -121,14 +121,14 @@ export default function RegisterPage() {
                   placeholder="name@example.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full pl-9 pr-3.5 py-2.5 rounded-xl border border-taupe-300 text-xs focus:ring-1 focus:ring-charcoal-800 focus:outline-none"
+                  className="w-full pl-9 pr-3.5 py-2.5 rounded-xl border border-[#EAECEF] bg-white text-xs focus:border-[#012D51] focus:outline-none"
                 />
-                <Mail className="w-4 h-4 text-charcoal-400 absolute left-3 top-1/2 -translate-y-1/2" />
+                <Mail className="w-4 h-4 text-stone-400 absolute left-3 top-1/2 -translate-y-1/2" />
               </div>
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-charcoal-700 uppercase tracking-wider mb-1">
+              <label className="block text-xs font-bold text-[#012D51] uppercase tracking-wider mb-1 font-mono">
                 {isBn ? 'পাসওয়ার্ড (কমপক্ষে ৬ অক্ষর) *' : 'Password (min. 6 characters) *'}
               </label>
               <div className="relative">
@@ -138,14 +138,14 @@ export default function RegisterPage() {
                   placeholder="••••••••"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full pl-9 pr-3.5 py-2.5 rounded-xl border border-taupe-300 text-xs focus:ring-1 focus:ring-charcoal-800 focus:outline-none"
+                  className="w-full pl-9 pr-3.5 py-2.5 rounded-xl border border-[#EAECEF] bg-white text-xs focus:border-[#012D51] focus:outline-none"
                 />
-                <Lock className="w-4 h-4 text-charcoal-400 absolute left-3 top-1/2 -translate-y-1/2" />
+                <Lock className="w-4 h-4 text-stone-400 absolute left-3 top-1/2 -translate-y-1/2" />
               </div>
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-charcoal-700 uppercase tracking-wider mb-1">
+              <label className="block text-xs font-bold text-[#012D51] uppercase tracking-wider mb-1 font-mono">
                 {isBn ? 'পাসওয়ার্ড নিশ্চিত করুন *' : 'Confirm Password *'}
               </label>
               <div className="relative">
@@ -155,36 +155,36 @@ export default function RegisterPage() {
                   placeholder="••••••••"
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
-                  className="w-full pl-9 pr-3.5 py-2.5 rounded-xl border border-taupe-300 text-xs focus:ring-1 focus:ring-charcoal-800 focus:outline-none"
+                  className="w-full pl-9 pr-3.5 py-2.5 rounded-xl border border-[#EAECEF] bg-white text-xs focus:border-[#012D51] focus:outline-none"
                 />
-                <Lock className="w-4 h-4 text-charcoal-400 absolute left-3 top-1/2 -translate-y-1/2" />
+                <Lock className="w-4 h-4 text-stone-400 absolute left-3 top-1/2 -translate-y-1/2" />
               </div>
             </div>
 
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3.5 px-4 rounded-full bg-[#012D51] hover:bg-[#012D51] text-white text-xs font-bold uppercase tracking-wider transition-all shadow-md flex items-center justify-center gap-2 disabled:opacity-50 active:scale-98"
+              className="w-full py-3.5 px-4 rounded-full bg-[#012D51] hover:bg-[#C78703] text-white text-xs font-bold uppercase tracking-wider transition-all shadow-md flex items-center justify-center gap-2 disabled:opacity-50 btn-press"
             >
               <span>{loading ? (isBn ? 'প্রসেসিং হচ্ছে...' : 'Creating Account...') : (isBn ? 'অ্যাকাউন্ট খুলুন' : 'Register Customer Account')}</span>
               <ArrowRight className="w-4 h-4" />
             </button>
           </form>
 
-          <div className="pt-4 border-t border-taupe-200 text-center">
-            <p className="text-xs text-charcoal-600">
+          <div className="pt-4 border-t border-[#EAECEF] text-center">
+            <p className="text-xs text-stone-600">
               {isBn ? 'পূর্বেই অ্যাকাউন্ট খুলেছেন?' : 'Already have an account?'}{' '}
               <Link
                 href="/login"
-                className="font-bold text-charcoal-900 hover:text-terracotta-600 underline transition-colors"
+                className="font-bold text-[#012D51] hover:text-[#C78703] underline transition-colors"
               >
                 {isBn ? 'সাইন ইন করুন' : 'Sign In'}
               </Link>
             </p>
           </div>
 
-          <div className="pt-1 flex items-center justify-center gap-1.5 text-[11px] text-taupe-500">
-            <ShieldCheck className="w-3.5 h-3.5 text-sage-600" />
+          <div className="pt-1 flex items-center justify-center gap-1.5 text-[11px] text-stone-500 font-mono">
+            <ShieldCheck className="w-3.5 h-3.5 text-[#C78703]" />
             <span>{isBn ? 'কাস্টমার প্রোফাইল ডেটা সুরক্ষিত' : 'Secure Customer Account Data'}</span>
           </div>
         </div>

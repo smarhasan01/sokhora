@@ -74,7 +74,7 @@ export default function NewProductPage() {
       stock: Number(stock),
       description: description.trim(),
       descriptionBn: descriptionBn.trim() || undefined,
-      images: images.length > 0 ? images : ['/images/Logo-01.png'],
+      images: images.length > 0 ? images : ['/images/shokhora-official-logo.png'],
       isFeatured,
       isNewArrival,
       isBestSeller,

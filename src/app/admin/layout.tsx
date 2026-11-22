@@ -59,7 +59,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       <div className="min-h-screen bg-charcoal-950 flex items-center justify-center p-4">
         <div className="max-w-md w-full bg-charcoal-900 border border-charcoal-800 rounded-3xl p-8 text-center space-y-6 shadow-2xl">
           <div className="relative w-40 h-12 mx-auto bg-white/5 rounded-xl p-2 border border-white/10">
-            <Image src="/images/Logo-01.png" alt="SHOKHORA" fill priority className="object-contain" />
+            <Image src="/images/shokhora-official-logo.png" alt="SHOKHORA" fill priority className="object-contain" />
           </div>
 
           <div className="w-14 h-14 rounded-2xl bg-rose-950/80 border border-rose-800 text-rose-400 flex items-center justify-center mx-auto shadow-inner">
@@ -118,7 +118,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       {/* Mobile Header */}
       <div className="lg:hidden bg-charcoal-950 text-white px-4 py-3 flex items-center justify-between sticky top-0 z-40 border-b border-charcoal-800">
         <div className="relative w-32 h-9 bg-white/10 rounded px-1.5 py-0.5">
-          <Image src="/images/Logo-01.png" alt="SHOKHORA" fill className="object-contain object-left px-1" />
+          <Image src="/images/shokhora-official-logo.png" alt="SHOKHORA" fill className="object-contain object-left px-1" />
         </div>
 
         <div className="flex items-center gap-2">
@@ -149,7 +149,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           {/* Brand Logo in Admin */}
           <div className="flex items-center justify-between pb-6 border-b border-charcoal-800">
             <div className="relative w-36 h-11 bg-white/10 rounded-lg p-1.5">
-              <Image src="/images/Logo-01.png" alt="SHOKHORA Admin" fill className="object-contain px-1" />
+              <Image src="/images/shokhora-official-logo.png" alt="SHOKHORA Admin" fill className="object-contain px-1" />
             </div>
             <button
               onClick={() => setSidebarOpen(false)}

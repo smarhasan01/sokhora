@@ -23,15 +23,18 @@ function ShopContent() {
   const initialQuery = searchParams.get('q') || '';
   const initialCategory = searchParams.get('category') || 'all';
   const initialBrand = searchParams.get('brand') || 'all';
+  const initialSort = (searchParams.get('sort') as any) || 'newest';
+  const initialSale = searchParams.get('filter') === 'sale' || searchParams.get('sale') === 'true';
 
   const { isBn, t, formatPrice, formatNumber } = useLanguage();
 
   const [searchQuery, setSearchQuery] = useState(initialQuery);
   const [selectedCategory, setSelectedCategory] = useState(initialCategory);
   const [selectedBrand, setSelectedBrand] = useState(initialBrand);
-  const [sortBy, setSortBy] = useState<'newest' | 'price-asc' | 'price-desc' | 'rating' | 'popularity'>('newest');
+  const [sortBy, setSortBy] = useState<'newest' | 'price-asc' | 'price-desc' | 'rating' | 'popularity'>(initialSort);
   const [maxPrice, setMaxPrice] = useState<number>(3000);
   const [inStockOnly, setInStockOnly] = useState(false);
+  const [saleOnly, setSaleOnly] = useState(initialSale);
   const [currentPage, setCurrentPage] = useState(1);
   const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
 
@@ -68,6 +71,13 @@ function ShopContent() {
           }
         }
 
+        // Active Discount / Limited Sale Filter
+        if (saleOnly) {
+          if (!product.discountPrice || product.discountPrice >= product.regularPrice) {
+            return false;
+          }
+        }
+
         // Price
         const effectivePrice = product.discountPrice ?? product.regularPrice;
         if (effectivePrice > maxPrice) {
@@ -99,7 +109,7 @@ function ShopContent() {
             return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
         }
       });
-  }, [allProducts, searchQuery, selectedCategory, selectedBrand, maxPrice, inStockOnly, sortBy]);
+  }, [allProducts, searchQuery, selectedCategory, selectedBrand, maxPrice, inStockOnly, saleOnly, sortBy]);
 
   // Pagination calculation
   const totalPages = Math.ceil(filteredProducts.length / ITEMS_PER_PAGE) || 1;
@@ -114,6 +124,7 @@ function ShopContent() {
     setSelectedBrand('all');
     setMaxPrice(3000);
     setInStockOnly(false);
+    setSaleOnly(false);
     setSortBy('newest');
     setCurrentPage(1);
   };

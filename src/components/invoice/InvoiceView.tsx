@@ -123,7 +123,7 @@ export default function InvoiceView({ order, settings = initialSettings, onBack,
             <div className="flex items-center gap-4">
               <div className="relative w-44 h-16">
                 <Image
-                  src="/images/Logo-01.png"
+                  src="/images/shokhora-official-logo.png"
                   alt="SHOKHORA"
                   fill
                   className="object-contain object-left"
@@ -334,7 +334,7 @@ export default function InvoiceView({ order, settings = initialSettings, onBack,
           <div className="text-center pb-4 border-b border-dashed border-taupe-400">
             <div className="relative w-32 h-10 mx-auto mb-1">
               <Image
-                src="/images/Logo-01.png"
+                src="/images/shokhora-official-logo.png"
                 alt="SHOKHORA"
                 fill
                 className="object-contain"
