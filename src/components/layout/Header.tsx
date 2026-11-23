@@ -20,10 +20,6 @@ import {
   Phone,
   Globe,
   ChevronDown,
-  MapPin,
-  Truck,
-  Tag,
-  SlidersHorizontal,
   ArrowRight,
   Flame,
 } from 'lucide-react';
@@ -151,79 +147,9 @@ export default function Header() {
   };
 
   return (
-    <header className="sticky top-0 z-50 bg-white shadow-xs">
-      {/* 1. MegaMart-Style Top Information Bar */}
-      <div className="bg-[#012D51] text-white text-xs border-b border-[#01223D]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2 flex items-center justify-between">
-          {/* Welcome Message */}
-          <div className="flex items-center gap-2 text-white/90">
-            <span className="font-medium">
-              {isBn
-                ? 'শখোরা অনলাইন শপে আপনাকে স্বাগতম!'
-                : 'Welcome to worldwide SHOKHORA!'}
-            </span>
-            <span className="hidden md:inline text-white/40">|</span>
-            <span className="hidden md:inline text-[#C78703] font-medium">
-              {isBn ? 'দেশজুড়ে হোম ডেলিভারি' : 'Nationwide Home Delivery'}
-            </span>
-          </div>
-
-          {/* Location, Order Tracking, Offers & Language */}
-          <div className="flex items-center gap-4 sm:gap-6 text-xs text-white/80">
-            <div className="hidden lg:flex items-center gap-1.5 hover:text-[#C78703] transition-colors cursor-pointer">
-              <MapPin className="w-3.5 h-3.5 text-[#C78703]" />
-              <span>{isBn ? 'ডেলিভারি এরিয়া: ঢাকা' : 'Deliver to Dhaka'}</span>
-            </div>
-
-            <Link
-              href="/track-order"
-              className="flex items-center gap-1.5 hover:text-[#C78703] transition-colors"
-            >
-              <Truck className="w-3.5 h-3.5 text-[#C78703]" />
-              <span className="hidden sm:inline">
-                {isBn ? 'অর্ডার ট্র্যাক' : 'Track your order'}
-              </span>
-            </Link>
-
-            <Link
-              href="/shop?filter=sale"
-              className="flex items-center gap-1.5 text-[#F6DDAB] hover:text-[#C78703] transition-colors font-medium"
-            >
-              <Tag className="w-3.5 h-3.5 text-[#C78703]" />
-              <span>{isBn ? 'সকল অফার' : 'All Offers'}</span>
-            </Link>
-
-            {/* Language Switcher */}
-            <div className="flex items-center gap-1 border-l border-white/20 pl-3">
-              <Globe className="w-3.5 h-3.5 text-[#C78703]" />
-              <button
-                onClick={() => setLanguage('en')}
-                className={`px-1.5 py-0.5 rounded text-[11px] font-semibold transition-colors ${
-                  language === 'en'
-                    ? 'bg-[#C78703] text-white'
-                    : 'text-white/70 hover:text-white'
-                }`}
-              >
-                EN
-              </button>
-              <span className="text-white/40">/</span>
-              <button
-                onClick={() => setLanguage('bn')}
-                className={`px-1.5 py-0.5 rounded text-[11px] font-semibold transition-colors ${
-                  language === 'bn'
-                    ? 'bg-[#C78703] text-white'
-                    : 'text-white/70 hover:text-white'
-                }`}
-              >
-                বাং
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* 2. MegaMart Main Header */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 sm:py-4">
+    <header className="sticky top-0 z-50 bg-white border-b border-[#E2E5E8] shadow-xs">
+      {/* Main Header Row — Starts Directly at the Top (Top bar completely removed) */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 sm:py-3.5">
         <div className="flex items-center justify-between gap-4 lg:gap-8">
           {/* Mobile Menu & Logo */}
           <div className="flex items-center gap-3">
@@ -247,7 +173,7 @@ export default function Header() {
             </Link>
           </div>
 
-          {/* MegaMart Wide Search Bar */}
+          {/* Wide Search Bar */}
           <div ref={searchContainerRef} className="flex-1 max-w-2xl relative hidden md:block">
             <form
               onSubmit={handleSearchSubmit}
@@ -361,8 +287,34 @@ export default function Header() {
             )}
           </div>
 
-          {/* Account, Wishlist & Cart Icons */}
-          <div className="flex items-center gap-3 sm:gap-5">
+          {/* Account, Wishlist, Language Switcher & Cart */}
+          <div className="flex items-center gap-2.5 sm:gap-4">
+            {/* Language Switcher Pill (Desktop & Tablet) */}
+            <div className="hidden sm:flex items-center bg-[#F7F8FA] border border-[#E2E5E8] rounded-xl p-0.5">
+              <button
+                onClick={() => setLanguage('en')}
+                className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all ${
+                  language === 'en'
+                    ? 'bg-[#012D51] text-white shadow-xs'
+                    : 'text-gray-600 hover:text-[#012D51]'
+                }`}
+                aria-label="Switch to English"
+              >
+                EN
+              </button>
+              <button
+                onClick={() => setLanguage('bn')}
+                className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all ${
+                  language === 'bn'
+                    ? 'bg-[#012D51] text-white shadow-xs'
+                    : 'text-gray-600 hover:text-[#012D51]'
+                }`}
+                aria-label="বাংলা ভাষায় দেখুন"
+              >
+                বাং
+              </button>
+            </div>
+
             {/* Customer Account / Sign In */}
             <Link
               href={user ? '/account' : '/login'}
@@ -376,7 +328,7 @@ export default function Header() {
                   {user ? (isBn ? 'আমার অ্যাকাউন্ট' : 'Account') : isBn ? 'স্বাগতম' : 'Welcome'}
                 </p>
                 <p className="text-xs font-bold text-[#012D51] group-hover:text-[#C78703] truncate max-w-[100px]">
-                  {user ? user.displayName || user.email?.split('@')[0] : isBn ? 'লগইন / সাইনআপ' : 'Sign Up/Sign In'}
+                  {user ? user.displayName || user.email?.split('@')[0] : isBn ? 'লগইন / সাইনআপ' : 'Sign In'}
                 </p>
               </div>
             </Link>
@@ -400,7 +352,7 @@ export default function Header() {
             {/* Shopping Cart Pill */}
             <button
               onClick={() => setIsCartOpen(true)}
-              className="flex items-center gap-2.5 bg-[#012D51] hover:bg-[#023E6E] text-white px-3.5 py-2 rounded-xl transition-all shadow-xs group"
+              className="flex items-center gap-2 bg-[#012D51] hover:bg-[#023E6E] text-white px-3 sm:px-3.5 py-2 rounded-xl transition-all shadow-xs group"
               aria-label="Shopping Cart"
             >
               <div className="relative">
@@ -424,7 +376,7 @@ export default function Header() {
         </div>
 
         {/* Mobile Search Bar */}
-        <div className="mt-3 md:hidden">
+        <div className="mt-2.5 md:hidden">
           <form
             onSubmit={handleSearchSubmit}
             className="flex items-center bg-[#F7F8FA] border border-[#E2E5E8] rounded-xl px-3 py-2 gap-2"
@@ -447,11 +399,11 @@ export default function Header() {
         </div>
       </div>
 
-      {/* 3. MegaMart Category Navigation Sub-Bar */}
+      {/* Category Navigation Sub-Bar */}
       <nav className="border-t border-[#E2E5E8] bg-white hidden lg:block">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-1.5 py-2">
+            <div className="flex items-center gap-1.5 py-1.5">
               {/* All Categories Dropdown Button */}
               <div ref={categoryMenuRef} className="relative">
                 <button
@@ -495,7 +447,7 @@ export default function Header() {
                 )}
               </div>
 
-              {/* Horizontal Pill Category Links (MegaMart Style) */}
+              {/* Horizontal Pill Category Links */}
               {APPROVED_CATEGORIES.map((cat) => (
                 <div
                   key={cat.slug}
@@ -563,7 +515,7 @@ export default function Header() {
         </div>
       </nav>
 
-      {/* 4. Responsive Mobile Navigation Drawer */}
+      {/* Responsive Mobile Navigation Drawer */}
       {mobileMenuOpen && (
         <div className="fixed inset-0 z-50 lg:hidden">
           {/* Backdrop */}
@@ -593,6 +545,36 @@ export default function Header() {
 
             {/* Content */}
             <div className="flex-1 overflow-y-auto p-4 space-y-4">
+              {/* Mobile Language Switcher */}
+              <div className="flex items-center justify-between p-3 bg-[#F7F8FA] rounded-xl border border-[#E2E5E8]">
+                <span className="text-xs font-bold text-[#012D51] flex items-center gap-1.5">
+                  <Globe className="w-3.5 h-3.5 text-[#C78703]" />
+                  <span>{isBn ? 'ভাষা নির্বাচন' : 'Language'}</span>
+                </span>
+                <div className="flex items-center gap-1 bg-white border border-[#E2E5E8] rounded-lg p-0.5">
+                  <button
+                    onClick={() => setLanguage('en')}
+                    className={`px-2.5 py-1 rounded-md text-xs font-bold transition-all ${
+                      language === 'en'
+                        ? 'bg-[#012D51] text-white'
+                        : 'text-gray-600'
+                    }`}
+                  >
+                    EN
+                  </button>
+                  <button
+                    onClick={() => setLanguage('bn')}
+                    className={`px-2.5 py-1 rounded-md text-xs font-bold transition-all ${
+                      language === 'bn'
+                        ? 'bg-[#012D51] text-white'
+                        : 'text-gray-600'
+                    }`}
+                  >
+                    বাংলা
+                  </button>
+                </div>
+              </div>
+
               <div>
                 <p className="text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-2">
                   {isBn ? 'ক্যাটাগরি সমূহ' : 'Approved Categories'}
@@ -658,7 +640,7 @@ export default function Header() {
 
             {/* Footer */}
             <div className="p-4 border-t border-gray-100 bg-[#F7F8FA]">
-              <div className="flex items-center gap-2 text-xs text-gray-600 mb-2">
+              <div className="flex items-center gap-2 text-xs text-gray-600 mb-1">
                 <Phone className="w-3.5 h-3.5 text-[#C78703]" />
                 <span className="font-bold">01568923850</span>
               </div>
