@@ -4,56 +4,70 @@ import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useLanguage } from '@/lib/context/LanguageContext';
-import { ArrowRight, Sparkles } from 'lucide-react';
+import { ArrowRight, Sparkles, Tag, ShieldCheck } from 'lucide-react';
 
 export default function CampaignBanner() {
   const { isBn } = useLanguage();
 
   return (
-    <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <div className="relative rounded-3xl bg-[#F6F7F8] border border-[#EAECEF] overflow-hidden p-8 sm:p-12 lg:p-16 flex flex-col lg:flex-row items-center justify-between gap-8 shadow-xs">
-        
-        {/* Left Content */}
-        <div className="max-w-xl space-y-4 text-center lg:text-left z-10">
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white text-[#012D51] font-mono text-[11px] font-bold border border-[#EAECEF] shadow-xs">
-            <Sparkles className="w-3.5 h-3.5 text-[#C78703]" />
-            <span>{isBn ? 'সীমিত সময়ের স্পেশাল অফার' : 'Limited Time Campaign'}</span>
-          </span>
+    <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+      <div className="relative rounded-2xl sm:rounded-3xl bg-gradient-to-r from-[#012D51] via-[#023E6E] to-[#01223D] text-white p-6 sm:p-10 lg:p-12 overflow-hidden shadow-lg border border-[#012D51]/50 flex flex-col md:flex-row items-center justify-between gap-6">
+        {/* Glow Effects */}
+        <div className="absolute -right-20 -top-20 w-80 h-80 rounded-full bg-[#C78703]/15 blur-3xl pointer-events-none" />
+        <div className="absolute -left-20 -bottom-20 w-80 h-80 rounded-full bg-white/10 blur-3xl pointer-events-none" />
 
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#012D51] leading-tight">
-            {isBn ? 'আপনার প্রিয় পণ্যে ৫০% পর্যন্ত ছাড়' : 'Up to 50% OFF on your favorite items'}
+        {/* Text Details */}
+        <div className="relative z-10 space-y-3 max-w-xl text-center md:text-left">
+          <div className="inline-flex items-center gap-2 bg-white/10 px-3 py-1 rounded-full text-xs font-semibold text-[#F6DDAB] border border-white/20">
+            <Sparkles className="w-3.5 h-3.5 text-[#C78703]" />
+            <span>{isBn ? 'বিশেষ সিজনাল ক্যাম্পেইন' : 'Seasonal Special Campaign'}</span>
+          </div>
+
+          <h2 className="text-xl sm:text-3xl lg:text-4xl font-black text-white leading-tight">
+            {isBn ? (
+              <>
+                আপনার পছন্দের পণ্যে{' '}
+                <span className="text-[#F6DDAB]">৫০% পর্যন্ত ছাড়!</span>
+              </>
+            ) : (
+              <>
+                Up to <span className="text-[#F6DDAB]">50% OFF</span> on your favorite items
+              </>
+            )}
           </h2>
 
-          <p className="text-xs sm:text-sm text-stone-600 leading-relaxed">
+          <p className="text-xs sm:text-sm text-white/80 leading-relaxed">
             {isBn
-              ? 'সীমিত সময়ের সুযোগ — স্টক শেষ হওয়ার আগেই আপনার পছন্দের সিল্ক স্ক্রাঞ্চি, ব্রাস জুয়েলারি ও লাইফস্টাইল পণ্য সংগ্রহ করুন!'
-              : 'Limited time only — grab your deal before it’s gone! Handcrafted silk scrunchies, brass jewellery, and everyday essentials.'}
+              ? 'প্রিমিয়াম সিল্ক স্ক্রাঞ্চি, কোমল বাচ্চাদের হেয়ার ক্লিপস এবং আরামদায়ক খাদি ফ্যাশনে সীমিত সময়ের অফার।'
+              : 'Limited-time discounts on genuine mulberry silk scrunchies, kids hair accessories, and elegant fashion.'}
           </p>
 
-          <div className="pt-2">
+          <div className="pt-2 flex flex-wrap items-center justify-center md:justify-start gap-4">
             <Link
-              href="/shop"
-              className="inline-flex items-center gap-2 px-7 py-3 rounded-full bg-[#012D51] hover:bg-[#C78703] text-white text-xs font-bold uppercase tracking-wider transition-all duration-300 shadow-md btn-press group"
+              href="/shop?filter=sale"
+              className="inline-flex items-center gap-2 bg-[#C78703] hover:bg-[#B07502] text-white px-6 py-2.5 rounded-xl text-xs sm:text-sm font-bold shadow-md transition-all active:scale-95 group"
             >
-              <span>{isBn ? 'কেনাকাটা করুন ও সাশ্রয় পান' : 'Shop Now & Save Big!'}</span>
+              <span>{isBn ? 'এখনই কিনুন ও ছাড় পান' : 'Shop Now & Save'}</span>
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </Link>
+
+            <span className="text-xs text-white/70 font-medium flex items-center gap-1.5">
+              <ShieldCheck className="w-4 h-4 text-[#C78703]" />
+              <span>{isBn ? 'ক্যাশ অন ডেলিভারি সুবিধা' : 'Cash on Delivery Available'}</span>
+            </span>
           </div>
         </div>
 
-        {/* Right Lifestyle Photography with subtle hover zoom */}
-        <div className="relative w-72 h-64 sm:w-88 sm:h-80 rounded-2xl overflow-hidden shadow-md bg-white border-4 border-white shrink-0 group">
+        {/* Visual Showcase */}
+        <div className="relative z-10 w-48 h-48 sm:w-60 sm:h-60 rounded-2xl overflow-hidden bg-white/10 p-2 backdrop-blur-xs border border-white/20 shadow-xl shrink-0">
           <Image
-            src="/images/categories/fashion.jpg"
-            alt="Up to 50% OFF on your favorite items"
+            src="/images/products/prod-001.jpg"
+            alt="Promotion"
             fill
-            className="object-cover transition-transform duration-700 group-hover:scale-105"
+            sizes="240px"
+            className="object-cover rounded-xl"
           />
-          <div className="absolute top-3 right-3 bg-[#012D51] text-white font-mono font-bold text-xs px-3 py-1.5 rounded-full shadow-md border border-[#C78703]/50">
-            {isBn ? '৫০% পর্যন্ত ছাড়' : 'Up to 50% OFF'}
-          </div>
         </div>
-
       </div>
     </section>
   );

@@ -52,8 +52,8 @@ const config: Config = {
         brand: {
           navy: "#012D51",
           gold: "#C78703",
-          grey: "#F6F7F8",
-          charcoal: "#252525",
+          grey: "#F7F8FA",
+          charcoal: "#202833",
           primary: "#012D51",
           dark: "#012D51",
           light: "#FFFFFF",

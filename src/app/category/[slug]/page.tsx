@@ -17,14 +17,22 @@ export default function CategoryPage() {
   const { isBn, t, formatNumber } = useLanguage();
 
   const categories = getCategories();
-  const category = categories.find((c) => c.slug === slug);
+  const category = categories.find(
+    (c) => c.slug === slug || (slug === 'other-everyday' && c.slug === 'everyday-products')
+  );
 
   const [sortBy, setSortBy] = useState<'newest' | 'price-asc' | 'price-desc' | 'popularity'>('newest');
   const [selectedBrand, setSelectedBrand] = useState<string>('all');
 
   const allProducts = getProducts();
   const categoryProducts = useMemo(() => {
-    return allProducts.filter((p) => p.category === slug && p.isPublished);
+    return allProducts.filter(
+      (p) =>
+        (p.category === slug ||
+          (slug === 'everyday-products' && p.category === 'other-everyday') ||
+          (slug === 'other-everyday' && p.category === 'everyday-products')) &&
+        p.isPublished
+    );
   }, [allProducts, slug]);
 
   const brands = useMemo(() => {

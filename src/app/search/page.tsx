@@ -28,7 +28,7 @@ function SearchPageContent() {
     { label: 'Scrunchies', labelBn: 'স্ক্রাঞ্চি', q: 'scrunchie' },
     { label: 'Hair Claw Clip', labelBn: 'হেয়ার ক্লিপ', q: 'clip' },
     { label: 'Kids Bows', labelBn: 'কিডস বো', q: 'kids' },
-    { label: 'Gold Jewellery', labelBn: 'গোল্ড জুয়েলারি', q: 'jewellery' },
+    { label: 'Beetroot Lip Tint', labelBn: 'লিপ টিন্ট', q: 'lip' },
     { label: 'Linen Kurti', labelBn: 'লিনেন কুর্তি', q: 'kurti' },
     { label: 'Scented Candle', labelBn: 'সুগন্ধি ক্যান্ডেল', q: 'candle' },
     { label: 'Tote Bag', labelBn: 'টোট ব্যাগ', q: 'tote' },

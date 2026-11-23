@@ -1,161 +1,219 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useLanguage } from '@/lib/context/LanguageContext';
 import { ChevronLeft, ChevronRight, ArrowRight, Sparkles } from 'lucide-react';
 
-const SLIDES = [
+interface Slide {
+  id: string;
+  tagline: string;
+  taglineBn: string;
+  headline: string;
+  headlineBn: string;
+  subtitle: string;
+  subtitleBn: string;
+  discountBadge: string;
+  discountBadgeBn: string;
+  ctaText: string;
+  ctaTextBn: string;
+  ctaLink: string;
+  image: string;
+  accentColor: string;
+}
+
+const HERO_SLIDES: Slide[] = [
   {
-    tag: '— Today Best Deal',
-    tagBn: '— আজকের সেরা অফার',
-    title: 'NEW ARRIVALS / FESTIVE LIFESTYLE',
-    titleBn: 'নতুন আগমন / ফেস্টিভ লাইফস্টাইল',
-    subtitle: 'Handcrafted mulberry silk scrunchies, traditional brass jewellery, and pure botanicals for your daily elegance.',
-    subtitleBn: 'খাঁটি মালবেরি সিল্কের স্ক্রাঞ্চি, ঐতিহ্যবাহী ব্রাস গহনা এবং ত্বকের যত্নে ১০০% নির্ভেজাল প্রসাধনী।',
+    id: 'slide-1',
+    tagline: 'Best Deal Online on Hair Accessories',
+    taglineBn: 'হেয়ার এক্সেসরিজে সেরা অনলাইন অফার',
+    headline: 'PURE MULBERRY SILK.',
+    headlineBn: 'পিওর মালবেরি সিল্ক।',
+    subtitle: 'Handcrafted 100% genuine silk scrunchies that protect hair from breakage and frizz.',
+    subtitleBn: 'চুল ভাঙা রোধে ১০০% খাঁটি মালবেরি সিল্কে হাতে তৈরি প্রিমিয়াম স্ক্রাঞ্চি কালেকশন।',
+    discountBadge: 'UP TO 50% OFF',
+    discountBadgeBn: '৫০% পর্যন্ত ছাড়',
     ctaText: 'Shop Now',
-    ctaTextBn: 'অর্ডার করুন',
-    link: '/shop',
-    image: '/images/categories/scrunchies.jpg',
-    badge: '100% Pure Mulberry Silk',
-    badgeBn: '১০০% খাঁটি মালবেরি সিল্ক',
+    ctaTextBn: 'এখনই কিনুন',
+    ctaLink: '/category/scrunchies-hair-accessories',
+    image: '/images/products/prod-001.jpg',
+    accentColor: '#C78703',
   },
   {
-    tag: '— Artisan Heritage',
-    tagBn: '— দেশীয় ঐতিহ্যবাহী শিল্প',
-    title: 'HANDCRAFTED BRASS & PEARL JEWELLERY',
-    titleBn: 'হাতে তৈরি ব্রাস ও মুক্তার গহনা',
-    subtitle: 'Exquisite filigree necklaces, timeless gold-tone earrings, and hand-chiseled bangles for every special festive occasion.',
-    subtitleBn: 'নিখুঁত কারুকাজের ব্রাস নেকলেস, স্টেটমেন্ট কানের দুল এবং উৎসবের মানানসই অভিজাত গহনা।',
-    ctaText: 'Explore Collection',
-    ctaTextBn: 'কালেকশন দেখুন',
-    link: '/category/jewellery-fashion-accessories',
-    image: '/images/categories/jewellery.jpg',
-    badge: 'Heritage Brass Collection',
-    badgeBn: 'ঐতিহ্যবাহী ব্রাস কালেকশন',
+    id: 'slide-2',
+    tagline: 'Premium Bangladeshi Heritage Fashion',
+    taglineBn: 'ঐতিহ্যবাহী বাংলাদেশি ফ্যাশন কালেকশন',
+    headline: 'ELEGANT KHADI & JAMDANI.',
+    headlineBn: 'আভিজাত্যের খাদি ও জামদানি।',
+    subtitle: 'Breathable handspun linen kurtis and authentic Narayanganj Jamdani silk stoles.',
+    subtitleBn: 'খাঁটি খাদি সুতি লিনেন কুর্তি ও ঐতিহ্যবাহী জামদানি মোটিফের এক্সক্লুসিভ স্টোল।',
+    discountBadge: 'UP TO 40% OFF',
+    discountBadgeBn: '৪০% পর্যন্ত ছাড়',
+    ctaText: 'Explore Fashion',
+    ctaTextBn: 'পোশাক দেখুন',
+    ctaLink: '/category/fashion-clothing',
+    image: '/images/products/prod-009.jpg',
+    accentColor: '#C78703',
   },
   {
-    tag: '— For The Little Ones',
-    tagBn: '— শিশুদের জন্য ভালোবাসা',
-    title: 'SWEET FLORAL HAIR CLIPS & SOFT BANDS',
-    titleBn: 'শিশুদের ফ্লোরাল হেয়ার ক্লিপ ও ব্যান্ড',
-    subtitle: 'Ultra-gentle on fine hair, durable pastel tones, and skin-friendly headbands handcrafted with tenderness.',
-    subtitleBn: 'শিশুদের চুলের সুরক্ষায় আরামদায়ক, নরম ও রঙিন ফ্লোরাল হেয়ার ক্লিপ ও বো ব্যান্ড।',
-    ctaText: 'Shop Kids Hair',
-    ctaTextBn: 'কিডস ক্লিপ দেখুন',
-    link: '/category/kids-hairbands-clips',
-    image: '/images/categories/kids-hair.jpg',
-    badge: 'Gentle & Skin-Safe',
-    badgeBn: 'কোমল ও নিরাপদ',
+    id: 'slide-3',
+    tagline: 'Gentle & Safe Kids Accessories',
+    taglineBn: 'শিশুদের জন্য নিরাপদ ও কোমল সামগ্রী',
+    headline: 'SWEET BLOSSOM CLIPS.',
+    headlineBn: 'সুইট ব্লসম কিডস ক্লিপস।',
+    subtitle: 'Ultra-gentle fabric-wrapped baby floral hair pins and pinch-free velvet headbands.',
+    subtitleBn: 'শিশুদের কোমল ত্বকের কথা মাথায় রেখে কাপড়ে মোড়ানো মিষ্টি ফ্লোরাল ক্লিপ ও ব্যান্ড।',
+    discountBadge: 'STARTING AT ৳290',
+    discountBadgeBn: 'শুরু মাত্র ২৯০৳ থেকে',
+    ctaText: 'Shop Kids',
+    ctaTextBn: 'কিডস কালেকশন',
+    ctaLink: '/category/kids-hairbands-clips',
+    image: '/images/products/prod-003.jpg',
+    accentColor: '#C78703',
+  },
+  {
+    id: 'slide-4',
+    tagline: 'Clean Organic Skincare & Radiance',
+    taglineBn: 'বিশুদ্ধ প্রাকৃতিক রূপচর্চা সামগ্রী',
+    headline: 'NATURAL GLOW ESSENTIALS.',
+    headlineBn: 'ন্যাচারাল গ্লো স্কিনকেয়ার।',
+    subtitle: 'Cold-pressed beetroot lip balms and wild rose radiance facial serums.',
+    subtitleBn: 'আমন্ড অয়েল ও বিটরুটের প্রাকৃতিক লিপ বাম এবং ওয়াইল্ড রোজ ফেসিয়াল সিরাম।',
+    discountBadge: 'UP TO 35% OFF',
+    discountBadgeBn: '৩৫% পর্যন্ত ছাড়',
+    ctaText: 'Shop Beauty',
+    ctaTextBn: 'সৌন্দর্য পণ্য',
+    ctaLink: '/category/cosmetics-beauty',
+    image: '/images/products/prod-007.jpg',
+    accentColor: '#C78703',
   },
 ];
 
 export default function HeroSlider() {
   const { isBn } = useLanguage();
-  const [current, setCurrent] = useState(0);
+  const [currentSlide, setCurrentSlide] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
+  const autoPlayRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
-    if (isPaused) return;
-    const timer = setInterval(() => {
-      setCurrent((prev) => (prev + 1) % SLIDES.length);
-    }, 6000);
-    return () => clearInterval(timer);
+    if (!isPaused) {
+      autoPlayRef.current = setInterval(() => {
+        setCurrentSlide((prev) => (prev + 1) % HERO_SLIDES.length);
+      }, 5000);
+    }
+    return () => {
+      if (autoPlayRef.current) clearInterval(autoPlayRef.current);
+    };
   }, [isPaused]);
 
-  const slide = SLIDES[current];
+  const prevSlide = () => {
+    setCurrentSlide((prev) => (prev - 1 + HERO_SLIDES.length) % HERO_SLIDES.length);
+  };
+
+  const nextSlide = () => {
+    setCurrentSlide((prev) => (prev + 1) % HERO_SLIDES.length);
+  };
+
+  const slide = HERO_SLIDES[currentSlide];
 
   return (
-    <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-5 pb-3">
-      <div
-        onMouseEnter={() => setIsPaused(true)}
-        onMouseLeave={() => setIsPaused(false)}
-        className="relative rounded-3xl bg-gradient-to-r from-[#F6F7F8] via-[#FAF9F5] to-[#F1F4F7] overflow-hidden border border-[#EAECEF] shadow-xs"
-      >
-        
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center p-6 sm:p-12 lg:p-16 min-h-[400px] sm:min-h-[460px]">
-          
-          {/* Left Text with smooth fade-in and slide-up */}
-          <div key={`text-${current}`} className="lg:col-span-7 space-y-4 sm:space-y-6 text-center lg:text-left z-10 animate-fade-in">
-            <div className="inline-flex items-center gap-2 text-[#C78703] text-xs font-bold tracking-widest uppercase font-mono">
+    <section
+      className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6"
+      onMouseEnter={() => setIsPaused(true)}
+      onMouseLeave={() => setIsPaused(false)}
+      aria-label="Promotional Hero Slider"
+    >
+      {/* MegaMart-Style Rounded Dark Navy Banner Card */}
+      <div className="relative rounded-2xl sm:rounded-3xl bg-radial from-[#023E6E] via-[#012D51] to-[#011C33] text-white overflow-hidden shadow-lg border border-[#012D51]/50 min-h-[360px] sm:min-h-[420px] lg:min-h-[460px] flex items-center">
+        {/* Subtle Decorative Background Circles */}
+        <div className="absolute -right-24 -bottom-24 w-96 h-96 rounded-full bg-[#C78703]/10 blur-3xl pointer-events-none" />
+        <div className="absolute -left-24 -top-24 w-80 h-80 rounded-full bg-white/5 blur-2xl pointer-events-none" />
+
+        {/* Slide Content Grid */}
+        <div className="relative w-full max-w-7xl mx-auto px-6 sm:px-12 lg:px-16 py-8 sm:py-12 grid grid-cols-1 md:grid-cols-12 gap-8 items-center z-10">
+          {/* Left Text Column (7 cols) */}
+          <div className="md:col-span-7 space-y-4 animate-fade-in" key={`text-${slide.id}`}>
+            {/* Tagline */}
+            <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-xs px-3.5 py-1.5 rounded-full border border-white/15">
               <Sparkles className="w-3.5 h-3.5 text-[#C78703]" />
-              <span>{isBn ? slide.tagBn : slide.tag}</span>
+              <span className="text-xs font-semibold tracking-wide text-white/90">
+                {isBn ? slide.taglineBn : slide.tagline}
+              </span>
             </div>
 
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#012D51] tracking-tight leading-tight">
-              {isBn ? slide.titleBn : slide.title}
+            {/* Giant Bold Headline (MegaMart Style) */}
+            <h1 className="text-2xl sm:text-4xl lg:text-5xl font-black tracking-tight text-white leading-tight">
+              {isBn ? slide.headlineBn : slide.headline}
             </h1>
 
-            <p className="text-xs sm:text-sm text-[#252525]/80 max-w-lg mx-auto lg:mx-0 leading-relaxed font-sans">
+            {/* Subtitle / Description */}
+            <p className="text-xs sm:text-sm text-white/80 max-w-lg leading-relaxed">
               {isBn ? slide.subtitleBn : slide.subtitle}
             </p>
 
-            <div className="pt-2 animate-slide-up">
+            {/* Discount Callout */}
+            <div className="text-xl sm:text-2xl lg:text-3xl font-black text-[#F6DDAB] tracking-wider">
+              {isBn ? slide.discountBadgeBn : slide.discountBadge}
+            </div>
+
+            {/* CTA Button */}
+            <div className="pt-2">
               <Link
-                href={slide.link}
-                className="inline-flex items-center gap-2.5 px-7 py-3 rounded-full bg-[#012D51] hover:bg-[#C78703] text-white text-xs font-bold uppercase tracking-wider transition-all duration-300 shadow-md hover:shadow-lg btn-press group"
+                href={slide.ctaLink}
+                className="inline-flex items-center gap-2 bg-[#C78703] hover:bg-[#B07502] text-white px-6 sm:px-8 py-3 rounded-xl font-bold text-xs sm:text-sm shadow-md hover:shadow-lg transition-all active:scale-95 group"
               >
                 <span>{isBn ? slide.ctaTextBn : slide.ctaText}</span>
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </Link>
             </div>
           </div>
 
-          {/* Right Product Cutout Showcase with smooth entrance animation */}
-          <div key={`img-${current}`} className="lg:col-span-5 flex items-center justify-center relative animate-scale-in">
-            {/* Soft decorative background circles */}
-            <div className="absolute w-72 h-72 rounded-full bg-[#C78703]/10 blur-2xl pointer-events-none" />
-
-            <div className="relative w-64 h-64 sm:w-80 sm:h-80 lg:w-96 lg:h-96 rounded-3xl overflow-hidden shadow-lg bg-white border-4 border-white transition-transform duration-500 hover:scale-[1.02]">
+          {/* Right Showcase Product Image (5 cols) */}
+          <div className="md:col-span-5 flex justify-center items-center relative animate-fade-in" key={`img-${slide.id}`}>
+            <div className="relative w-60 h-60 sm:w-72 sm:h-72 lg:w-80 lg:h-80 rounded-2xl overflow-hidden bg-white/10 p-3 backdrop-blur-xs border border-white/20 shadow-2xl">
               <Image
                 src={slide.image}
-                alt={slide.title}
+                alt={slide.headline}
                 fill
                 priority
-                className="object-cover transition-transform duration-700 hover:scale-105"
+                sizes="(max-width: 768px) 240px, (max-width: 1024px) 288px, 320px"
+                className="object-cover rounded-xl"
               />
-              <div className="absolute bottom-3 left-3 right-3 bg-white/95 backdrop-blur-xs px-3 py-2 rounded-xl border border-[#EAECEF] text-center shadow-xs">
-                <span className="text-xs font-bold text-[#012D51] font-mono">
-                  {isBn ? slide.badgeBn : slide.badge}
-                </span>
-              </div>
             </div>
           </div>
-
         </div>
 
-        {/* Prev / Next Buttons */}
+        {/* MegaMart Left & Right Circular Navigation Arrows */}
         <button
-          onClick={() => setCurrent((prev) => (prev - 1 + SLIDES.length) % SLIDES.length)}
-          className="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-white/90 hover:bg-white text-[#012D51] flex items-center justify-center shadow-md border border-[#EAECEF] transition-all duration-200 hover:scale-105 btn-press"
-          aria-label="Previous slide"
+          onClick={prevSlide}
+          className="absolute left-3 sm:left-5 top-1/2 -translate-y-1/2 w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-white/20 hover:bg-white/40 text-white flex items-center justify-center backdrop-blur-xs border border-white/30 transition-all z-20 active:scale-95"
+          aria-label="Previous Slide"
         >
-          <ChevronLeft className="w-5 h-5" />
+          <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6" />
         </button>
 
         <button
-          onClick={() => setCurrent((prev) => (prev + 1) % SLIDES.length)}
-          className="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-white/90 hover:bg-white text-[#012D51] flex items-center justify-center shadow-md border border-[#EAECEF] transition-all duration-200 hover:scale-105 btn-press"
-          aria-label="Next slide"
+          onClick={nextSlide}
+          className="absolute right-3 sm:right-5 top-1/2 -translate-y-1/2 w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-white/20 hover:bg-white/40 text-white flex items-center justify-center backdrop-blur-xs border border-white/30 transition-all z-20 active:scale-95"
+          aria-label="Next Slide"
         >
-          <ChevronRight className="w-5 h-5" />
+          <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6" />
         </button>
 
-        {/* Pagination Dots */}
-        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2">
-          {SLIDES.map((_, idx) => (
+        {/* MegaMart Bottom-Left Slide Indicator Dots */}
+        <div className="absolute left-6 sm:left-12 bottom-4 sm:bottom-6 flex items-center gap-2 z-20">
+          {HERO_SLIDES.map((_, idx) => (
             <button
               key={idx}
-              onClick={() => setCurrent(idx)}
-              className={`h-2 rounded-full transition-all duration-300 ${
-                current === idx ? 'w-6 bg-[#012D51]' : 'w-2 bg-[#012D51]/25 hover:bg-[#012D51]/50'
+              onClick={() => setCurrentSlide(idx)}
+              className={`h-2 transition-all rounded-full ${
+                currentSlide === idx ? 'w-8 bg-[#C78703]' : 'w-2 bg-white/40 hover:bg-white/70'
               }`}
-              aria-label={`Slide ${idx + 1}`}
+              aria-label={`Go to slide ${idx + 1}`}
             />
           ))}
         </div>
-
       </div>
     </section>
   );

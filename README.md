@@ -24,39 +24,34 @@ A modern, high-conversion e-commerce platform crafted for Bangladeshi lifestyle 
 
 ---
 
-## 🛍️ Brand Categories
+## 🛍️ Approved Product Categories (5 Strict Categories)
 
-1. **Fashion & Clothing** (শাড়ি, কুর্তি, পাঞ্জাবি ও আধুনিক পোশাক)
-2. **Cosmetics & Beauty Products** (ত্বকের যত্ন ও রূপচর্চা সামগ্রী)
-3. **Kids Hairbands & Hair Clips** (শিশুদের চুলের আকর্ষণীয় ক্লিপ ও ব্যান্ড)
-4. **Scrunchies & Hair Accessories** (সিল্ক ও সাটিন স্ক্রাঞ্চি)
-5. **Jewellery & Fashion Accessories** (আধুনিক ও ট্রেডিশনাল গহনা)
-6. **Gifts & Lifestyle Products** (উপহার সামগ্রী ও লাইফস্টাইল পণ্য)
-7. **Other Everyday Products** (দৈনন্দিন নিত্যপ্রয়োজনীয় পণ্য)
+1. **Fashion & Clothing** (পোশাক ও ফ্যাশন)
+2. **Cosmetics & Beauty** (কসমেটিক্স ও বিউটি)
+3. **Kids Hair Clips & Accessories** (কিডস হেয়ার ক্লিপ ও এক্সেসরিজ)
+4. **Scrunchies & Hair Accessories** (স্ক্রাঞ্চি ও হেয়ার এক্সেসরিজ)
+5. **Everyday Products** (দৈনন্দিন পণ্য)
 
 ---
 
-## 🚀 Homepage Architecture (15+ Structured Sections)
+## 🚀 Homepage Architecture (MegaMart-Inspired Commercial Composition)
 
-The storefront strictly mirrors the master e-commerce composition with balanced spacing, high product density, and clear visual hierarchy:
+The storefront strictly mirrors the master commercial MegaMart composition with balanced spacing, clean card density, and clear visual hierarchy:
 
-1. **Top Announcement Bar**: Nationwide free delivery notice (`৳2,000+`), showroom hotline (`01568923850`), and working `EN | বাংলা` language switcher.
-2. **Master Header**: Transparent official logo, integrated search bar with category filter dropdown, wishlist counter badge, shopping cart pill with live BDT subtotal, and user authentication portal.
-3. **Horizontal Navigation Bar**: Deep Navy sub-bar with `All Category ▾` mega menu and `LIMITED SALE` promotional flame badge.
-4. **Promotional Hero Slider (`HeroSlider.tsx`)**: Auto-advancing slider with smooth transitions, pausing on hover/touch, and direct category shop CTAs.
-5. **Best Categories (`CategorySection.tsx`)**: 7 squircle category cards with interactive navigation arrows.
-6. **For You / Recommended Products (`NewArrivalsSection.tsx`)**: 8 curated product cards in a 4x2 responsive grid.
-7. **Campaign Banner (`CampaignBanner.tsx`)**: Promotional showcase highlighting seasonal discounts up to 50% OFF.
-8. **Trending Products with Category Tabs (`TrendingSection.tsx`)**: Live filterable product grid with category pills (*All, Fashion, Cosmetics, Kids Clips, Scrunchies, Jewellery, Gifts*).
-9. **Best Sellers (`BestSellersSection.tsx`)**: Verified customer favorites with quick-add actions.
-10. **Dynamic Countdown Deal Banner (`CountdownBanner.tsx`)**: Real-time remaining countdown timer for genuine store discount campaigns.
-11. **Most Popular Products (`RecommendedProducts.tsx`)**: 8 popular products with category tabs.
-12. **Deals of the Day (`DealsOfTheDay.tsx`)**: Daily discounted products with circular `-XX%` gold discount badges and live stock counters.
-13. **Lifestyle & Editorial Stories (`LifestyleBlogSection.tsx`)**: 3 curated lifestyle articles with reading times and tags.
-14. **Interactive FAQ Accordion (`FaqAccordion.tsx`)**: Accordion answers covering ordering, payment methods, delivery, and returns.
-15. **Service Benefits & Value Pillars (`ServiceBenefits.tsx`)**: 4 key trust pillars (Fast BD Delivery, 100% Authentic Quality, Cash on Delivery, Easy 7-Day Returns).
-16. **Newsletter Subscription Strip (`NewsletterSection.tsx`)**: Email subscription form with instant feedback.
-17. **Multi-Column Navy Footer (`Footer.tsx`)**: Deep Navy footer with company registration, showroom address, customer care, policy links, and payment method badges.
+1. **Top Announcement Bar**: Welcome announcement, location indicator ("Deliver to Dhaka"), order tracking shortcut (`/track-order`), special offers link (`/shop?filter=sale`), and working `EN | বাংলা` language switcher.
+2. **MegaMart Main Header**: Original transparent SHOKHORA logo, wide product search bar with category quick-selector dropdown, user sign-in portal, wishlist counter badge, and shopping cart pill with live item count and subtotal.
+3. **Horizontal Category Navigation**: Full horizontal category bar with `All Categories ▾` mega menu button and dropdown previews for the 5 approved categories.
+4. **Hero Promotional Slider (`HeroSlider.tsx`)**: Rounded-3xl dark navy banner card with huge bold typography, gold discount callouts ("UP TO 50% OFF"), showcase product cutout, prev/next circular arrows, bottom slide dots, and auto-play with pause.
+5. **Best Deals / Horizontal Product Cards (`BestDealsSection.tsx`)**: "Grab the best deal on **Scrunchies & Fashion**" with 5-column product cards featuring corner discount badges, clean square image containers, bold pricing, and highlighted savings tags (`Save - ৳...`).
+6. **Top Categories (`CircularCategories.tsx`)**: "Shop From Top Categories" featuring 5 circular category image cards with border rings and hover zoom animations.
+7. **Featured Brands / Collections (`FeaturedBrands.tsx`)**: "Top Featured Collections" with 3 wide banner cards (SHOKHORA Originals Navy card, Aura Beauty Gold card, Little Bloom Charcoal card) with product cutouts and "UP TO 40% OFF".
+8. **Recommended Products (`RecommendedProducts.tsx`)**: 5-column showcase of top-rated lifestyle products with quick Add-to-Cart.
+9. **Trending Products (`TrendingSection.tsx`)**: Interactive category filter tabs for the 5 approved categories with live filtering and "View All" link.
+10. **Daily Essentials (`DailyEssentialsSection.tsx`)**: "Daily Essentials" showcase featuring everyday lifestyle cards with "UP TO 30% OFF".
+11. **Promotional Campaign Banner (`CampaignBanner.tsx`)**: Seasonal campaign showcase with discount highlights and Cash on Delivery reassurance.
+12. **Service Benefits & Value Pillars (`ServiceBenefits.tsx`)**: 4 trust pillars (Fast BD Delivery, 100% Genuine Quality, 7-Day Easy Exchange, Customer Support Hotline).
+13. **Customer FAQ Accordion (`FaqAccordion.tsx`)**: Clean interactive accordion with instant expand/collapse.
+14. **Multi-Column Navy Footer (`Footer.tsx`)**: 4-column Deep Navy footer with original SHOKHORA logo, 5 approved categories, customer service links, hotline `01568923850`, and working newsletter subscription.
 
 ---
 

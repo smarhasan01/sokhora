@@ -19,7 +19,7 @@
 }
 
 body {
-  color: #252525;
+  color: #202833;
   background-color: #FFFFFF;
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
@@ -36,7 +36,7 @@ body.font-bengali {
   height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #F6F7F8;
+  background: #F7F8FA;
 }
 ::-webkit-scrollbar-thumb {
   background: #012D51;

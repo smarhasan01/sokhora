@@ -16,8 +16,7 @@ export type ProductCategory =
   | 'cosmetics-beauty'
   | 'kids-hairbands-clips'
   | 'scrunchies-hair-accessories'
-  | 'jewellery-fashion-accessories'
-  | 'gifts-lifestyle'
+  | 'everyday-products'
   | 'other-everyday';
 
 export interface Category {

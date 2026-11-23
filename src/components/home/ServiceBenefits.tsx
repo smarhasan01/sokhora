@@ -2,55 +2,68 @@
 
 import React from 'react';
 import { useLanguage } from '@/lib/context/LanguageContext';
-import { Headphones, ShieldCheck, Truck, RefreshCcw } from 'lucide-react';
+import { Truck, ShieldCheck, RefreshCw, Headphones } from 'lucide-react';
+
+const BENEFITS = [
+  {
+    icon: Truck,
+    title: 'Fast Nationwide Delivery',
+    titleBn: 'দ্রুত হোম ডেলিভারি',
+    desc: 'Inside Dhaka 24-48h, Outside Dhaka 2-4 days',
+    descBn: 'ঢাকার ভেতরে ২৪-৪৮ ঘণ্টা, বাইরে ২-৪ দিন',
+  },
+  {
+    icon: ShieldCheck,
+    title: '100% Genuine Quality',
+    titleBn: '১০০% খাঁটি পণ্যের নিশ্চয়তা',
+    desc: 'Direct artisan & curated lifestyle sourcing',
+    descBn: 'আসল কোয়ালিটি ও মানসম্মত প্রডাক্ট',
+  },
+  {
+    icon: RefreshCw,
+    title: '7-Day Easy Exchange',
+    titleBn: '৭ দিনের সহজ এক্সচেঞ্জ',
+    desc: 'Hassle-free replacement for defects',
+    descBn: 'ত্রুটিমুক্ত পণ্য পাওয়ার সহজ নিশ্চয়তা',
+  },
+  {
+    icon: Headphones,
+    title: 'Dedicated Customer Support',
+    titleBn: 'সার্বক্ষণিক কাস্টমার কেয়ার',
+    desc: 'Hotline & WhatsApp: 01568923850',
+    descBn: 'হটলাইন ও হোয়াটসঅ্যাপ: 01568923850',
+  },
+];
 
 export default function ServiceBenefits() {
   const { isBn } = useLanguage();
 
-  const benefits = [
-    {
-      icon: Headphones,
-      title: isBn ? '২৪/৭ গ্রাহক সেবা' : 'Responsive Support',
-      desc: isBn ? 'হটলাইন: ০১৫৬৮৯২৩৮৫০' : 'Customer service available 24/7',
-    },
-    {
-      icon: ShieldCheck,
-      title: isBn ? 'নিরাপদ শপিং নিশ্চয়তা' : 'Secure Marketplace',
-      desc: isBn ? '১০০% খাঁটি কোয়ালিটি ও নিরাপদ পেমেন্ট' : '100% authentic quality guaranteed',
-    },
-    {
-      icon: Truck,
-      title: isBn ? 'সারাদেশে দ্রুত ডেলিভারি' : 'Reliable Shipping',
-      desc: isBn ? '৬৪টি জেলায় ক্যাশ অন ডেলিভারি' : 'Fast doorstep delivery nationwide',
-    },
-    {
-      icon: RefreshCcw,
-      title: isBn ? '৭ দিনের সহজ এক্সচেঞ্জ' : 'Transparent Returns',
-      desc: isBn ? 'ঝামেলাহীন পরিবর্তনের সুবিধা' : '7-day hassle-free exchange policy',
-    },
-  ];
-
   return (
-    <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 border-t border-[#EAECEF]">
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 py-4">
-        {benefits.map((b, idx) => {
-          const Icon = b.icon;
-          return (
-            <div key={idx} className="flex items-center gap-3.5 group">
-              <div className="w-11 h-11 rounded-full bg-[#F6F7F8] text-[#012D51] group-hover:bg-[#012D51] group-hover:text-[#C78703] transition-all duration-300 flex items-center justify-center shrink-0 border border-[#EAECEF] shadow-xs">
-                <Icon className="w-5 h-5 transition-transform duration-300 group-hover:scale-110" />
+    <section className="border-t border-b border-[#E2E5E8] bg-[#F7F8FA] py-6 sm:py-8 my-6">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+          {BENEFITS.map((b, idx) => {
+            const Icon = b.icon;
+            return (
+              <div
+                key={idx}
+                className="flex items-center gap-3 p-3 sm:p-4 rounded-xl bg-white border border-[#E2E5E8] shadow-xs hover:border-[#C78703]/50 transition-colors"
+              >
+                <div className="w-10 h-10 rounded-xl bg-[#012D51] text-[#C78703] flex items-center justify-center shrink-0">
+                  <Icon className="w-5 h-5" />
+                </div>
+                <div className="min-w-0">
+                  <h4 className="text-xs sm:text-sm font-bold text-[#202833] truncate">
+                    {isBn ? b.titleBn : b.title}
+                  </h4>
+                  <p className="text-[10px] sm:text-[11px] text-gray-500 line-clamp-1 mt-0.5">
+                    {isBn ? b.descBn : b.desc}
+                  </p>
+                </div>
               </div>
-              <div>
-                <h4 className="font-bold text-xs sm:text-sm text-[#012D51] leading-snug">
-                  {b.title}
-                </h4>
-                <p className="text-[11px] text-stone-500 font-mono mt-0.5">
-                  {b.desc}
-                </p>
-              </div>
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
       </div>
     </section>
   );

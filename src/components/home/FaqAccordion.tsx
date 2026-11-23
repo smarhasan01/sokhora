@@ -2,97 +2,115 @@
 
 import React, { useState } from 'react';
 import { useLanguage } from '@/lib/context/LanguageContext';
-import { Plus, Minus, HelpCircle } from 'lucide-react';
+import { ChevronDown, HelpCircle } from 'lucide-react';
 
-const FAQS = [
+interface FaqItem {
+  id: string;
+  question: string;
+  questionBn: string;
+  answer: string;
+  answerBn: string;
+}
+
+const FAQS: FaqItem[] = [
   {
-    q: 'How long does the product shipping take across Bangladesh?',
-    qBn: 'অর্ডার করা পণ্য পৌঁছাতে কতদিন সময় লাগে?',
-    a: 'Delivery takes 24 to 48 hours within Dhaka City (৳60), and 2 to 4 business days for all districts outside Dhaka (৳120). Orders over ৳1,500 qualify for free nationwide delivery.',
-    aBn: 'ঢাকা সিটির ভেতরে ২৪ থেকে ৪৮ ঘণ্টার মধ্যে (৳৬০) এবং ঢাকার বাইরে ২ থেকে ৪ কার্যদিবসের মধ্যে (৳১২০) ডেলিভারি সম্পন্ন হয়। ৳১,৫০০ টাকার অধিক অর্ডারে ডেলিভারি সম্পূর্ণ ফ্রি।',
+    id: 'faq-1',
+    question: 'How do I place an order on SHOKHORA?',
+    questionBn: 'শখোরা থেকে কীভাবে অর্ডার করবেন?',
+    answer:
+      'Simply browse our 5 approved categories, select your desired items, click "Add to Cart", and proceed to checkout. You can check out as a guest or create an account for order tracking.',
+    answerBn:
+      'আমাদের ৫টি অনুমোদিত ক্যাটাগরি থেকে আপনার পছন্দের পণ্যটি নির্বাচন করুন, "Add to Cart"-এ ক্লিক করুন এবং চেকআউট সম্পন্ন করুন। অ্যাকাউন্ট তৈরি করে অথবা গেস্ট হিসেবেও সরাসরি অর্ডার করতে পারেন।',
   },
   {
-    q: 'What payment methods do you accept?',
-    qBn: 'আপনারা কোন কোন পেমেন্ট পদ্ধতি গ্রহণ করেন?',
-    a: 'We accept Cash on Delivery (COD) across all 64 districts in Bangladesh, as well as bKash, Nagad, Visa, and Mastercard.',
-    aBn: 'আমরা সারাদেশের ৬৪টি জেলাতেই ক্যাশ অন ডেলিভারি (COD) গ্রহণ করি। এছাড়াও বিকাশ, নগদ, ভিসা ও মাস্টারকার্ডের মাধ্যমে সহজে পেমেন্ট করা যায়।',
+    id: 'faq-2',
+    question: 'What payment methods do you accept?',
+    questionBn: 'আপনারা কী কী পেমেন্ট মাধ্যম গ্রহণ করেন?',
+    answer:
+      'We support Cash on Delivery (COD) across all 64 districts of Bangladesh, as well as manual bKash and Nagad payments to our verified merchant number (01568923850).',
+    answerBn:
+      'আমরা বাংলাদেশের সকল ৬৪ জেলায় ক্যাশ অন ডেলিভারি (COD) সমর্থন করি। এছাড়াও আমাদের ভেরিফাইড মার্চেন্ট নম্বরে (01568923850) বিকাশ ও নগদ পেমেন্ট করা যায়।',
   },
   {
-    q: 'What is your return & exchange policy?',
-    qBn: 'আপনাদের রিটার্ন ও এক্সচেঞ্জ পলিসি কেমন?',
-    a: 'We offer a 7-day hassle-free doorstep exchange policy for unworn items with tags intact if you need a different size, color, or style replacement.',
-    aBn: 'পণ্য হাতে পাওয়ার পর ৭ দিনের মধ্যে খুব সহজেই দরজায় এক্সচেঞ্জ সুবিধা নিতে পারবেন। সাইজ বা কালার পরিবর্তনের জন্য আমাদের হটলাইন ০১৫৬৮৯২৩৮৫০-এ যোগাযোগ করুন।',
+    id: 'faq-3',
+    question: 'What are the delivery charges and timelines?',
+    questionBn: 'ডেলিভারি চার্জ এবং সময় কত?',
+    answer:
+      'Inside Dhaka delivery fee is ৳70 (takes 24-48 hours). Outside Dhaka delivery fee is ৳130 (takes 2-4 business days). Orders over ৳2,000 enjoy nationwide FREE delivery!',
+    answerBn:
+      'ঢাকার ভেতরে ডেলিভারি চার্জ ৭০৳ (২৪-৪৮ ঘণ্টার মধ্যে)। ঢাকার বাইরে ১৩০৳ (২-৪ কার্যদিবসের মধ্যে)। ২০০০৳ বা তদূর্ধ্ব অর্ডারে উপভোগ করুন দেশজুড়ে সম্পূর্ণ ফ্রি ডেলিভারি!',
   },
   {
-    q: 'Are SHOKHORA silk scrunchies made from real silk?',
-    qBn: 'শখোরার সিল্ক স্ক্রাঞ্চি কি খাঁটি মালবেরি সিল্কের তৈরি?',
-    a: 'Yes, 100%! All our signature silk scrunchies are handcrafted using certified Grade 6A pure mulberry silk to prevent hair breakage and promote hair health.',
-    aBn: 'হ্যাঁ, শতভাগ! আমাদের সিগনেচার স্ক্রাঞ্চিগুলো গ্রেড ৬এ খাঁটি মালবেরি সিল্ক দিয়ে তৈরি, যা চুল পড়া কমায় এবং চুলের স্বাভাবিক আর্দ্রতা ধরে রাখে।',
+    id: 'faq-4',
+    question: 'Are SHOKHORA silk scrunchies made of real silk?',
+    questionBn: 'শখোরার সিল্ক স্ক্রাঞ্চি কি খাঁটি সিল্কের?',
+    answer:
+      'Yes! Our signature Mulberry Silk Cloud Scrunchies are handcrafted with genuine 19-momme natural mulberry silk to protect hair from breakage, frizz, and ponytail dents.',
+    answerBn:
+      'হ্যাঁ! আমাদের সিগনেচার মালবেরি সিল্ক স্ক্রাঞ্চিগুলো ১০০% খাঁটি ১৯-মমি প্রাকৃতিক সিল্কে তৈরি, যা চুল ভাঙা ও রুক্ষ হওয়া রোধ করে।',
   },
   {
-    q: 'Can I track my order in real time?',
-    qBn: 'আমি কি আমার অর্ডার ট্র্যাক করতে পারব?',
-    a: 'Absolutely! Once your order is placed, an invoice number is issued. You can track real-time delivery status on our "Track Order" page anytime.',
-    aBn: 'অবশ্যই! অর্ডার কনফার্ম হওয়ার সাথে সাথেই ইনভয়েস নম্বর পাওয়া যায়। আমাদের "Track Order" পেজে গিয়ে যেকোনো সময় ডেলিভারি স্ট্যাটাস চেক করতে পারবেন।',
+    id: 'faq-5',
+    question: 'What is your return and exchange policy?',
+    questionBn: 'আপনাদের রিটার্ন ও এক্সচেঞ্জ পলিসি কেমন?',
+    answer:
+      'We offer an easy 7-day hassle-free exchange policy for unused items in original packaging if any manufacturing defect or incorrect item is received. Contact our customer hotline at 01568923850.',
+    answerBn:
+      'কোনো ত্রুটি বা ভুল পণ্য পেলে মূল প্যাকেজিংসহ ৭ দিনের মধ্যে সহজ এক্সচেঞ্জ সুবিধা রয়েছে। বিস্তারিত তথ্যের জন্য আমাদের কাস্টমার হটলাইনে (01568923850) যোগাযোগ করুন।',
   },
 ];
 
 export default function FaqAccordion() {
   const { isBn } = useLanguage();
-  const [openIdx, setOpenIdx] = useState<number | null>(0); // First item open like Reference 1
+  const [openId, setOpenId] = useState<string | null>('faq-1');
 
-  const toggle = (idx: number) => {
-    setOpenIdx(openIdx === idx ? null : idx);
+  const toggle = (id: string) => {
+    setOpenId((prev) => (prev === id ? null : id));
   };
 
   return (
-    <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
-      <div className="text-center space-y-2 mb-8">
-        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#F6F7F8] text-[#012D51] font-mono text-[11px] font-bold border border-[#EAECEF]">
+    <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+      {/* Header */}
+      <div className="text-center mb-8">
+        <div className="inline-flex items-center gap-1.5 bg-[#F7F8FA] px-3 py-1 rounded-full text-xs font-bold text-[#012D51] mb-2 border border-[#E2E5E8]">
           <HelpCircle className="w-3.5 h-3.5 text-[#C78703]" />
-          <span>+ FAQ</span>
-        </span>
-        <h2 className="text-2xl sm:text-3xl font-extrabold text-[#012D51] tracking-tight">
-          {isBn ? 'সাধারণ জিজ্ঞাসা (FAQ)' : 'Frequently Asked Questions'}
+          <span>{isBn ? 'সহায়তা ও তথ্য' : 'Customer Help'}</span>
+        </div>
+        <h2 className="text-xl sm:text-2xl font-bold text-[#202833]">
+          {isBn ? 'সাধারণ ' : 'Frequently Asked '}
+          <span className="text-[#012D51] border-b-2 border-[#C78703] pb-0.5">
+            {isBn ? 'প্রশ্নাবলী' : 'Questions'}
+          </span>
         </h2>
-        <p className="text-xs sm:text-sm text-stone-500">
-          {isBn
-            ? 'পেমেন্ট, ডেলিভারি এবং এক্সচেঞ্জ পলিসি সম্পর্কে প্রয়োজনীয় তথ্য'
-            : 'Everything you need to know about our products, delivery, and payments'}
-        </p>
       </div>
 
+      {/* Accordion List */}
       <div className="space-y-3">
-        {FAQS.map((faq, idx) => {
-          const isOpen = openIdx === idx;
+        {FAQS.map((faq) => {
+          const isOpen = openId === faq.id;
           return (
             <div
-              key={idx}
-              className={`rounded-2xl border transition-all duration-300 overflow-hidden ${
-                isOpen
-                  ? 'bg-[#012D51] text-white border-[#012D51] shadow-md'
-                  : 'bg-white text-[#252525] border-[#EAECEF] hover:border-[#012D51]/40'
-              }`}
+              key={faq.id}
+              className="bg-white rounded-2xl border border-[#E2E5E8] overflow-hidden transition-all shadow-xs"
             >
               <button
-                type="button"
-                onClick={() => toggle(idx)}
-                className="w-full p-4 sm:p-5 flex items-center justify-between text-left gap-4 btn-press"
+                onClick={() => toggle(faq.id)}
+                className={`w-full p-4 sm:p-5 text-left flex items-center justify-between gap-4 font-bold text-xs sm:text-sm transition-colors ${
+                  isOpen ? 'bg-[#012D51] text-white' : 'text-[#202833] hover:bg-[#F7F8FA]'
+                }`}
+                aria-expanded={isOpen}
               >
-                <span className={`font-semibold text-xs sm:text-sm ${isOpen ? 'text-white' : 'text-[#252525]'}`}>
-                  {isBn ? faq.qBn : faq.q}
-                </span>
-
-                <div className={`w-7 h-7 rounded-full flex items-center justify-center shrink-0 transition-colors ${
-                  isOpen ? 'bg-white/20 text-white' : 'bg-[#F6F7F8] text-stone-500'
-                }`}>
-                  {isOpen ? <Minus className="w-4 h-4 text-[#C78703]" /> : <Plus className="w-4 h-4" />}
-                </div>
+                <span>{isBn ? faq.questionBn : faq.question}</span>
+                <ChevronDown
+                  className={`w-4 h-4 shrink-0 transition-transform duration-300 ${
+                    isOpen ? 'rotate-180 text-[#C78703]' : 'text-gray-400'
+                  }`}
+                />
               </button>
 
               {isOpen && (
-                <div className="px-5 pb-5 pt-1 text-xs sm:text-sm text-white/90 leading-relaxed font-sans border-t border-white/15 animate-fade-in">
-                  {isBn ? faq.aBn : faq.a}
+                <div className="p-4 sm:p-5 text-xs sm:text-sm text-gray-600 bg-white leading-relaxed border-t border-gray-100 animate-slide-up">
+                  {isBn ? faq.answerBn : faq.answer}
                 </div>
               )}
             </div>
