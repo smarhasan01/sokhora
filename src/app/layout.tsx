@@ -28,7 +28,7 @@ export const metadata: Metadata = {
     siteName: 'SHOKHORA',
     images: [
       {
-        url: '/images/Cover Photo.jpg',
+        url: '/images/shokhora-facebook-banner.jpg',
         width: 1200,
         height: 630,
         alt: 'SHOKHORA Lifestyle',
