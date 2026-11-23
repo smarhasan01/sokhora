@@ -1,19 +1,26 @@
-# SHOKHORA (শখোরা) — Multi-Category E-Commerce Platform
+# SHOKHORA (শখোরা) — Premium Multi-Category E-Commerce Platform
 
 > **Brand Tagline:** *Your Choice, Our Passion.* / *আপনার পছন্দ, আমাদের ভালোবাসা।*  
 > **Market:** Bangladesh (BDT ৳)  
-> **Architecture:** Next.js 14 (App Router) + TypeScript + Tailwind CSS + Firebase + Hybrid In-Memory/Offline Store
+> **Official Palette:** Deep Navy Blue (`#012D51`), Golden Accent (`#C78703`), White (`#FFFFFF`), Soft Grey (`#F6F7F8`), Dark Text (`#252525`)  
+> **Architecture:** Next.js 14 (App Router) + TypeScript + Tailwind CSS + Firebase + Hybrid Store  
+> **Repository:** [`https://github.com/smarhasan01/sokhora`](https://github.com/smarhasan01/sokhora)
 
-A modern, production-grade e-commerce platform crafted specifically for the Bangladeshi lifestyle and fashion brand **SHOKHORA (শখোরা)**. Built from the ground up to support high-conversion shopping, guest checkout with 64 Bangladeshi districts, manual mobile financial services (bKash & Nagad) verification, atomic stock inventory management, and professional PDF/printable money receipts with Bengali Unicode font support.
+A modern, high-conversion e-commerce platform crafted for Bangladeshi lifestyle and fashion brand **SHOKHORA (শখোরা)**. Re-engineered strictly according to the master e-commerce reference visual hierarchy, section composition, and the official Navy & Gold brand identity.
 
 ---
 
-## 🌟 Brand & Visual Identity
+## 🌟 Brand Identity & Visual System
 
-- **Original Logo Preserved**: The authentic SHOKHORA brand logo (`Logo-01.png`, `Logo colour-01.png`) is integrated across the storefront header, customer footer, hero section, admin portal, and official money receipts without color distortion or ratio alteration.
-- **Bangladeshi Aesthetic**: Styled using a warm, neutral palette — ivory, charcoal, warm taupe, muted sage, and subtle terracotta.
+- **Official Brand Logo**: The authentic SHOKHORA brand logo (`/images/shokhora-official-logo.png`) is integrated across the storefront header, customer footer, invoice receipts, and order tracker with pure RGBA transparency on clean white surfaces without color distortion or artificial boxes.
+- **Official Brand Colors**:
+  - **Primary Brand Color**: Deep Navy Blue (`#012D51`) — Headers, navigation accents, primary buttons, footers.
+  - **Secondary Brand Color**: Golden Accent (`#C78703`) — Sale pills, discount badges, gold ratings, hover highlights.
+  - **Neutrals**: Crisp White (`#FFFFFF`) storefront canvas, Soft Grey (`#F6F7F8`) alternating sections and card backgrounds, Dark Charcoal (`#252525`) high-contrast text.
+- **Hardware-Accelerated Animation**: Smooth fade-in, slide-up, and subtle product card lift transitions with full `prefers-reduced-motion` compliance.
+- **Bilingual Interface**: Built-in toggle supporting seamless switching between English (`EN`) and Bangla (`বাংলা`).
 - **Typography & Bengali Unicode**: Powered by Inter and Hind Siliguri for modern web typography, combined with embedded **Kalpurush** Bengali font for pixel-perfect invoice rendering of Bangla text and Bangladeshi Taka symbols (৳).
-- **Mobile-First Responsiveness**: Designed for mobile shoppers across smartphones, tablets, and desktop displays.
+- **Responsive Across All Devices**: Native layouts optimized for 1440px desktop, 1024px tablet, and 390px mobile screens with zero horizontal overflow.
 
 ---
 
@@ -29,110 +36,66 @@ A modern, production-grade e-commerce platform crafted specifically for the Bang
 
 ---
 
-## 🚀 Key Features
+## 🚀 Homepage Architecture (15+ Structured Sections)
 
-### 🛒 1. Customer Storefront
-- **Homepage (`/`)**:
-  - Live announcement bar with free shipping threshold progress.
-  - Original SHOKHORA branding with search bar, customer account link, and slide-over shopping bag.
-  - Hero banner with genuine lifestyle imagery and primary call-to-actions.
-  - Interactive "Shop by Category" grid.
-  - Curated carousels for *Featured Products*, *New Arrivals*, and *Best Sellers*.
-  - Customer trust guarantees (Fast Delivery across Bangladesh, Cash on Delivery, Easy Return Policy, 100% Genuine Quality).
-  - Testimonials from verified Bangladeshi shoppers.
-  - Newsletter discount subscription.
-- **Shop Catalog (`/shop`)**:
-  - Dynamic filtering by category, price slider, and availability status.
-  - Live real-time search with instant results.
-  - Multi-criteria sorting (Newest, Price: Low to High, Price: High to Low, Best Rating).
-  - Pagination and stock availability badges.
-- **Dynamic Category Pages (`/category/[slug]`)**:
-  - Category-specific banners, breadcrumb navigation, and filtered product feeds.
+The storefront strictly mirrors the master e-commerce composition with balanced spacing, high product density, and clear visual hierarchy:
+
+1. **Top Announcement Bar**: Nationwide free delivery notice (`৳2,000+`), showroom hotline (`01568923850`), and working `EN | বাংলা` language switcher.
+2. **Master Header**: Transparent official logo, integrated search bar with category filter dropdown, wishlist counter badge, shopping cart pill with live BDT subtotal, and user authentication portal.
+3. **Horizontal Navigation Bar**: Deep Navy sub-bar with `All Category ▾` mega menu and `LIMITED SALE` promotional flame badge.
+4. **Promotional Hero Slider (`HeroSlider.tsx`)**: Auto-advancing slider with smooth transitions, pausing on hover/touch, and direct category shop CTAs.
+5. **Best Categories (`CategorySection.tsx`)**: 7 squircle category cards with interactive navigation arrows.
+6. **For You / Recommended Products (`NewArrivalsSection.tsx`)**: 8 curated product cards in a 4x2 responsive grid.
+7. **Campaign Banner (`CampaignBanner.tsx`)**: Promotional showcase highlighting seasonal discounts up to 50% OFF.
+8. **Trending Products with Category Tabs (`TrendingSection.tsx`)**: Live filterable product grid with category pills (*All, Fashion, Cosmetics, Kids Clips, Scrunchies, Jewellery, Gifts*).
+9. **Best Sellers (`BestSellersSection.tsx`)**: Verified customer favorites with quick-add actions.
+10. **Dynamic Countdown Deal Banner (`CountdownBanner.tsx`)**: Real-time remaining countdown timer for genuine store discount campaigns.
+11. **Most Popular Products (`RecommendedProducts.tsx`)**: 8 popular products with category tabs.
+12. **Deals of the Day (`DealsOfTheDay.tsx`)**: Daily discounted products with circular `-XX%` gold discount badges and live stock counters.
+13. **Lifestyle & Editorial Stories (`LifestyleBlogSection.tsx`)**: 3 curated lifestyle articles with reading times and tags.
+14. **Interactive FAQ Accordion (`FaqAccordion.tsx`)**: Accordion answers covering ordering, payment methods, delivery, and returns.
+15. **Service Benefits & Value Pillars (`ServiceBenefits.tsx`)**: 4 key trust pillars (Fast BD Delivery, 100% Authentic Quality, Cash on Delivery, Easy 7-Day Returns).
+16. **Newsletter Subscription Strip (`NewsletterSection.tsx`)**: Email subscription form with instant feedback.
+17. **Multi-Column Navy Footer (`Footer.tsx`)**: Deep Navy footer with company registration, showroom address, customer care, policy links, and payment method badges.
+
+---
+
+## 🛒 Complete Storefront & Checkout Flow
+
+- **Catalog & Shop (`/shop`)**:
+  - Live filtering by category, price ranges, and limited-sale deals.
+  - Instant client-side search and multi-criteria sorting (*Newest, Popularity, Price: Low to High, Price: High to Low, Rating*).
 - **Product Details (`/product/[slug]`)**:
-  - Multi-image gallery with thumbnail selection and zoom hover.
-  - Color and size variant pickers with instant stock quantity feedback.
-  - Quick *Add to Cart* and instant *Buy Now* (one-click direct checkout).
-  - Tabbed descriptions, delivery terms, and customer reviews.
-  - Intelligent related products recommendation engine.
-- **Shopping Cart (`/cart` & Slide-Out Drawer)**:
-  - Persistent cart state synchronized across browser sessions.
-  - Dynamic delivery charge calculation based on destination (Dhaka vs. Outside Dhaka).
-  - Coupon code validation with instant discount deduction (e.g., `SHOKHORA10`, `WELCOME50`).
+  - Multi-image zoom gallery, real stock badges, SKU codes, and variant selectors.
+  - Direct *Add to Cart* and one-click *Buy Now* instant checkout.
+- **Shopping Bag & Cart Drawer (`/cart` & `CartDrawer.tsx`)**:
+  - Persistent cart state across browser sessions.
+  - Dynamic delivery charge calculation based on destination (Inside Dhaka `৳70` vs. Outside Dhaka `৳130`).
+  - Active coupon validation (e.g., `SHOKHORA10`, `WELCOME50`) with instant deduction.
 - **Streamlined Checkout (`/checkout`)**:
-  - **Guest Checkout**: Customers can place orders without mandatory registration.
+  - Guest checkout with no mandatory account creation required.
+  - Full dropdown selection covering all **64 Districts of Bangladesh**.
   - Bangladeshi mobile phone validation (`01XXXXXXXXX`).
-  - Full dropdown coverage of all **64 Districts of Bangladesh**.
-  - **Payment Options**:
+  - **Payment Methods**:
     - **Cash on Delivery (COD)** (ক্যাশ অন ডেলিভারি).
-    - **Manual bKash** (বিকাশ মার্চেন্ট / পার্সোনাল নম্বর ও TrxID ইনপুট).
-    - **Manual Nagad** (নগদ মার্চেন্ট / পার্সোনাল নম্বর ও TrxID ইনপুট).
-    - **Online Payment Gateway** (Modular architecture prepared for SSLCOMMERZ integration).
-- **Order Confirmation & Tracking (`/order/[id]` & `/track-order`)**:
-  - Immediate order confirmation with celebratory confetti.
-  - Real-time order progress timeline (Pending ➔ Confirmed ➔ Processing ➔ Shipped ➔ Delivered).
-  - Public order tracking using Order ID + Phone Number (no login required).
-  - Integrated button to view, download, or print official SHOKHORA money receipt.
-- **Customer Account (`/account`)**:
-  - Order history with status tags.
-  - Saved delivery addresses and profile management.
-  - Direct reprint access for all past receipts.
-- **Complete Policy Pages**:
-  - About Us, Contact Us, FAQ, Privacy Policy, Terms & Conditions, Delivery Policy, and Return & Refund Policy.
+    - **bKash Payment** (Merchant/Personal `01568923850` with one-click copy and Transaction ID submission).
+    - **Nagad Payment** (Merchant/Personal `01568923850` with Transaction ID submission).
+- **Order Tracking & Confirmation (`/track-order` & `/order/[id]`)**:
+  - Live tracking by Order ID (`SHK-2026-XXXXXX`) or Customer Mobile Number.
+  - Printable official money receipt / delivery challan with Kalpurush Bengali Unicode font.
+- **Customer Account Portal (`/account`)**:
+  - Customer login, registration, password reset, order history, address book, and saved wishlist.
 
 ---
 
-### 🛡️ 2. Secure Admin Dashboard (`/admin`)
+## 🛡️ Admin Dashboard (`/admin`)
 
-- **Dashboard Overview (`/admin`)**:
-  - Real-time financial and operational metrics: Total Revenue, Today's Sales, Total Orders, Pending Orders, Delivered Orders, Total Products, Low-Stock Warnings, and Outstanding Due.
-  - Recent orders quick-action feed.
-- **Product Management (`/admin/products`)**:
-  - Create, view, edit, and delete products.
-  - Multiple image upload support with gallery management.
-  - Category assignments, regular price, discount price, SKU codes, and stock quantity tracking.
-  - Size and color variant configurations.
-  - Instant one-click publish / unpublish toggle.
-- **Category Management (`/admin/categories`)**:
-  - Add, edit, and organize product categories with custom image banners and descriptions.
-- **Order Management & Payment Verification (`/admin/orders` & `/admin/orders/[id]`)**:
-  - Filter orders by status (*Pending, Confirmed, Processing, Shipped, Delivered, Cancelled, Returned*) and payment status (*Unpaid, Partially Paid, Paid, Refunded*).
-  - Detailed order view with customer contact, shipping address, and order items.
-  - **bKash & Nagad Payment Verification**: Review customer's submitted Sender Mobile Number and Transaction ID (TrxID). Verify and approve payment with an audit timestamp.
-  - Internal administrative notes for customer service records.
-  - **Atomic Stock Management**: Cancelling or returning an order automatically restores stock quantities and logs an audit entry.
-- **Inventory & Stock Audit (`/admin/inventory`)**:
-  - Real-time inventory table with low-stock warnings.
-  - Stock Adjustment modal: perform **Stock In** (new replenishment), **Stock Out** (damaged/removed), or manual adjustment with mandatory reason notes.
-  - Complete chronological inventory movement history.
-- **Coupon Engine (`/admin/coupons`)**:
-  - Create percentage-based or flat BDT discount codes.
-  - Minimum order requirements, expiry dates, and usage limits.
-  - One-click active/inactive toggle.
-- **Delivery Fee Configuration (`/admin/delivery`)**:
-  - Admin-configurable delivery charges: Inside Dhaka (`৳70`), Outside Dhaka (`৳130`), and Free Delivery Threshold (`৳2,000`).
-- **Customer Management (`/admin/customers`)**:
-  - View registered and guest customer profiles, lifetime spend, order count, and purchase history.
-- **Receipt & Invoice Center (`/admin/receipts`)**:
-  - Search, view, and reprint official receipts for any order in the system.
-- **Store Settings (`/admin/settings`)**:
-  - Edit store contact details, hotline number, email address, physical showroom address, social media links, and merchant bKash/Nagad account numbers.
-
----
-
-### 🧾 3. Money Receipt & Invoice System
-
-Every confirmed order receives a unique, sequential invoice identifier (`SHK-2026-XXXXXX` / `INV-2026-XXXXXX`).
-
-- **Official Brand Design**: Displays the original SHOKHORA logo, company registration, and contact information.
-- **Dual Printing Layouts**:
-  - **Standard A4 Invoice**: Designed for full-sheet delivery package slips and accounting archives.
-  - **Compact POS / Thermal Slip (80mm)**: Tailored for fast receipt printers and delivery parcel dispatch.
-- **Itemized Financial Breakdown**: Product name, SKU, unit price, quantity, subtotal, coupon discount, delivery fee, total bill, paid amount, and outstanding due.
-- **Truthful Payment Stamp**:
-  - **PAID**: Renders a bold green **VERIFIED** badge displaying payment method, transaction ID, and verification timestamp.
-  - **UNPAID / COD**: Renders a clear amber **PAYMENT DUE** badge stating the exact cash amount to be collected by the courier upon delivery.
-  - Never generates false "Paid" receipts for unverified orders.
-- **Bengali Unicode Compatibility**: Uses the embedded **Kalpurush** font (`/fonts/kalpurush.ttf`) to ensure Bangla product names, customer addresses, and BDT symbols (৳) render without font corruption or missing glyphs.
+- **Strict Access Control**: Zero public exposure on storefront navigation.
+- **Full Operational Suite**:
+  - Overview KPI metrics: Sales, orders, stock alerts, and due payments.
+  - Product catalog management with multiple image uploads and inventory controls.
+  - Order verification workflow for bKash / Nagad Transaction IDs with atomic stock reconciliation.
+  - Coupon management and delivery fee threshold controls.
 
 ---
 
@@ -140,148 +103,36 @@ Every confirmed order receives a unique, sequential invoice identifier (`SHK-202
 
 | Layer | Technology |
 |---|---|
-| **Frontend Framework** | [Next.js 14](https://nextjs.org/) (App Router, Server & Client Components) |
+| **Framework** | [Next.js 14](https://nextjs.org/) (App Router, Server & Client Components) |
 | **Language** | [TypeScript](https://www.typescriptlang.org/) (Strict Mode) |
-| **Styling & UI** | [Tailwind CSS](https://tailwindcss.com/) + Custom Design System |
+| **Styling** | [Tailwind CSS](https://tailwindcss.com/) with Navy & Gold theme tokens |
 | **Icons** | [Lucide React](https://lucide.dev/) |
-| **Form Handling** | [React Hook Form](https://react-hook-form.com/) + [Zod](https://zod.dev/) |
-| **Authentication** | [Firebase Authentication](https://firebase.google.com/docs/auth) (Email/Password, Admin Roles) |
-| **Database** | [Cloud Firestore](https://firebase.google.com/docs/firestore) + Resilient In-Memory/Offline Store |
-| **Storage** | [Firebase Storage](https://firebase.google.com/docs/storage) |
-| **PDF Generation** | [jsPDF](https://github.com/parallax/jsPDF) + Native `@media print` CSS engine |
-| **Payment Gateways** | Cash on Delivery, Manual bKash/Nagad, SSLCOMMERZ integration scaffold |
+| **Database & Auth** | [Cloud Firestore](https://firebase.google.com/docs/firestore) + Resilient In-Memory/Offline Store |
+| **Receipts & Invoicing** | [jsPDF](https://github.com/parallax/jsPDF) + Native `@media print` with embedded Kalpurush Unicode font |
 
 ---
 
-## 💻 Local Development Setup
+## 💻 Setup & Development
 
-### 1. Prerequisites
-- Node.js v18.17.0+ or v20+ LTS
-- npm or pnpm
-
-### 2. Clone and Install
+### 1. Clone and Install
 ```bash
-git clone https://github.com/shokhora/ecommerce.git
-cd "Shokhora website"
+git clone https://github.com/smarhasan01/sokhora.git
+cd sokhora
 
 # Install dependencies
 npm install
 ```
 
-### 3. Environment Variables (Optional for Development)
-Copy the example environment template:
-```bash
-cp .env.example .env.local
-```
-> **Note**: The application is architected with a **hybrid data layer**. If Firebase credentials are not yet configured in `.env.local`, the application automatically activates the local offline mock database with full CRUD capabilities, allowing immediate full-flow testing without API blockers!
-
-### 4. Start Development Server
+### 2. Run Locally
 ```bash
 npm run dev
 ```
-Open [http://localhost:3000](http://localhost:3000) in your web browser.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
----
-
-## 🔑 Demo Access & Admin Credentials
-
-To make testing and evaluation seamless:
-
-| Role | Email | Password | Access Level |
-|---|---|---|---|
-| **Super Admin** | `admin@shokhora.com` | `admin123456` | Full access to `/admin` dashboard |
-| **Demo Customer** | `customer@shokhora.com` | `customer123456` | Access to `/account` & order history |
-
-On the `/login` page, convenient **"Quick Admin Demo"** and **"Quick Customer Demo"** buttons are available for instant one-click login.
-
----
-
-## 📁 Project Directory Structure
-
-```text
-d:\Shokhora website\
-├── public/
-│   ├── fonts/
-│   │   └── kalpurush.ttf           # Embedded Bengali Unicode font for PDF invoices
-│   └── images/
-│       ├── Logo-01.png             # Original SHOKHORA logo
-│       ├── Logo colour-01.png      # Original full-color logo
-│       ├── Cover Photo.jpg         # Brand cover banner
-│       └── Content/                # Authentic product photos
-├── src/
-│   ├── app/
-│   │   ├── (storefront)/
-│   │   │   ├── page.tsx            # Homepage
-│   │   │   ├── shop/page.tsx       # Catalog with search & multi-filter
-│   │   │   ├── category/[slug]/    # Dynamic category feed
-│   │   │   ├── product/[slug]/     # Product details with variants & reviews
-│   │   │   ├── cart/page.tsx       # Shopping bag & coupon applicator
-│   │   │   ├── checkout/page.tsx   # 64-district checkout & bKash/Nagad
-│   │   │   ├── order/[id]/         # Confirmation & invoice download
-│   │   │   ├── track-order/        # Public order status tracker
-│   │   │   ├── account/page.tsx    # Customer dashboard & order history
-│   │   │   ├── login/page.tsx      # Customer & Admin login
-│   │   │   ├── register/page.tsx   # Customer registration
-│   │   │   └── (policies)/         # About, Contact, Delivery, FAQ, etc.
-│   │   ├── admin/
-│   │   │   ├── layout.tsx          # Protected admin layout & sidebar
-│   │   │   ├── page.tsx            # KPI Overview & sales statistics
-│   │   │   ├── products/           # Product CRUD & image uploads
-│   │   │   ├── categories/         # Category management
-│   │   │   ├── orders/             # Order processing & payment verification
-│   │   │   ├── inventory/          # Stock adjustment & movement logs
-│   │   │   ├── coupons/            # Discount coupon manager
-│   │   │   ├── delivery/           # Delivery fee settings
-│   │   │   ├── customers/          # Customer directory & lifetime spend
-│   │   │   ├── receipts/           # Receipt lookup & reprint center
-│   │   │   └── settings/           # Store & bKash/Nagad configuration
-│   │   ├── api/
-│   │   │   ├── checkout/route.ts   # Server-side checkout validation
-│   │   │   ├── orders/             # Order lookups & receipts
-│   │   │   └── payment/verify/     # SSLCOMMERZ gateway verification
-│   │   ├── globals.css             # Tailwind rules & print styling
-│   │   └── layout.tsx              # Root HTML layout & font declarations
-│   ├── components/
-│   │   ├── cart/                   # Slide-over cart drawer & calculations
-│   │   ├── home/                   # HeroBanner, CategoryGrid, FeaturedProducts...
-│   │   ├── invoice/                # InvoiceView (A4 & Thermal slip layouts)
-│   │   ├── layout/                 # Header with live search & Footer
-│   │   └── product/                # ProductCard, badges, variant selectors
-│   ├── lib/
-│   │   ├── context/
-│   │   │   ├── AuthContext.tsx     # Session management & demo auth
-│   │   │   └── CartContext.tsx     # Persistent shopping cart & delivery fee
-│   │   ├── db/
-│   │   │   ├── mock-data.ts        # Authentic initial Bangladeshi mock data
-│   │   │   └── store.ts            # Hybrid store (Firestore + Offline store)
-│   │   ├── firebase/
-│   │   │   ├── config.ts           # Firebase client initialization
-│   │   │   └── admin.ts            # Firebase Admin SDK server initialization
-│   │   └── utils/
-│   │       └── formatters.ts       # BDT currency, BD phone regex, 64 districts
-│   └── types/
-│       └── index.ts                # TypeScript domain models
-├── firestore.rules                 # Restrictive production security rules
-├── firestore.indexes.json          # Firestore composite query indexes
-├── DATABASE_SCHEMA.md              # Collection schemas & atomic transaction docs
-├── FIREBASE_SETUP.md               # Firebase configuration step-by-step
-└── DEPLOYMENT.md                   # Vercel, Docker & Nginx deployment guide
+### 3. Build & Production Check
+```bash
+npm run build
 ```
-
----
-
-## 🔒 Security Best Practices
-
-1. **Role-Based Access Control**:
-   - `/admin` routes are protected. Non-admin users attempting to access the admin portal are automatically redirected with unauthorized notifications.
-2. **Server-Side Verification**:
-   - Total prices, delivery fees, and discount calculations are recomputed and validated on the server to prevent client-side price tampering.
-3. **Atomic Stock Decrements**:
-   - Stock counts are decremented atomically when orders are placed. If an order is cancelled or marked returned in the admin panel, stock is automatically restored with an audit entry.
-4. **No Sensitive Keys in Client Bundles**:
-   - Firebase Admin SDK credentials and future payment gateway secret keys remain strictly isolated on server-side Route Handlers.
-5. **Truth in Receipts**:
-   - Receipts never display false "Paid" status unless verified by an administrator through transaction ID audit or authenticated gateway callback.
 
 ---
 
