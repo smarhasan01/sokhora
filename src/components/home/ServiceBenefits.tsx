@@ -47,16 +47,16 @@ export default function ServiceBenefits() {
             return (
               <div
                 key={idx}
-                className="flex items-center gap-3 p-3 sm:p-4 rounded-xl bg-white border border-[#E2E5E8] shadow-xs hover:border-[#C78703]/50 transition-colors"
+                className="group flex items-center gap-3 p-3 sm:p-4 rounded-xl bg-white border border-[#E2E5E8] shadow-xs hover:border-[#C78703]/60 card-lift transition-all duration-300"
               >
-                <div className="w-10 h-10 rounded-xl bg-[#012D51] text-[#C78703] flex items-center justify-center shrink-0">
+                <div className="w-10 h-10 rounded-xl bg-[#012D51] text-[#C78703] flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform duration-300 shadow-xs">
                   <Icon className="w-5 h-5" />
                 </div>
                 <div className="min-w-0">
-                  <h4 className="text-xs sm:text-sm font-bold text-[#202833] truncate">
+                  <h4 className="text-xs sm:text-sm font-bold text-[#202833] group-hover:text-[#012D51] transition-colors truncate whitespace-nowrap overflow-hidden text-ellipsis block">
                     {isBn ? b.titleBn : b.title}
                   </h4>
-                  <p className="text-[10px] sm:text-[11px] text-gray-500 line-clamp-1 mt-0.5">
+                  <p className="text-[10px] sm:text-[11px] text-gray-500 truncate whitespace-nowrap overflow-hidden text-ellipsis block mt-0.5">
                     {isBn ? b.descBn : b.desc}
                   </p>
                 </div>

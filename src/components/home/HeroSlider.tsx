@@ -184,9 +184,9 @@ export default function HeroSlider() {
         {/* Slide Content Grid: Balanced 50/50 Desktop Two-Column Layout */}
         <div className="relative w-full px-6 sm:px-10 lg:px-14 py-8 sm:py-10 lg:py-12 grid grid-cols-1 md:grid-cols-12 gap-6 lg:gap-10 items-center z-10">
           {/* Left Column: Typography & CTAs (6 to 7 cols) */}
-          <div className="md:col-span-7 space-y-3 sm:space-y-4 animate-fade-in" key={`content-${slide.id}`}>
+          <div className="md:col-span-7 space-y-3 sm:space-y-4 animate-slide-up" key={`content-${slide.id}`}>
             {/* Small Promotional Badge */}
-            <div className="inline-flex items-center gap-1.5 bg-[#C78703] text-white text-[11px] sm:text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full shadow-xs">
+            <div className="inline-flex items-center gap-1.5 bg-[#C78703] text-white text-[11px] sm:text-xs font-bold uppercase tracking-wider px-3.5 py-1.5 rounded-full shadow-xs animate-pulse-subtle">
               <Sparkles className="w-3.5 h-3.5 text-white" />
               <span>{isBn ? slide.badgeBn : slide.badge}</span>
             </div>
@@ -210,15 +210,15 @@ export default function HeroSlider() {
             <div className="pt-2 flex flex-wrap items-center gap-3">
               <Link
                 href={slide.primaryCtaLink}
-                className="inline-flex items-center gap-2 bg-[#C78703] hover:bg-[#B07502] text-white px-6 sm:px-7 py-3 rounded-xl font-bold text-xs sm:text-sm shadow-md transition-all active:scale-95 group"
+                className="inline-flex items-center gap-2 bg-[#C78703] hover:bg-[#B07502] text-white px-6 sm:px-7 py-3 rounded-xl font-bold text-xs sm:text-sm shadow-md transition-all duration-200 hover:scale-105 active:scale-95 group"
               >
                 <span>{isBn ? slide.primaryCtaTextBn : slide.primaryCtaText}</span>
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1.5 transition-transform duration-300" />
               </Link>
 
               <Link
                 href={slide.secondaryCtaLink}
-                className="inline-flex items-center gap-1.5 bg-white/10 hover:bg-white/20 text-white px-4 sm:px-5 py-3 rounded-xl font-semibold text-xs sm:text-sm transition-all border border-white/20 active:scale-95"
+                className="inline-flex items-center gap-1.5 bg-white/10 hover:bg-white/20 text-white px-4 sm:px-5 py-3 rounded-xl font-semibold text-xs sm:text-sm transition-all duration-200 border border-white/20 hover:scale-105 active:scale-95"
               >
                 <span>{isBn ? slide.secondaryCtaTextBn : slide.secondaryCtaText}</span>
               </Link>
@@ -226,7 +226,7 @@ export default function HeroSlider() {
           </div>
 
           {/* Right Column: Large, High-Quality Product Showcase (5 cols) */}
-          <div className="md:col-span-5 flex justify-center items-center relative animate-fade-in" key={`image-${slide.id}`}>
+          <div className="md:col-span-5 flex justify-center items-center relative animate-scale-in" key={`image-${slide.id}`}>
             <div className="relative w-full max-w-[280px] sm:max-w-[340px] lg:max-w-[400px] aspect-square rounded-2xl overflow-hidden bg-white/10 p-2.5 backdrop-blur-xs border border-white/20 shadow-2xl group">
               <Image
                 src={slide.image}
@@ -234,12 +234,12 @@ export default function HeroSlider() {
                 fill
                 priority
                 sizes="(max-width: 640px) 280px, (max-width: 1024px) 340px, 400px"
-                className="object-cover rounded-xl group-hover:scale-105 transition-transform duration-500"
+                className="object-cover rounded-xl group-hover:scale-108 transition-transform duration-700 ease-out"
               />
 
               {/* Floating Feature Pill */}
-              <div className="absolute bottom-4 left-4 right-4 bg-[#012D51]/90 backdrop-blur-md px-3 py-1.5 rounded-lg border border-white/20 flex items-center gap-2 text-white shadow-lg">
-                <CheckCircle2 className="w-3.5 h-3.5 text-[#C78703] shrink-0" />
+              <div className="absolute bottom-4 left-4 right-4 bg-[#012D51]/95 backdrop-blur-md px-3 py-2 rounded-xl border border-white/20 flex items-center gap-2 text-white shadow-xl transition-all duration-300 group-hover:-translate-y-1">
+                <CheckCircle2 className="w-3.5 h-3.5 text-[#C78703] shrink-0 animate-pulse-subtle" />
                 <span className="text-[11px] font-bold truncate">
                   {isBn ? slide.featurePillBn : slide.featurePill}
                 </span>
@@ -251,7 +251,7 @@ export default function HeroSlider() {
         {/* Circular Previous & Next Navigation Arrows */}
         <button
           onClick={prevSlide}
-          className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-white/15 hover:bg-[#C78703] text-white flex items-center justify-center backdrop-blur-xs border border-white/30 transition-all z-20 active:scale-95 shadow-md"
+          className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-white/15 hover:bg-[#C78703] text-white flex items-center justify-center backdrop-blur-xs border border-white/30 transition-all duration-200 hover:scale-110 active:scale-90 z-20 shadow-lg"
           aria-label="Previous Slide"
         >
           <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6" />
@@ -259,7 +259,7 @@ export default function HeroSlider() {
 
         <button
           onClick={nextSlide}
-          className="absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-white/15 hover:bg-[#C78703] text-white flex items-center justify-center backdrop-blur-xs border border-white/30 transition-all z-20 active:scale-95 shadow-md"
+          className="absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-white/15 hover:bg-[#C78703] text-white flex items-center justify-center backdrop-blur-xs border border-white/30 transition-all duration-200 hover:scale-110 active:scale-90 z-20 shadow-lg"
           aria-label="Next Slide"
         >
           <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6" />
@@ -271,8 +271,8 @@ export default function HeroSlider() {
             <button
               key={idx}
               onClick={() => setCurrentSlide(idx)}
-              className={`h-2 rounded-full transition-all ${
-                currentSlide === idx ? 'w-7 bg-[#C78703]' : 'w-2 bg-white/40 hover:bg-white/70'
+              className={`h-2 rounded-full transition-all duration-500 ${
+                currentSlide === idx ? 'w-8 bg-[#C78703] shadow-xs' : 'w-2.5 bg-white/40 hover:bg-white/70'
               }`}
               aria-label={`Go to slide ${idx + 1}`}
             />

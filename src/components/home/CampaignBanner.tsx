@@ -11,16 +11,16 @@ export default function CampaignBanner() {
 
   return (
     <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 sm:py-7">
-      <div className="relative rounded-2xl lg:rounded-3xl overflow-hidden shadow-xl border border-[#012D51]/20 group bg-[#012D51]">
+      <div className="relative rounded-2xl lg:rounded-3xl overflow-hidden shadow-xl border border-[#012D51]/20 group bg-[#012D51] card-lift transition-all duration-300">
         {/* Official SHOKHORA Facebook Cover Banner Image */}
-        <div className="relative w-full aspect-[2.6/1] min-h-[180px] sm:min-h-[260px] lg:min-h-[340px]">
+        <div className="relative w-full aspect-[2.6/1] min-h-[180px] sm:min-h-[260px] lg:min-h-[340px] overflow-hidden">
           <Image
             src="/images/shokhora-facebook-banner.jpg"
             alt="SHOKHORA — Little Things, Big Love"
             fill
             priority
             sizes="(max-width: 1280px) 100vw, 1280px"
-            className="object-cover group-hover:scale-[1.01] transition-transform duration-500"
+            className="object-cover group-hover:scale-[1.03] transition-transform duration-700 ease-out"
           />
 
           {/* Transparent Clickable Link to Shop */}
@@ -32,9 +32,9 @@ export default function CampaignBanner() {
         </div>
 
         {/* Bottom Quick-Action Strip */}
-        <div className="bg-[#012D51] text-white px-5 sm:px-8 py-3 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs border-t border-[#01223D]">
+        <div className="bg-[#012D51] text-white px-5 sm:px-8 py-3.5 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs border-t border-[#01223D]">
           <div className="flex items-center gap-2 text-white/90">
-            <Sparkles className="w-4 h-4 text-[#C78703]" />
+            <Sparkles className="w-4 h-4 text-[#C78703] animate-pulse-subtle" />
             <span className="font-semibold">
               {isBn
                 ? 'আপনার সোনামণির জন্য ভালোবাসায় তৈরি সুন্দর পোশাক ও আকর্ষণীয় এক্সেসরিজ'
@@ -50,7 +50,7 @@ export default function CampaignBanner() {
 
             <Link
               href="/shop?filter=sale"
-              className="inline-flex items-center gap-1.5 bg-[#C78703] hover:bg-[#B07502] text-white px-4 py-1.5 rounded-lg font-bold text-xs shadow-xs transition-colors"
+              className="inline-flex items-center gap-1.5 bg-[#C78703] hover:bg-[#B07502] text-white px-4 py-2 rounded-xl font-bold text-xs shadow-md transition-all duration-200 hover:scale-105 active:scale-95"
             >
               <span>{isBn ? 'অর্ডার করুন' : 'Order Now'}</span>
               <ArrowRight className="w-3.5 h-3.5" />

@@ -93,7 +93,7 @@ export default function DailyEssentialsSection() {
           <Link
             key={item.id}
             href={item.link}
-            className="group bg-[#F7F8FA] hover:bg-white rounded-2xl p-4 text-center border border-[#E2E5E8] hover:border-[#C78703]/50 card-lift transition-all shadow-xs flex flex-col justify-between"
+            className="group bg-[#F7F8FA] hover:bg-white rounded-2xl p-4 text-center border border-[#E2E5E8] hover:border-[#C78703]/50 card-lift transition-all duration-300 shadow-xs flex flex-col justify-between"
           >
             {/* Image */}
             <div className="relative aspect-square w-full rounded-xl overflow-hidden bg-white p-2 mb-3 shadow-xs">
@@ -102,13 +102,16 @@ export default function DailyEssentialsSection() {
                 alt={item.name}
                 fill
                 sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
-                className="object-cover group-hover:scale-105 transition-transform duration-300 rounded-lg"
+                className="object-cover group-hover:scale-108 transition-transform duration-500 rounded-lg"
               />
             </div>
 
             {/* Title & Discount Badge */}
-            <div>
-              <h3 className="text-xs sm:text-sm font-bold text-[#202833] group-hover:text-[#012D51] transition-colors line-clamp-1">
+            <div className="min-w-0">
+              <h3
+                className="text-xs sm:text-sm font-bold text-[#202833] group-hover:text-[#012D51] transition-colors truncate whitespace-nowrap overflow-hidden text-ellipsis block"
+                title={isBn ? item.nameBn : item.name}
+              >
                 {isBn ? item.nameBn : item.name}
               </h3>
               <p className="mt-1 text-[11px] font-extrabold text-[#C78703] tracking-wide">

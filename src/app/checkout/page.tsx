@@ -604,8 +604,10 @@ export default function CheckoutPage() {
                     <div className="relative w-12 h-12 rounded-lg overflow-hidden bg-taupe-100 border border-taupe-200 shrink-0">
                       <Image src={it.image} alt={it.name} fill className="object-cover" />
                     </div>
-                    <div>
-                      <p className="font-semibold text-charcoal-900 line-clamp-1">{it.name}</p>
+                    <div className="min-w-0">
+                      <p className="font-semibold text-charcoal-900 truncate whitespace-nowrap overflow-hidden text-ellipsis block" title={it.name}>
+                        {it.name}
+                      </p>
                       <p className="text-[11px] text-charcoal-500">
                         {formatPrice(it.price)} × {formatNumber(it.quantity)}
                       </p>

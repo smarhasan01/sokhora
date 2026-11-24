@@ -91,28 +91,34 @@ export default function FaqAccordion() {
           return (
             <div
               key={faq.id}
-              className="bg-white rounded-2xl border border-[#E2E5E8] overflow-hidden transition-all shadow-xs"
+              className={`bg-white rounded-2xl border transition-all duration-300 overflow-hidden shadow-xs ${
+                isOpen ? 'border-[#012D51] shadow-md' : 'border-[#E2E5E8] hover:border-[#012D51]/40'
+              }`}
             >
               <button
                 onClick={() => toggle(faq.id)}
-                className={`w-full p-4 sm:p-5 text-left flex items-center justify-between gap-4 font-bold text-xs sm:text-sm transition-colors ${
+                className={`w-full p-4 sm:p-5 text-left flex items-center justify-between gap-4 font-bold text-xs sm:text-sm transition-all duration-200 ${
                   isOpen ? 'bg-[#012D51] text-white' : 'text-[#202833] hover:bg-[#F7F8FA]'
                 }`}
                 aria-expanded={isOpen}
               >
                 <span>{isBn ? faq.questionBn : faq.question}</span>
                 <ChevronDown
-                  className={`w-4 h-4 shrink-0 transition-transform duration-300 ${
-                    isOpen ? 'rotate-180 text-[#C78703]' : 'text-gray-400'
+                  className={`w-4 h-4 shrink-0 transition-transform duration-300 ease-out ${
+                    isOpen ? 'rotate-180 text-[#C78703]' : 'text-gray-400 group-hover:text-[#012D51]'
                   }`}
                 />
               </button>
 
-              {isOpen && (
+              <div
+                className={`transition-all duration-300 ease-in-out overflow-hidden ${
+                  isOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+                }`}
+              >
                 <div className="p-4 sm:p-5 text-xs sm:text-sm text-gray-600 bg-white leading-relaxed border-t border-gray-100 animate-slide-up">
                   {isBn ? faq.answerBn : faq.answer}
                 </div>
-              )}
+              </div>
             </div>
           );
         })}

@@ -137,7 +137,10 @@ export default function CartDrawer() {
                   </div>
 
                   <div className="flex-1 min-w-0 space-y-1">
-                    <h4 className="font-bold text-xs sm:text-sm text-[#012D51] line-clamp-1">
+                    <h4
+                      className="font-bold text-xs sm:text-sm text-[#012D51] truncate whitespace-nowrap overflow-hidden text-ellipsis block"
+                      title={item.name}
+                    >
                       {item.name}
                     </h4>
 

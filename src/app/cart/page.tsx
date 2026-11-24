@@ -161,8 +161,8 @@ export default function CartPage() {
                           <span className="text-[10px] uppercase font-mono tracking-wider text-stone-400 font-semibold">
                             SHOKHORA
                           </span>
-                          <Link href={`/product/${item.productId}`} className="block hover:text-stone-700">
-                            <h3 className="font-serif font-medium text-sm sm:text-base text-stone-900 line-clamp-1">
+                          <Link href={`/product/${item.productId}`} className="block hover:text-stone-700 min-w-0" title={displayName}>
+                            <h3 className="font-serif font-medium text-sm sm:text-base text-stone-900 truncate whitespace-nowrap overflow-hidden text-ellipsis block">
                               {displayName}
                             </h3>
                           </Link>

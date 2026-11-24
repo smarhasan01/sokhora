@@ -36,13 +36,13 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 pb-12 border-b border-white/10">
           {/* Col 1: Brand & Contact Info (4 cols) */}
           <div className="lg:col-span-4 space-y-4">
-            <Link href="/" className="inline-block bg-white px-3 py-1.5 rounded-xl shadow-xs">
-              <div className="relative w-36 h-9">
+            <Link href="/" className="inline-block bg-white px-4 py-2 rounded-2xl shadow-xs hover:shadow-md transition-all duration-300 group">
+              <div className="relative w-44 h-12 sm:w-48 sm:h-14">
                 <Image
                   src="/images/shokhora-official-logo.png"
                   alt="SHOKHORA"
                   fill
-                  className="object-contain object-left"
+                  className="object-contain object-left group-hover:scale-105 transition-transform duration-300"
                 />
               </div>
             </Link>

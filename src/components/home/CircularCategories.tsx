@@ -52,7 +52,10 @@ export default function CircularCategories() {
             </div>
 
             {/* Category Name & Item Count */}
-            <h3 className="mt-3 text-xs sm:text-sm font-bold text-[#202833] group-hover:text-[#012D51] transition-colors line-clamp-1">
+            <h3
+              className="mt-3 text-xs sm:text-sm font-bold text-[#202833] group-hover:text-[#012D51] transition-colors truncate whitespace-nowrap overflow-hidden text-ellipsis block max-w-full"
+              title={isBn ? category.nameBn : category.name}
+            >
               {isBn ? category.nameBn : category.name}
             </h3>
             <p className="text-[11px] text-gray-500 mt-0.5 font-medium">

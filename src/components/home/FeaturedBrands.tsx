@@ -91,7 +91,7 @@ export default function FeaturedBrands() {
           <Link
             key={card.id}
             href={card.link}
-            className={`group relative rounded-2xl ${card.bgGradient} p-5 sm:p-6 overflow-hidden shadow-md hover:shadow-xl transition-all card-lift flex items-center justify-between min-h-[160px]`}
+            className={`group relative rounded-2xl ${card.bgGradient} p-5 sm:p-6 overflow-hidden shadow-md hover:shadow-2xl transition-all duration-300 card-lift flex items-center justify-between min-h-[160px]`}
           >
             {/* Left Content */}
             <div className="space-y-1.5 z-10 max-w-[60%]">
@@ -104,14 +104,14 @@ export default function FeaturedBrands() {
               <p className="text-base sm:text-lg font-black text-[#F6DDAB] tracking-wide pt-1">
                 {isBn ? card.discountBn : card.discount}
               </p>
-              <div className="pt-2 flex items-center gap-1 text-xs font-bold text-white group-hover:text-[#F6DDAB] transition-colors">
+              <div className="pt-2 flex items-center gap-1.5 text-xs font-bold text-white group-hover:text-[#F6DDAB] transition-colors">
                 <span>{isBn ? 'কালেকশন দেখুন' : 'Shop Now'}</span>
-                <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1.5 transition-transform duration-300" />
               </div>
             </div>
 
             {/* Right Product Mockup */}
-            <div className="relative w-28 h-28 sm:w-32 sm:h-32 rounded-xl overflow-hidden bg-white/20 p-2 backdrop-blur-xs border border-white/20 shrink-0 group-hover:scale-105 transition-transform">
+            <div className="relative w-28 h-28 sm:w-32 sm:h-32 rounded-xl overflow-hidden bg-white/20 p-2 backdrop-blur-xs border border-white/20 shrink-0 group-hover:scale-110 transition-transform duration-500 ease-out shadow-lg">
               <Image
                 src={card.image}
                 alt={card.brandName}

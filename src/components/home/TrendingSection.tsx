@@ -51,9 +51,9 @@ export default function TrendingSection() {
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all shrink-0 ${
+              className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all duration-200 shrink-0 btn-press ${
                 activeTab === tab.id
-                  ? 'bg-[#012D51] text-white shadow-xs'
+                  ? 'bg-[#012D51] text-white shadow-xs scale-[1.02]'
                   : 'bg-[#F7F8FA] text-gray-600 hover:text-[#012D51] hover:bg-gray-200/60'
               }`}
             >

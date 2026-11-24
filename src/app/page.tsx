@@ -11,46 +11,65 @@ import DailyEssentialsSection from '@/components/home/DailyEssentialsSection';
 import CampaignBanner from '@/components/home/CampaignBanner';
 import FaqAccordion from '@/components/home/FaqAccordion';
 import ServiceBenefits from '@/components/home/ServiceBenefits';
+import ScrollReveal from '@/components/common/ScrollReveal';
 
 export default function HomePage() {
   return (
     <div className="min-h-screen flex flex-col bg-white text-[#202833]">
-      {/* A, B, C: Top Announcement Bar, Main Navigation Header & Horizontal Category Navigation */}
+      {/* Main Navigation Header & Horizontal Category Navigation */}
       <Header />
 
       <main className="flex-1">
-        {/* D. Hero Promotional Slider (MegaMart Style) */}
+        {/* Hero Promotional Slider (MegaMart Style) */}
         <HeroSlider />
 
-        {/* E. Best Deals / Horizontal Product Cards ("Grab the best deal on...") */}
-        <BestDealsSection />
+        {/* Best Deals / Product Cards ("Grab the best deal on...") */}
+        <ScrollReveal>
+          <BestDealsSection />
+        </ScrollReveal>
 
-        {/* F. Top Categories (Circular Category Showcase) */}
-        <CircularCategories />
+        {/* Top Categories (Circular Category Showcase) */}
+        <ScrollReveal>
+          <CircularCategories />
+        </ScrollReveal>
 
-        {/* G. Featured Brands (3 Wide Promo Cards: "Top Featured Collections") */}
-        <FeaturedBrands />
+        {/* Featured Brands (3 Wide Promo Cards: "Top Featured Collections") */}
+        <ScrollReveal>
+          <FeaturedBrands />
+        </ScrollReveal>
 
-        {/* H. Recommended Products Grid */}
-        <RecommendedProducts />
+        {/* Recommended Products Grid */}
+        <ScrollReveal>
+          <RecommendedProducts />
+        </ScrollReveal>
 
-        {/* I. Trending Products with Category Filter Tabs */}
-        <TrendingSection />
+        {/* Trending Products with Category Filter Tabs */}
+        <ScrollReveal>
+          <TrendingSection />
+        </ScrollReveal>
 
-        {/* J. Daily Essentials Category Showcase */}
-        <DailyEssentialsSection />
+        {/* Daily Essentials Category Showcase */}
+        <ScrollReveal>
+          <DailyEssentialsSection />
+        </ScrollReveal>
 
-        {/* K. Promotional Campaign Banner */}
-        <CampaignBanner />
+        {/* Promotional Campaign Banner */}
+        <ScrollReveal>
+          <CampaignBanner />
+        </ScrollReveal>
 
         {/* Service Benefits & Trust Pillars */}
-        <ServiceBenefits />
+        <ScrollReveal>
+          <ServiceBenefits />
+        </ScrollReveal>
 
-        {/* L. Customer FAQ Accordion */}
-        <FaqAccordion />
+        {/* Customer FAQ Accordion */}
+        <ScrollReveal>
+          <FaqAccordion />
+        </ScrollReveal>
       </main>
 
-      {/* M. Professional Deep Navy Multi-Column Footer */}
+      {/* Professional Deep Navy Multi-Column Footer */}
       <Footer />
     </div>
   );

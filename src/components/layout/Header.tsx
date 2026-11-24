@@ -78,6 +78,10 @@ export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [categoryDropdownOpen, setCategoryDropdownOpen] = useState(false);
   const [activeHoverCategory, setActiveHoverCategory] = useState<string | null>(null);
+  const [cartBump, setCartBump] = useState(false);
+  const [wishlistBump, setWishlistBump] = useState(false);
+  const prevItemCountRef = useRef(itemCount);
+  const prevWishlistCountRef = useRef(wishlistCount);
 
   const searchContainerRef = useRef<HTMLDivElement>(null);
   const categoryMenuRef = useRef<HTMLDivElement>(null);
@@ -85,6 +89,26 @@ export default function Header() {
   useEffect(() => {
     setAllProducts(getProducts());
   }, []);
+
+  useEffect(() => {
+    if (itemCount > 0 && itemCount !== prevItemCountRef.current) {
+      setCartBump(true);
+      const timer = setTimeout(() => setCartBump(false), 500);
+      prevItemCountRef.current = itemCount;
+      return () => clearTimeout(timer);
+    }
+    prevItemCountRef.current = itemCount;
+  }, [itemCount]);
+
+  useEffect(() => {
+    if (wishlistCount > 0 && wishlistCount !== prevWishlistCountRef.current) {
+      setWishlistBump(true);
+      const timer = setTimeout(() => setWishlistBump(false), 500);
+      prevWishlistCountRef.current = wishlistCount;
+      return () => clearTimeout(timer);
+    }
+    prevWishlistCountRef.current = wishlistCount;
+  }, [wishlistCount]);
 
   useEffect(() => {
     const q = searchQuery.trim().toLowerCase();
@@ -149,7 +173,7 @@ export default function Header() {
   return (
     <header className="sticky top-0 z-50 bg-white border-b border-[#E2E5E8] shadow-xs">
       {/* Main Header Row — Starts Directly at the Top (Top bar completely removed) */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 sm:py-3.5">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2.5 sm:py-3">
         <div className="flex items-center justify-between gap-4 lg:gap-8">
           {/* Mobile Menu & Logo */}
           <div className="flex items-center gap-3">
@@ -161,13 +185,17 @@ export default function Header() {
               <Menu className="w-6 h-6" />
             </button>
 
-            <Link href="/" className="flex items-center shrink-0">
+            <Link
+              href="/"
+              className="flex items-center shrink-0 py-0.5 group focus:outline-none transition-transform"
+              aria-label="SHOKHORA Home"
+            >
               <Image
                 src="/images/shokhora-official-logo.png"
                 alt="SHOKHORA"
-                width={160}
-                height={50}
-                className="h-9 sm:h-11 w-auto object-contain"
+                width={280}
+                height={90}
+                className="h-11 sm:h-13 md:h-15 lg:h-16 xl:h-18 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
                 priority
               />
             </Link>
@@ -177,7 +205,7 @@ export default function Header() {
           <div ref={searchContainerRef} className="flex-1 max-w-2xl relative hidden md:block">
             <form
               onSubmit={handleSearchSubmit}
-              className="flex items-center bg-[#F7F8FA] border border-[#E2E5E8] rounded-xl focus-within:border-[#012D51] focus-within:ring-2 focus-within:ring-[#012D51]/10 transition-all overflow-hidden"
+              className="flex items-center bg-[#F7F8FA] border border-[#E2E5E8] rounded-xl focus-within:border-[#012D51] focus-within:ring-4 focus-within:ring-[#012D51]/10 focus-within:shadow-md transition-all duration-300 overflow-hidden"
             >
               {/* Category Quick Selector Dropdown */}
               <div className="relative border-r border-[#E2E5E8]">
@@ -256,7 +284,7 @@ export default function Header() {
                         />
                       </div>
                       <div className="flex-1 min-w-0">
-                        <p className="text-sm font-medium text-[#202833] truncate">
+                        <p className="text-sm font-medium text-[#202833] truncate whitespace-nowrap overflow-hidden text-ellipsis block">
                           {isBn && p.nameBn ? p.nameBn : p.name}
                         </p>
                         <p className="text-xs text-gray-500 capitalize">{p.category.replace(/-/g, ' ')}</p>
@@ -339,11 +367,13 @@ export default function Header() {
               className="relative flex items-center text-[#012D51] hover:text-[#C78703] transition-colors group"
               aria-label="Wishlist"
             >
-              <div className="w-9 h-9 rounded-full bg-[#F7F8FA] group-hover:bg-[#EBF3F9] flex items-center justify-center border border-[#E2E5E8] transition-colors">
+              <div className="w-9 h-9 rounded-full bg-[#F7F8FA] group-hover:bg-[#EBF3F9] flex items-center justify-center border border-[#E2E5E8] transition-all group-hover:scale-105">
                 <Heart className="w-4 h-4 text-[#012D51] group-hover:text-[#C78703] transition-colors" />
               </div>
               {wishlistCount > 0 && (
-                <span className="absolute -top-1 -right-1 bg-[#C78703] text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center shadow-xs">
+                <span className={`absolute -top-1 -right-1 bg-[#C78703] text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center shadow-xs transition-transform ${
+                  wishlistBump ? 'animate-heart-beat scale-125' : ''
+                }`}>
                   {wishlistCount}
                 </span>
               )}
@@ -352,13 +382,15 @@ export default function Header() {
             {/* Shopping Cart Pill */}
             <button
               onClick={() => setIsCartOpen(true)}
-              className="flex items-center gap-2 bg-[#012D51] hover:bg-[#023E6E] text-white px-3 sm:px-3.5 py-2 rounded-xl transition-all shadow-xs group"
+              className="flex items-center gap-2 bg-[#012D51] hover:bg-[#023E6E] text-white px-3 sm:px-3.5 py-2 rounded-xl transition-all shadow-xs group btn-press"
               aria-label="Shopping Cart"
             >
               <div className="relative">
-                <ShoppingBag className="w-4 h-4 text-[#F6DDAB]" />
+                <ShoppingBag className="w-4 h-4 text-[#F6DDAB] group-hover:scale-110 transition-transform" />
                 {itemCount > 0 && (
-                  <span className="absolute -top-2 -right-2 bg-[#C78703] text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center shadow-xs">
+                  <span className={`absolute -top-2 -right-2 bg-[#C78703] text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center shadow-xs transition-transform ${
+                    cartBump ? 'animate-cart-bump scale-125' : ''
+                  }`}>
                     {itemCount}
                   </span>
                 )}
@@ -457,14 +489,15 @@ export default function Header() {
                 >
                   <Link
                     href={`/category/${cat.slug}`}
-                    className={`flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold transition-all ${
+                    className={`relative flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold transition-all group/item ${
                       pathname === `/category/${cat.slug}`
                         ? 'bg-[#EBF3F9] text-[#012D51] font-bold'
                         : 'text-[#202833] hover:text-[#012D51] hover:bg-[#F7F8FA]'
                     }`}
                   >
                     <span>{isBn ? cat.nameBn : cat.name}</span>
-                    <ChevronDown className="w-3 h-3 text-gray-400 group-hover:text-[#012D51] transition-transform group-hover:rotate-180" />
+                    <ChevronDown className="w-3 h-3 text-gray-400 group-hover:text-[#012D51] transition-transform duration-300 group-hover:rotate-180" />
+                    <span className="absolute bottom-1 left-3 right-3 h-0.5 bg-[#C78703] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 rounded-full origin-left" />
                   </Link>
 
                   {/* Mega Dropdown preview on hover */}
@@ -531,9 +564,9 @@ export default function Header() {
               <Image
                 src="/images/shokhora-official-logo.png"
                 alt="SHOKHORA"
-                width={130}
-                height={40}
-                className="h-8 w-auto object-contain"
+                width={200}
+                height={70}
+                className="h-11 sm:h-12 w-auto object-contain"
               />
               <button
                 onClick={() => setMobileMenuOpen(false)}
